@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3475913415">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - database" uuid="0ed85378-3c9c-4f5b-8ef6-3148e82dce75">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Nik\IdeaProjects\PasswordProtector\src\database\database</jdbc-url>
+    </data-source>
+  </component>
+</project>
