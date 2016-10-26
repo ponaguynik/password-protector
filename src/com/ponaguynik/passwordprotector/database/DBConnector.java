@@ -1,4 +1,4 @@
-package database;
+package com.ponaguynik.passwordprotector.database;
 
 import java.io.File;
 import java.sql.Connection;
@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 public class DBConnector {
 
-    private static final String URL = "jdbc:sqlite:src/database/database.db";
+    private static final String URL = "jdbc:sqlite:src/com/ponaguynik/passwordprotector/database/database.db";
     private static Connection connection;
 
     public static void makeConnection() {
-        if (!new File("src/database/database.db").exists()) {
+        if (!new File("src/com/ponaguynik/passwordprotector/database/database.db").exists()) {
             createDB();
         } else {
             connect();
@@ -44,7 +44,7 @@ public class DBConnector {
                 "    password TEXT,\n" +
                 "    CONSTRAINT username_fk FOREIGN KEY (username) REFERENCES users (username)\n" +
                 ");");
-        System.out.println("A database has been successfully created!");
+        System.out.println("A new database has been successfully created!");
     }
 
     static void close() {
@@ -76,5 +76,4 @@ public class DBConnector {
         }
         return rs;
     }
-
 }

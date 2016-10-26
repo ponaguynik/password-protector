@@ -1,6 +1,6 @@
-package database;
+package com.ponaguynik.passwordprotector.database;
 
-import scenes.main_scene.DataForm;
+import com.ponaguynik.passwordprotector.scenes.main_scene.DataForm;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

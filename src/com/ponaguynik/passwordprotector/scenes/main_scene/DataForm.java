@@ -1,4 +1,4 @@
-package scenes.main_scene;
+package com.ponaguynik.passwordprotector.scenes.main_scene;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +24,7 @@ public class DataForm extends GridPane {
     private boolean editMode;
 
     public DataForm() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/main_scene/dataform.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ponaguynik/passwordprotector/scenes/main_scene/dataform.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);

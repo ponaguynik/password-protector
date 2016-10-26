@@ -1,6 +1,6 @@
-package scenes.main_scene;
+package com.ponaguynik.passwordprotector.scenes.main_scene;
 
-import database.DBWorker;
+import com.ponaguynik.passwordprotector.database.DBWorker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -23,12 +23,12 @@ public class MainController {
         if (!SDsList.isEmpty() && contentBox.getChildren().isEmpty())
             contentBox.getChildren().addAll(SDsList);
         if (addNewSDBtn == null) {
-            createAddNewSDBtn();
+            createAddNewDFBtn();
             contentBox.getChildren().add(addNewSDBtn);
         }
     }
 
-    private void createAddNewSDBtn() {
+    private void createAddNewDFBtn() {
         addNewSDBtn = new Button("Add a new data form");
         addNewSDBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
                 " -fx-cursor: hand; -fx-underline: true;");
