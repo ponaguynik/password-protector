@@ -10,21 +10,21 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class ShapeDataController extends GridPane {
+public class DataForm extends GridPane {
 
     @FXML
     private CheckBox showCB;
     @FXML
     private Button editBtn;
     @FXML
-    private TextField nameTF, usernameTF, passwordTF;
+    private TextField titleTF, loginTF, passwordTF;
     @FXML
     private PasswordField passwordField;
 
     private boolean editMode;
 
-    public ShapeDataController() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/main_scene/shape_data.fxml"));
+    public DataForm() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scenes/main_scene/dataform.fxml"));
 
         loader.setRoot(this);
         loader.setController(this);
@@ -46,16 +46,16 @@ public class ShapeDataController extends GridPane {
     private void onEditListener() {
         if (!editMode) {
             editMode = true;
-            nameTF.setEditable(true);
-            usernameTF.setEditable(true);
+            titleTF.setEditable(true);
+            loginTF.setEditable(true);
             passwordField.setEditable(true);
             passwordTF.setEditable(true);
             showBorders();
             editBtn.setText("Save");
         } else {
             editMode = false;
-            nameTF.setEditable(false);
-            usernameTF.setEditable(false);
+            titleTF.setEditable(false);
+            loginTF.setEditable(false);
             passwordField.setEditable(false);
             passwordTF.setEditable(false);
             hideBorders();
@@ -75,11 +75,11 @@ public class ShapeDataController extends GridPane {
     }
 
     private void showBorders() {
-        nameTF.setStyle(
+        titleTF.setStyle(
                 "-fx-background-color: white;" +
                         "-fx-border-color: #5E5E5E;" +
                         "-fx-border-width: 1px");
-        usernameTF.setStyle(
+        loginTF.setStyle(
                 "-fx-background-color: white;" +
                         "-fx-border-color: #5E5E5E;" +
                         "-fx-border-width: 1px");
@@ -94,11 +94,11 @@ public class ShapeDataController extends GridPane {
     }
 
     private void hideBorders() {
-        nameTF.setStyle(
+        titleTF.setStyle(
                 "-fx-background-color: white;" +
                         "-fx-border-color: white;" +
                         "-fx-border-width: 1");
-        usernameTF.setStyle(
+        loginTF.setStyle(
                 "-fx-background-color: white;" +
                         "-fx-border-color: white;" +
                         "-fx-border-width: 1");
@@ -110,6 +110,29 @@ public class ShapeDataController extends GridPane {
                 "-fx-background-color: white;" +
                         "-fx-border-color: white;" +
                         "-fx-border-width: 1");
+    }
+
+    public void setData(String title, String login, String password) {
+        titleTF.setText(title);
+        loginTF.setText(login);
+        passwordTF.setText(password);
+    }
+
+    public void setEditMode(boolean em) {
+        editMode = !em;
+        onEditListener();
+    }
+
+    public String getTitle() {
+        return titleTF.getText();
+    }
+
+    public String getLogin() {
+        return loginTF.getText();
+    }
+
+    public String getPassword() {
+        return passwordTF.getText();
     }
 
     public boolean isEditMode() {

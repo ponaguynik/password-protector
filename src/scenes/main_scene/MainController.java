@@ -1,5 +1,6 @@
 package scenes.main_scene;
 
+import database.DBWorker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class MainController {
 
-    private static ArrayList<ShapeDataController> SDsList;
+    private static ArrayList<DataForm> SDsList;
 
     private Button addNewSDBtn;
 
@@ -18,7 +19,8 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        if (SDsList != null && contentBox.getChildren().isEmpty())
+        SDsList = DBWorker.getAllDataForms("user");
+        if (!SDsList.isEmpty() && contentBox.getChildren().isEmpty())
             contentBox.getChildren().addAll(SDsList);
         if (addNewSDBtn == null) {
             createAddNewSDBtn();
@@ -27,7 +29,7 @@ public class MainController {
     }
 
     private void createAddNewSDBtn() {
-        addNewSDBtn = new Button("Add a new shape data");
+        addNewSDBtn = new Button("Add a new data form");
         addNewSDBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
                 " -fx-cursor: hand; -fx-underline: true;");
         addNewSDBtn.setAlignment(Pos.CENTER);
@@ -37,14 +39,14 @@ public class MainController {
     private void onAddNewSDListener() {
         if (SDsList == null)
             SDsList = new ArrayList<>();
-        ShapeDataController newSD = new ShapeDataController();
+        DataForm newSD = new DataForm();
         SDsList.add(newSD);
         contentBox.getChildren().remove(addNewSDBtn);
         contentBox.getChildren().add(newSD);
         contentBox.getChildren().add(addNewSDBtn);
     }
 
-    public static void setSDsList(ArrayList<ShapeDataController> SDsList) {
+    public static void setSDsList(ArrayList<DataForm> SDsList) {
         MainController.SDsList = SDsList;
     }
 }

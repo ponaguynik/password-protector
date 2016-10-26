@@ -1,3 +1,4 @@
+import database.DBConnector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,10 +7,13 @@ import javafx.stage.Stage;
 
 public class PasswordProtector extends Application {
 
+    public static String currentUser = null;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("scenes/main_scene/main.fxml"));
-        primaryStage.setTitle("Hello World");
+        DBConnector.makeConnection();
+        Parent root = FXMLLoader.load(getClass().getResource("scenes/login_scene/login.fxml"));
+        primaryStage.setTitle("PasswordProtector");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
