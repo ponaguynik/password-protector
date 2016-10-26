@@ -28,8 +28,8 @@ public class MainController {
 
     private void createAddNewSDBtn() {
         addNewSDBtn = new Button("Add a new shape data");
-        addNewSDBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue; -fx-cursor: hand;" +
-                " -fx-underline: true;");
+        addNewSDBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
+                " -fx-cursor: hand; -fx-underline: true;");
         addNewSDBtn.setAlignment(Pos.CENTER);
         addNewSDBtn.setOnAction(e -> onAddNewSDListener());
     }
