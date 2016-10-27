@@ -18,14 +18,16 @@ public class SceneSwitcher {
         Parent root;
         switch (scene) {
             case LOGIN:
+                primaryStage.setResizable(false);
                 root = FXMLLoader.load(PasswordProtector.class.getResource("scenes/login_scene/login.fxml"));
                 break;
             case CHECK_IN:
-                //noinspection SpellCheckingInspection
+                primaryStage.setResizable(false);
                 root = FXMLLoader.load(PasswordProtector.class.getResource("scenes/checkin_scene/check-in.fxml"));
                 break;
             case MAIN:
                 root = FXMLLoader.load(PasswordProtector.class.getResource("scenes/main_scene/main.fxml"));
+                primaryStage.setResizable(true);
                 break;
             default:
                 throw new IOException();

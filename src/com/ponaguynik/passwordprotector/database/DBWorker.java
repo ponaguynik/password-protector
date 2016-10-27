@@ -19,20 +19,22 @@ public class DBWorker {
         DBConnector.execute(query);
     }
 
-    public static ArrayList<DataForm> getAllDataForms(String username) {
+    public static String getKeyword(String username) throws SQLException {
+        String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
+        ResultSet rs = DBConnector.executeQuery(query);
+        return rs.getString("keyword");
+    }
+
+    public static ArrayList<DataForm> getAllDataForms(String username) throws SQLException {
         ArrayList<DataForm> list = new ArrayList<>();
         String query = String.format("SELECT * FROM users_data WHERE username = '%s'", username);
         ResultSet rs = DBConnector.executeQuery(query);
         DataForm dfc;
-        try {
-            while (rs.next()) {
-                dfc = new DataForm();
-                dfc.setEditMode(false);
-                dfc.setData(rs.getString("title"), rs.getString("login"), rs.getString("password"));
-                list.add(dfc);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            dfc = new DataForm();
+            dfc.setEditMode(false);
+            dfc.setData(rs.getString("title"), rs.getString("login"), rs.getString("password"));
+            list.add(dfc);
         }
         return list;
     }

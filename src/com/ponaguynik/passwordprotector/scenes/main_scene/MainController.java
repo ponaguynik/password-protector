@@ -1,52 +1,54 @@
 package com.ponaguynik.passwordprotector.scenes.main_scene;
 
-import com.ponaguynik.passwordprotector.database.DBWorker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MainController {
 
-    private static ArrayList<DataForm> SDsList;
+    private static ArrayList<DataForm> dataFormsList;
 
-    private Button addNewSDBtn;
+    private Button addNewDFBtn;
 
     @FXML
     private VBox contentBox;
 
     @FXML
-    public void initialize() {
-        SDsList = DBWorker.getAllDataForms("user");
-        if (!SDsList.isEmpty() && contentBox.getChildren().isEmpty())
-            contentBox.getChildren().addAll(SDsList);
-        if (addNewSDBtn == null) {
+    public void initialize() throws SQLException {
+        if (!contentBox.getChildren().isEmpty()) {
+            contentBox.getChildren().clear();
+        }
+        if (!dataFormsList.isEmpty())
+            contentBox.getChildren().addAll(dataFormsList);
+        if (addNewDFBtn == null) {
             createAddNewDFBtn();
-            contentBox.getChildren().add(addNewSDBtn);
+            contentBox.getChildren().add(addNewDFBtn);
         }
     }
 
     private void createAddNewDFBtn() {
-        addNewSDBtn = new Button("Add a new data form");
-        addNewSDBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
+        addNewDFBtn = new Button("Add a new data form");
+        addNewDFBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
                 " -fx-cursor: hand; -fx-underline: true;");
-        addNewSDBtn.setAlignment(Pos.CENTER);
-        addNewSDBtn.setOnAction(e -> onAddNewSDListener());
+        addNewDFBtn.setAlignment(Pos.CENTER);
+        addNewDFBtn.setOnAction(e -> onAddNewSDListener());
     }
 
     private void onAddNewSDListener() {
-        if (SDsList == null)
-            SDsList = new ArrayList<>();
+        if (dataFormsList == null)
+            dataFormsList = new ArrayList<>();
         DataForm newSD = new DataForm();
-        SDsList.add(newSD);
-        contentBox.getChildren().remove(addNewSDBtn);
+        dataFormsList.add(newSD);
+        contentBox.getChildren().remove(addNewDFBtn);
         contentBox.getChildren().add(newSD);
-        contentBox.getChildren().add(addNewSDBtn);
+        contentBox.getChildren().add(addNewDFBtn);
     }
 
-    public static void setSDsList(ArrayList<DataForm> SDsList) {
-        MainController.SDsList = SDsList;
+    public static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
+        MainController.dataFormsList = dataFormsList;
     }
 }
