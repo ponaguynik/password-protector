@@ -25,63 +25,64 @@
            <padding>
                <Insets left="40.0" right="40.0"/>
            </padding>
-           <TextField fx:id="nameTF" GridPane.columnIndex="1" GridPane.columnSpan="3">
-              <GridPane.margin>
-                  <Insets right="20.0"/>
-              </GridPane.margin>
+           <TextField fx:id="usernameTF" GridPane.columnIndex="1" GridPane.columnSpan="3">
+               <GridPane.margin>
+                   <Insets right="20.0"/>
+               </GridPane.margin>
            </TextField>
            <PasswordField fx:id="keywordPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
-              <GridPane.margin>
-                  <Insets right="20.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="20.0"/>
+               </GridPane.margin>
            </PasswordField>
            <PasswordField fx:id="keywordConfPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
-              <GridPane.margin>
-                  <Insets right="20.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="20.0"/>
+               </GridPane.margin>
            </PasswordField>
            <TextField fx:id="hintTF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
-              <GridPane.margin>
-                  <Insets right="20.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="20.0"/>
+               </GridPane.margin>
            </TextField>
-           <Button fx:id="confirmBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="80.0"
-                   text="Confirm" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT"
+           <Button fx:id="confirmBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity"
+                   mnemonicParsing="false" onAction="#onConfirmBtn" prefWidth="80.0" text="Confirm"
+                   GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT"
                    GridPane.rowIndex="4">
-              <cursor>
-                  <Cursor fx:constant="HAND"/>
-              </cursor>
+               <cursor>
+                   <Cursor fx:constant="HAND"/>
+               </cursor>
            </Button>
            <Label text="Username:" GridPane.halignment="RIGHT">
-              <GridPane.margin>
-                  <Insets right="10.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="10.0"/>
+               </GridPane.margin>
            </Label>
            <Label text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-              <GridPane.margin>
-                  <Insets right="10.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="10.0"/>
+               </GridPane.margin>
            </Label>
            <Label text="Confirm Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-              <GridPane.margin>
-                  <Insets right="10.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="10.0"/>
+               </GridPane.margin>
            </Label>
            <Label text="Hint:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
-              <GridPane.margin>
-                  <Insets right="10.0"/>
-              </GridPane.margin>
+               <GridPane.margin>
+                   <Insets right="10.0"/>
+               </GridPane.margin>
            </Label>
-           <Button fx:id="backBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="80.0"
-                   text="&lt;&lt; Back" GridPane.rowIndex="4">
-              <cursor>
-                  <Cursor fx:constant="HAND"/>
-              </cursor>
+           <Button fx:id="backBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                   onAction="#onBackBtn" prefWidth="80.0" text="&lt;&lt; Back" GridPane.rowIndex="4">
+               <cursor>
+                   <Cursor fx:constant="HAND"/>
+               </cursor>
            </Button>
        </GridPane>
    </center>
    <top>
-      <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="com.ponaguynik.passwordprotector.PasswordProtector" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
+      <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="PasswordProtector" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
          <font>
             <Font name="Aharoni Bold" size="30.0" />
          </font>

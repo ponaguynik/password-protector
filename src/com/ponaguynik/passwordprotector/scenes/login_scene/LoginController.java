@@ -4,7 +4,7 @@ import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
-import com.ponaguynik.passwordprotector.scenes.popup.Alerts;
+import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -18,16 +18,36 @@ public class LoginController {
     @FXML
     private PasswordField keywordPF;
     @FXML
-    private Button okBtn, cancelBtn;
+    private Button okBtn, cancelBtn, createUserBtn;
     @FXML
     private TextField usernameTF;
 
     @FXML
-    private void onOkBtn() throws IOException, SQLException {
+    private void onOkBtn() {
         if (isVerified()) {
             PasswordProtector.currentUser = usernameTF.getText();
-            MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
-            SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);
+            try {
+                MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+                SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
+    }
+
+    @FXML
+    private void onCancelBtn() {
+
+    }
+
+    @FXML
+    private void onCreateUserBtn() {
+        try {
+            SceneSwitcher.set(SceneSwitcher.Scenes.CHECK_IN);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 

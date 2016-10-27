@@ -25,6 +25,16 @@ public class DBWorker {
         return rs.getString("keyword");
     }
 
+    public static boolean userExists(String username) {
+        String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
+        try {
+            DBConnector.executeQuery(query).getString("keyword");
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public static ArrayList<DataForm> getAllDataForms(String username) throws SQLException {
         ArrayList<DataForm> list = new ArrayList<>();
         String query = String.format("SELECT * FROM users_data WHERE username = '%s'", username);
