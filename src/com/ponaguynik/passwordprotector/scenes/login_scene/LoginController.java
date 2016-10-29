@@ -30,7 +30,7 @@ public class LoginController {
             try {
                 MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
                 SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);
-            } catch (SQLException | IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(1);
             }
@@ -53,7 +53,6 @@ public class LoginController {
     }
 
     private boolean isVerified() {
-        String corrKeyword;
 
         if (usernameTF.getText().isEmpty()) {
             Alerts.showWarning("Username field is empty!");
@@ -65,20 +64,16 @@ public class LoginController {
         }
 
         try {
-            corrKeyword = DBWorker.getKeyword(usernameTF.getText());
-        } catch (SQLException e) {
-            Alerts.showError("Invalid username or password");
-            return false;
-        }
-
-        try {
-            if (Password.check(keywordPF.getText(), corrKeyword)) {
+            if (DBWorker.checkKeyword(usernameTF.getText(), keywordPF.getText())) {
                 Alerts.showInformation("Welcome!");
                 return true;
             } else {
                 Alerts.showError("Invalid username or password!");
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Alerts.showError("Invalid username or password!");
+        }
+        catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }

@@ -1,5 +1,6 @@
 package com.ponaguynik.passwordprotector.scenes.main_scene;
 
+import com.ponaguynik.passwordprotector.database.DBWorker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -23,9 +24,10 @@ public class DataForm extends GridPane {
 
     private boolean editMode;
 
-    public DataForm() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ponaguynik/passwordprotector/scenes/main_scene/dataform.fxml"));
+    private final int id;
 
+    public DataForm(int id) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ponaguynik/passwordprotector/scenes/main_scene/dataform.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 
@@ -35,11 +37,19 @@ public class DataForm extends GridPane {
             throw new RuntimeException(exception);
         }
 
+        this.id = id;
         editMode = false;
         passwordField.textProperty().bindBidirectional(passwordTF.textProperty());
         passwordField.setVisible(true);
         passwordTF.setVisible(false);
         onEditListener();
+    }
+
+    public DataForm(int id, String title, String login, String password) {
+        this(id);
+        titleTF.setText(title);
+        loginTF.setText(login);
+        passwordTF.setText(password);
     }
 
     @FXML
@@ -59,6 +69,7 @@ public class DataForm extends GridPane {
             passwordField.setEditable(false);
             passwordTF.setEditable(false);
             hideBorders();
+            saveData();
             editBtn.setText("Edit");
         }
     }
@@ -72,6 +83,10 @@ public class DataForm extends GridPane {
             passwordField.setVisible(true);
             passwordTF.setVisible(false);
         }
+    }
+
+    private void saveData() {
+        DBWorker.updateDataForm(this);
     }
 
     private void showBorders() {
@@ -112,12 +127,6 @@ public class DataForm extends GridPane {
                         "-fx-border-width: 1");
     }
 
-    public void setData(String title, String login, String password) {
-        titleTF.setText(title);
-        loginTF.setText(login);
-        passwordTF.setText(password);
-    }
-
     public void setEditMode(boolean em) {
         editMode = !em;
         onEditListener();
@@ -135,7 +144,8 @@ public class DataForm extends GridPane {
         return passwordTF.getText();
     }
 
-    public boolean isEditMode() {
-        return editMode;
+    public int getDFId() {
+        return id;
     }
+
 }

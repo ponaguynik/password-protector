@@ -1,5 +1,7 @@
 package com.ponaguynik.passwordprotector.database;
 
+import com.ponaguynik.passwordprotector.other.Alerts;
+import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.scenes.main_scene.DataForm;
 
 import java.sql.ResultSet;
@@ -16,16 +18,16 @@ public class DBWorker {
         DBConnector.execute(query);
     }
 
-    public static void addDataForm(String username, DataForm df) {
+    public static void addDataForm(String username) {
         String query = String.format("INSERT INTO users_data (username, title, login, password) " +
-                "VALUES('%s', '%s', '%s', '%s')", username, df.getTitle(), df.getLogin(), df.getPassword());
+                "VALUES('%s', '%s', '%s', '%s')", username, "", "", "");
         DBConnector.execute(query);
     }
 
-    public static String getKeyword(String username) throws SQLException {
+    public static boolean checkKeyword(String username, String keyword) throws Exception {
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
         ResultSet rs = DBConnector.executeQuery(query);
-        return rs.getString("keyword");
+        return Password.check(keyword, rs.getString("keyword"));
     }
 
     public static boolean userExists(String username) {
@@ -38,16 +40,28 @@ public class DBWorker {
         }
     }
 
-    public static ArrayList<DataForm> getAllDataForms(String username) throws SQLException {
+    public static void updateDataForm(DataForm dataForm) {
+        String query = String.format("UPDATE users_data SET title = '%s', login = '%s', password = '%s' WHERE id = %d",
+                dataForm.getTitle(), dataForm.getLogin(), Password.encrypt(dataForm.getPassword()), dataForm.getDFId());
+        DBConnector.execute(query);
+    }
+
+    public static ArrayList<DataForm> getAllDataForms(String username) {
         ArrayList<DataForm> list = new ArrayList<>();
         String query = String.format("SELECT * FROM users_data WHERE username = '%s'", username);
         ResultSet rs = DBConnector.executeQuery(query);
-        DataForm dfc;
-        while (rs.next()) {
-            dfc = new DataForm();
-            dfc.setEditMode(false);
-            dfc.setData(rs.getString("title"), rs.getString("login"), rs.getString("password"));
-            list.add(dfc);
+        DataForm dataForm;
+        try {
+            while (rs.next()) {
+                dataForm = new DataForm(rs.getInt("id"), rs.getString("title"), rs.getString("login"),
+                        Password.decrypt(rs.getString("password")));
+                dataForm.setEditMode(false);
+                list.add(dataForm);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showError("Database error!");
+            System.exit(1);
         }
         return list;
     }

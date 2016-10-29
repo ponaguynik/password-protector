@@ -38,6 +38,7 @@ public class DBConnector {
                 ");");
         execute("CREATE TABLE users_data\n" +
                 "(\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    username TEXT NOT NULL,\n" +
                 "    title TEXT,\n" +
                 "    login TEXT,\n" +

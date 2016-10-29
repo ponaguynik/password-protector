@@ -1,5 +1,8 @@
 package com.ponaguynik.passwordprotector.scenes.main_scene;
 
+import com.ponaguynik.passwordprotector.PasswordProtector;
+import com.ponaguynik.passwordprotector.database.DBConnector;
+import com.ponaguynik.passwordprotector.database.DBWorker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,7 +21,7 @@ public class MainController {
     private VBox contentBox;
 
     @FXML
-    public void initialize() throws SQLException {
+    public void initialize() {
         if (!contentBox.getChildren().isEmpty()) {
             contentBox.getChildren().clear();
         }
@@ -26,6 +29,9 @@ public class MainController {
             contentBox.getChildren().addAll(dataFormsList);
         if (addNewDFBtn == null) {
             createAddNewDFBtn();
+            contentBox.getChildren().add(addNewDFBtn);
+        } else {
+            contentBox.getChildren().remove(addNewDFBtn);
             contentBox.getChildren().add(addNewDFBtn);
         }
     }
@@ -35,17 +41,13 @@ public class MainController {
         addNewDFBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
                 " -fx-cursor: hand; -fx-underline: true;");
         addNewDFBtn.setAlignment(Pos.CENTER);
-        addNewDFBtn.setOnAction(e -> onAddNewSDListener());
+        addNewDFBtn.setOnAction(e -> onAddNewDFListener());
     }
 
-    private void onAddNewSDListener() {
-        if (dataFormsList == null)
-            dataFormsList = new ArrayList<>();
-        DataForm newSD = new DataForm();
-        dataFormsList.add(newSD);
-        contentBox.getChildren().remove(addNewDFBtn);
-        contentBox.getChildren().add(newSD);
-        contentBox.getChildren().add(addNewDFBtn);
+    private void onAddNewDFListener() {
+        DBWorker.addDataForm(PasswordProtector.currentUser);
+        setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+        initialize();
     }
 
     public static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
