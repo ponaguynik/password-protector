@@ -2,6 +2,7 @@ package com.ponaguynik.passwordprotector.scenes.checkin_scene;
 
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.other.Validator;
 import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.fxml.FXML;
@@ -26,8 +27,13 @@ public class CheckInController {
     private void onConfirmBtn() {
         if (isValidated()) {
             if (!DBWorker.userExists(usernameTF.getText())) {
-                DBWorker.addUser(usernameTF.getText(), keywordPF.getText());
-                Alerts.showInformation("New account has been successfully created!");
+                try {
+                    DBWorker.addUser(usernameTF.getText(), Password.getSaltedHash(keywordPF.getText()));
+                    Alerts.showInformation("New account has been successfully created!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Alerts.showError("An error occurred!");
+                }
                 try {
                     SceneSwitcher.set(SceneSwitcher.Scenes.LOGIN);
                 } catch (IOException e) {
@@ -49,6 +55,7 @@ public class CheckInController {
             System.exit(1);
         }
     }
+
     private boolean isValidated() {
         if (usernameTF.getText().isEmpty()) {
             Alerts.showWarning("Username field is empty!");

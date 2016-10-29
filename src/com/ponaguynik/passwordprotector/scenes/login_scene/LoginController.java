@@ -3,6 +3,7 @@ package com.ponaguynik.passwordprotector.scenes.login_scene;
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
 import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.fxml.FXML;
@@ -66,15 +67,20 @@ public class LoginController {
         try {
             corrKeyword = DBWorker.getKeyword(usernameTF.getText());
         } catch (SQLException e) {
-            Alerts.showError("There is no user with such name!");
+            Alerts.showError("Invalid username or password");
             return false;
         }
 
-        if (keywordPF.getText().equals(corrKeyword)) {
-            Alerts.showInformation("Welcome!");
-            return true;
-        } else {
-            Alerts.showError("Wrong keyword!");
+        try {
+            if (Password.check(keywordPF.getText(), corrKeyword)) {
+                Alerts.showInformation("Welcome!");
+                return true;
+            } else {
+                Alerts.showError("Invalid username or password!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
 
         return false;
