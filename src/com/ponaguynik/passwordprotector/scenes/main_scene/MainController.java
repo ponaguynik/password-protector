@@ -21,7 +21,7 @@ public class MainController {
     private VBox contentBox;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         if (!contentBox.getChildren().isEmpty()) {
             contentBox.getChildren().clear();
         }
@@ -44,8 +44,15 @@ public class MainController {
         addNewDFBtn.setOnAction(e -> onAddNewDFListener());
     }
 
+    @FXML
     private void onAddNewDFListener() {
         DBWorker.addDataForm(PasswordProtector.currentUser);
+        setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+        initialize();
+    }
+
+    void deleteDataForm(int id) {
+        DBWorker.deleteDataForm(id);
         setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
         initialize();
     }

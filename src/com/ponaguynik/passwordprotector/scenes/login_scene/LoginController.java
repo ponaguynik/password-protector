@@ -25,8 +25,9 @@ public class LoginController {
 
     @FXML
     private void onOkBtn() {
-        if (isVerified()) {
-            PasswordProtector.currentUser = usernameTF.getText();
+        //Temporary test code
+        if (true/*isVerified()*/) {
+            PasswordProtector.currentUser = "test"/*usernameTF.getText()*/;
             try {
                 MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
                 SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);

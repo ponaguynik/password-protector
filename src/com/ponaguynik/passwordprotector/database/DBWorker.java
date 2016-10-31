@@ -24,6 +24,11 @@ public class DBWorker {
         DBConnector.execute(query);
     }
 
+    public static void deleteDataForm(int id) {
+        String query = String.format("DELETE FROM users_data WHERE id = %d", id);
+        DBConnector.execute(query);
+    }
+
     public static boolean checkKeyword(String username, String keyword) throws Exception {
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
         ResultSet rs = DBConnector.executeQuery(query);
