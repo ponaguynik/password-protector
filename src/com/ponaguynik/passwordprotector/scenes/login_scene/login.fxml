@@ -53,7 +53,7 @@
                      <Insets right="10.0" />
                  </GridPane.margin>
               </Label>
-              <Button fx:id="cancelBtn" cancelButton="true" mnemonicParsing="false" prefWidth="70.0" text="Cancel" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+              <Button fx:id="cancelBtn" cancelButton="true" mnemonicParsing="false" onAction="#onCancelBtnAction" prefWidth="70.0" text="Cancel" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                  <cursor>
                      <Cursor fx:constant="HAND" />
                  </cursor>

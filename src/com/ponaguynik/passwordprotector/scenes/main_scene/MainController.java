@@ -1,54 +1,62 @@
 package com.ponaguynik.passwordprotector.scenes.main_scene;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
-import com.ponaguynik.passwordprotector.database.DBConnector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MainController {
 
     private static ArrayList<DataForm> dataFormsList;
 
-    private Button addNewDFBtn;
+    private Button addBtn;
 
     @FXML
     private VBox contentBox;
+
+    //Images
+    private static final Image PLUS  = new Image(DataForm.class.getResourceAsStream("../../res/images/plus-grey.png"));
+    private static final Image PLUS_LIGHT  = new Image(DataForm.class.getResourceAsStream("../../res/images/plus-lightgrey.png"));
+
 
     @FXML
     private void initialize() {
         if (!contentBox.getChildren().isEmpty()) {
             contentBox.getChildren().clear();
         }
-        if (!dataFormsList.isEmpty())
+        if (dataFormsList != null && !dataFormsList.isEmpty())
             contentBox.getChildren().addAll(dataFormsList);
-        if (addNewDFBtn == null) {
-            createAddNewDFBtn();
-            contentBox.getChildren().add(addNewDFBtn);
-        } else {
-            contentBox.getChildren().remove(addNewDFBtn);
-            contentBox.getChildren().add(addNewDFBtn);
-        }
+        if (addBtn == null)
+            createAddBtn();
+        contentBox.getChildren().add(addBtn);
     }
 
-    private void createAddNewDFBtn() {
-        addNewDFBtn = new Button("Add a new data form");
-        addNewDFBtn.setStyle("-fx-background-color: #E4E4E4; -fx-border-radius: 10px; -fx-text-fill: blue;" +
-                " -fx-cursor: hand; -fx-underline: true;");
-        addNewDFBtn.setAlignment(Pos.CENTER);
-        addNewDFBtn.setOnAction(e -> onAddNewDFListener());
+    private void createAddBtn() {
+        addBtn = new Button();
+        addBtn.setGraphic(new ImageView(PLUS_LIGHT));
+        addBtn.setAlignment(Pos.CENTER);
+        addBtn.setOnAction(e -> onAddBtnAction());
+        addBtn.setOnMouseEntered(e -> onAddBtnMoving());
+        addBtn.setOnMouseExited(e -> onAddBtnMoving());
     }
 
-    @FXML
-    private void onAddNewDFListener() {
+    private void onAddBtnAction() {
         DBWorker.addDataForm(PasswordProtector.currentUser);
         setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
         initialize();
+    }
+
+    private void onAddBtnMoving() {
+        if (addBtn.isHover())
+            addBtn.setGraphic(new ImageView(PLUS));
+        else
+            addBtn.setGraphic(new ImageView(PLUS_LIGHT));
     }
 
     void deleteDataForm(int id) {

@@ -2,6 +2,7 @@ package com.ponaguynik.passwordprotector.scenes.login_scene;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
+import com.ponaguynik.passwordprotector.database.DBConnector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
@@ -25,9 +26,8 @@ public class LoginController {
 
     @FXML
     private void onOkBtn() {
-        //Temporary test code
-        if (true/*isVerified()*/) {
-            PasswordProtector.currentUser = "test"/*usernameTF.getText()*/;
+        if (isVerified()) {
+            PasswordProtector.currentUser = usernameTF.getText();
             try {
                 MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
                 SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);
@@ -39,8 +39,9 @@ public class LoginController {
     }
 
     @FXML
-    private void onCancelBtn() {
-
+    private void onCancelBtnAction() {
+        DBConnector.close();
+        System.exit(0);
     }
 
     @FXML
@@ -54,7 +55,6 @@ public class LoginController {
     }
 
     private boolean isVerified() {
-
         if (usernameTF.getText().isEmpty()) {
             Alerts.showWarning("Username field is empty!");
             return false;

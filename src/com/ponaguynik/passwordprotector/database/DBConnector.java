@@ -17,7 +17,7 @@ public class DBConnector {
         } else {
             connect();
         }
-        System.out.println("The connection has been successfully established!");
+        System.out.println("The connection to the database has been successfully established!");
     }
 
     private static void connect() {
@@ -48,7 +48,7 @@ public class DBConnector {
         System.out.println("A new database has been successfully created!");
     }
 
-    static void close() {
+    public static void close() {
         try {
             connection.close();
         } catch (SQLException e) {

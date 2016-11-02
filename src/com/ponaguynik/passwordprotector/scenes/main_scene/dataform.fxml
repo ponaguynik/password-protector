@@ -34,23 +34,20 @@
                 <GridPane.margin>
                     <Insets right="4.0" />
                 </GridPane.margin></Label>
-                <Button fx:id="editBtn" mnemonicParsing="false" onAction="#onEditListener" text="Edit" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                <Button fx:id="editBtn" mnemonicParsing="false" onAction="#onEditBtnAction" text="Edit" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
                 </Button>
-                  <CheckBox fx:id="showCB" mnemonicParsing="false" onAction="#onShowListener" text="Show password" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <CheckBox fx:id="showCB" mnemonicParsing="false" onAction="#onShowCBAction" text="Show password" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="9.0" />
                      </GridPane.margin>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </CheckBox>
-      <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#onDeleteBtnListener" onMouseEntered="#onDeleteBtnMoving" onMouseExited="#onDeleteBtnMoving" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
+      <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#onDeleteBtnAction" onMouseEntered="#onDeleteBtnMoving" onMouseExited="#onDeleteBtnMoving" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

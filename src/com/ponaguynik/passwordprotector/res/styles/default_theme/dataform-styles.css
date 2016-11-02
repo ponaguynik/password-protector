@@ -16,5 +16,6 @@
 .button{
     -fx-background-color: white;
     -fx-text-fill: blue;
-    -fx-underline: true
+    -fx-underline: true;
+    -fx-cursor: hand;
 }

@@ -12,32 +12,41 @@ public class SceneSwitcher {
     public enum Scenes {
         LOGIN, CHECK_IN, MAIN
     }
+
     private static Stage primaryStage = PasswordProtector.primaryStage;
 
     private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/login_scene/login.fxml"));
     private static FXMLLoader checkinLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/checkin_scene/check-in.fxml"));
     private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/main_scene/main.fxml"));
 
+    private static Scene loginScene;
+    private static Scene checkinScene;
+    private static Scene mainScene;
+
     public static void set(Scenes scene) throws IOException {
-        Parent root;
+        primaryStage.hide();
         switch (scene) {
             case LOGIN:
                 primaryStage.setResizable(false);
-                root = loginLoader.load();
+                if (loginScene == null)
+                    loginScene = new Scene(loginLoader.load());
+                primaryStage.setScene(loginScene);
                 break;
             case CHECK_IN:
                 primaryStage.setResizable(false);
-                root = checkinLoader.load();
+                if (checkinScene == null)
+                    checkinScene = new Scene(checkinLoader.load());
+                primaryStage.setScene(checkinScene);
                 break;
             case MAIN:
-                root = mainLoader.load();
                 primaryStage.setResizable(true);
+                if (mainScene == null)
+                    mainScene = new Scene(mainLoader.load());
+                primaryStage.setScene(mainScene);
                 break;
             default:
                 throw new IOException();
         }
-        primaryStage.hide();
-        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

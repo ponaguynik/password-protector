@@ -50,7 +50,7 @@ public class DataForm extends GridPane {
         passwordField.textProperty().bindBidirectional(passwordTF.textProperty());
         passwordField.setVisible(true);
         passwordTF.setVisible(false);
-        onEditListener();
+        onEditBtnAction();
     }
 
     public DataForm(int id, String title, String login, String password) {
@@ -66,7 +66,7 @@ public class DataForm extends GridPane {
     }
 
     @FXML
-    private void onEditListener() {
+    private void onEditBtnAction() {
         if (!editMode) {
             editMode = true;
             titleTF.setEditable(true);
@@ -88,7 +88,7 @@ public class DataForm extends GridPane {
     }
 
     @FXML
-    private void onShowListener() {
+    private void onShowCBAction() {
         if (showCB.isSelected()) {
             passwordField.setVisible(false);
             passwordTF.setVisible(true);
@@ -149,7 +149,7 @@ public class DataForm extends GridPane {
     }
 
     @FXML
-    private void onDeleteBtnListener() {
+    private void onDeleteBtnAction() {
         MainController mainController = ((MainController)SceneSwitcher.getController(SceneSwitcher.Scenes.MAIN));
         assert mainController != null;
         mainController.deleteDataForm(this.id);
@@ -157,7 +157,7 @@ public class DataForm extends GridPane {
 
     public void setEditMode(boolean em) {
         editMode = !em;
-        onEditListener();
+        onEditBtnAction();
     }
 
     public String getTitle() {
