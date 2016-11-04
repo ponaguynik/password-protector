@@ -19,8 +19,6 @@ public class CheckInController {
     @FXML
     private PasswordField keywordPF, keywordConfPF;
     @FXML
-    private TextField hintTF;
-    @FXML
     private Button confirmBtn, backBtn;
 
     @FXML
@@ -82,10 +80,6 @@ public class CheckInController {
             return false;
         }
 
-        validator.setString(hintTF.getText());
-        if (!validate(validator, "Hint", 0, 32))
-            return false;
-
         return true;
     }
 
@@ -98,11 +92,11 @@ public class CheckInController {
             Alerts.showWarning(String.format("The %s is too long!", field),
                     String.format("The %s must be less than %d characters.", field, max));
             return false;
-        } else if (!validator.startsWithLetter() && !field.equals("Hint")) {
+        } else if (!validator.startsWithLetter()) {
             Alerts.showWarning(String.format("The %s does not start with a letter!", field),
                     String.format("The %s must start with an English letter.", field));
             return false;
-        } else if (!validator.noSpaces() && !field.equals("Hint")) {
+        } else if (!validator.noSpaces()) {
             Alerts.showWarning("There is a space!", String.format("The %s must not include spaces.", field));
             return false;
         } else if (field.equals("Username") && !validator.onlyLettersAndDigits()) {
@@ -113,7 +107,7 @@ public class CheckInController {
             Alerts.showWarning("Not enough characters used!", "The Keyword must include at least one number (0-9), " +
                     "lowercase letter (a-z), uppercase letter (A-Z) and one special character (@_#()^!.,~%&:;/)");
             return false;
-        } else if (!field.equals("Username") && !validator.onlyPermissibleCharacters() && !field.equals("Hint")) {
+        } else if (!field.equals("Username") && !validator.onlyPermissibleCharacters()) {
             Alerts.showWarning("Not permissible characters used!",
                     String.format("The %s must consist of only English letters (a-z, A-Z), digits (0-9) " +
                             "and special characters (@_#()^!.,~%%&:;/)).", field));

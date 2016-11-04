@@ -45,7 +45,7 @@ public class Password {
 
     public static String encrypt(String data) {
         if (data == null || data.isEmpty())
-            return null;
+            return "";
         byte[] encVal = null;
         try {
             Cipher c = Cipher.getInstance("AES");
@@ -60,8 +60,8 @@ public class Password {
 
     public static String decrypt(String encryptedData) {
         if (encryptedData == null || encryptedData.isEmpty())
-            return null;
-        byte[] decValue = null;
+            return "";
+        byte[] decValue;
         try {
             Cipher c = Cipher.getInstance("AES");
             c.init(Cipher.DECRYPT_MODE, key);

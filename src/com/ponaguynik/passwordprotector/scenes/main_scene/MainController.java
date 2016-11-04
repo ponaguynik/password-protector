@@ -2,9 +2,13 @@ package com.ponaguynik.passwordprotector.scenes.main_scene;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -15,15 +19,30 @@ public class MainController {
 
     private static ArrayList<DataForm> dataFormsList;
 
+    //Menu items
+        //File
+        @FXML
+        private MenuItem changeUserItem, exitItem;
+        //Settings
+            //Language
+            @FXML
+            private MenuItem englishItem, russianItem;
+        @FXML
+        private MenuItem changeKeyItem, deleteAccItem;
+        //Help
+        @FXML
+        private MenuItem aboutItem;
+    //End menu items
+
     private Button addBtn;
 
     @FXML
     private VBox contentBox;
 
-    //Images
-    private static final Image PLUS  = new Image(DataForm.class.getResourceAsStream("../../res/images/plus-grey.png"));
-    private static final Image PLUS_LIGHT  = new Image(DataForm.class.getResourceAsStream("../../res/images/plus-lightgrey.png"));
 
+    //Images
+    private static final Image PLUS  = new Image(MainController.class.getResourceAsStream("../../res/images/plus-grey.png"));
+    private static final Image PLUS_LIGHT  = new Image(MainController.class.getResourceAsStream("../../res/images/plus-lightgrey.png"));
 
     @FXML
     private void initialize() {
@@ -35,6 +54,25 @@ public class MainController {
         if (addBtn == null)
             createAddBtn();
         contentBox.getChildren().add(addBtn);
+    }
+
+    @FXML
+    private void onMenuItemsAction(ActionEvent event) {
+        MenuItem item = (MenuItem) event.getSource();
+        if (item == changeUserItem)
+            MenuHelper.changeUser();
+        else if (item == exitItem)
+            MenuHelper.exit();
+        else if (item == englishItem)
+            MenuHelper.english();
+        else if (item == russianItem)
+            MenuHelper.russian();
+        else if (item == changeKeyItem)
+            MenuHelper.changeKeyword();
+        else if (item == deleteAccItem)
+            MenuHelper.deleteAccount();
+        else if (item == aboutItem)
+            MenuHelper.about();
     }
 
     private void createAddBtn() {

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -8,28 +10,43 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" stylesheets="@../../res/styles/default_theme/main-styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.main_scene.MainController">
    <top>
        <VBox alignment="CENTER" BorderPane.alignment="TOP_LEFT">
-           <MenuBar VBox.vgrow="NEVER">
-               <Menu mnemonicParsing="false" text="File">
-                   <MenuItem mnemonicParsing="false" text="Close"/>
-               </Menu>
-               <Menu mnemonicParsing="false" text="Edit">
-                   <MenuItem mnemonicParsing="false" text="Delete"/>
-               </Menu>
-               <Menu mnemonicParsing="false" text="Help">
-                   <items>
-                       <MenuItem mnemonicParsing="false" text="About"/>
-                   </items>
-               </Menu>
-           </MenuBar>
-           <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="PasswordProtector" textAlignment="CENTER"
-                  textOverrun="CLIP">
-              <font>
-                  <Font name="Aharoni Bold" size="35.0"/>
-              </font>
-              <VBox.margin>
-                  <Insets bottom="30.0" left="20.0" right="20.0" top="30.0"/>
-              </VBox.margin>
-           </Label>
+          <children>
+              <MenuBar VBox.vgrow="NEVER">
+                 <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="changeUserItem" mnemonicParsing="false" text="Change user" />
+                        <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Settings">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Language">
+                          <items>
+                            <MenuItem fx:id="englishItem" mnemonicParsing="false" text="English" />
+                              <MenuItem fx:id="russianItem" mnemonicParsing="false" text="Russian" />
+                          </items>
+                        </Menu>
+                        <MenuItem fx:id="changeKeyItem" mnemonicParsing="false" text="Change keyword" />
+                        <MenuItem fx:id="deleteAccItem" mnemonicParsing="false" text="Delete account" />
+                     </items>
+                  </Menu>
+                     <Menu mnemonicParsing="false" text="Help">
+                         <items>
+                             <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" />
+                         </items>
+                     </Menu>
+                 </menus>
+              </MenuBar>
+              <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="PasswordProtector" textAlignment="CENTER" textOverrun="CLIP">
+                 <font>
+                     <Font name="Aharoni Bold" size="35.0" />
+                 </font>
+                 <VBox.margin>
+                     <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
+                 </VBox.margin>
+              </Label>
+          </children>
        </VBox>
    </top>
    <center>

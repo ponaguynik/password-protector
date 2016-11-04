@@ -2,6 +2,7 @@ package com.ponaguynik.passwordprotector.scenes.main_scene;
 
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -150,6 +151,12 @@ public class DataForm extends GridPane {
 
     @FXML
     private void onDeleteBtnAction() {
+        if (!titleTF.getText().isEmpty()
+                || !loginTF.getText().isEmpty()
+                || !passwordTF.getText().isEmpty())
+            if (!Alerts.showConfirm("Are you sure you want to delete this form?"))
+                return;
+
         MainController mainController = ((MainController)SceneSwitcher.getController(SceneSwitcher.Scenes.MAIN));
         assert mainController != null;
         mainController.deleteDataForm(this.id);
