@@ -106,4 +106,8 @@ public class MainController {
     public static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
         MainController.dataFormsList = dataFormsList;
     }
+
+    public void reset() {
+        initialize();
+    }
 }

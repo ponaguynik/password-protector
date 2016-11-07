@@ -57,6 +57,7 @@ public class Alerts {
     public static boolean showConfirm(String message) {
         confirm.setTitle("Confirmation");
         confirm.setHeaderText(message);
+        confirm.setContentText("");
         return confirm.showAndWait().get() == ButtonType.OK;
     }
 

@@ -1,8 +1,11 @@
 package com.ponaguynik.passwordprotector;
 
 import com.ponaguynik.passwordprotector.database.*;
+import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 

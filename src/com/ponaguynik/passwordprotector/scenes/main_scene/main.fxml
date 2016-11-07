@@ -15,25 +15,25 @@
                  <menus>
                   <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="changeUserItem" mnemonicParsing="false" text="Change user" />
-                        <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" />
+                        <MenuItem fx:id="changeUserItem" mnemonicParsing="false" text="Change user" onAction="#onMenuItemsAction" />
+                        <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" onAction="#onMenuItemsAction" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Settings">
                      <items>
                         <Menu mnemonicParsing="false" text="Language">
                           <items>
-                            <MenuItem fx:id="englishItem" mnemonicParsing="false" text="English" />
-                              <MenuItem fx:id="russianItem" mnemonicParsing="false" text="Russian" />
+                            <MenuItem fx:id="englishItem" mnemonicParsing="false" text="English" onAction="#onMenuItemsAction" />
+                              <MenuItem fx:id="russianItem" mnemonicParsing="false" text="Russian" onAction="#onMenuItemsAction" />
                           </items>
                         </Menu>
-                        <MenuItem fx:id="changeKeyItem" mnemonicParsing="false" text="Change keyword" />
-                        <MenuItem fx:id="deleteAccItem" mnemonicParsing="false" text="Delete account" />
+                        <MenuItem fx:id="changeKeyItem" mnemonicParsing="false" text="Change keyword" onAction="#onMenuItemsAction" />
+                        <MenuItem fx:id="deleteAccItem" mnemonicParsing="false" text="Delete account" onAction="#onMenuItemsAction" />
                      </items>
                   </Menu>
                      <Menu mnemonicParsing="false" text="Help">
                          <items>
-                             <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" />
+                             <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" onAction="#onMenuItemsAction" />
                          </items>
                      </Menu>
                  </menus>

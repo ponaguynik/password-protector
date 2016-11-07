@@ -116,4 +116,11 @@ public class CheckInController {
 
         return true;
     }
+
+    public void reset() {
+        usernameTF.clear();
+        keywordPF.clear();
+        keywordConfPF.clear();
+        usernameTF.requestFocus();
+    }
 }

@@ -7,6 +7,7 @@ import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
 import com.ponaguynik.passwordprotector.other.Alerts;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -26,8 +27,10 @@ public class LoginController {
 
     @FXML
     private void onOkBtn() {
-        if (true/*isVerified()*/) {
-            PasswordProtector.currentUser = "test"/*usernameTF.getText()*/;
+        if (isVerified()) {
+            PasswordProtector.currentUser = usernameTF.getText();
+            usernameTF.clear();
+            keywordPF.clear();
             try {
                 MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
                 SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);
@@ -40,8 +43,7 @@ public class LoginController {
 
     @FXML
     private void onCancelBtnAction() {
-        DBConnector.close();
-        System.exit(0);
+        SceneSwitcher.exit();
     }
 
     @FXML
@@ -80,5 +82,11 @@ public class LoginController {
         }
 
         return false;
+    }
+
+    public void reset() {
+        usernameTF.clear();
+        keywordPF.clear();
+        usernameTF.requestFocus();
     }
 }

@@ -1,7 +1,13 @@
 package com.ponaguynik.passwordprotector;
 
+import com.ponaguynik.passwordprotector.database.DBConnector;
+import com.ponaguynik.passwordprotector.other.Alerts;
+import com.ponaguynik.passwordprotector.scenes.checkin_scene.CheckInController;
+import com.ponaguynik.passwordprotector.scenes.login_scene.LoginController;
+import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
+import com.ponaguynik.passwordprotector.scenes.main_scene.MenuHelper;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -13,41 +19,91 @@ public class SceneSwitcher {
         LOGIN, CHECK_IN, MAIN
     }
 
+    private static Scene current;
+
     private static Stage primaryStage = PasswordProtector.primaryStage;
 
     private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/login_scene/login.fxml"));
-    private static FXMLLoader checkinLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/checkin_scene/check-in.fxml"));
+    private static FXMLLoader checkInLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/checkin_scene/check-in.fxml"));
     private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/main_scene/main.fxml"));
 
     private static Scene loginScene;
-    private static Scene checkinScene;
+    private static Scene checkInScene;
     private static Scene mainScene;
+
+    static {
+        try {
+            loginScene = new Scene(loginLoader.load());
+            checkInScene = new Scene(checkInLoader.load());
+            mainScene = new Scene(mainLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 
     public static void set(Scenes scene) throws IOException {
         primaryStage.hide();
         switch (scene) {
             case LOGIN:
-                primaryStage.setResizable(false);
-                if (loginScene == null)
-                    loginScene = new Scene(loginLoader.load());
-                primaryStage.setScene(loginScene);
+                setLoginScene();
                 break;
             case CHECK_IN:
-                primaryStage.setResizable(false);
-                if (checkinScene == null)
-                    checkinScene = new Scene(checkinLoader.load());
-                primaryStage.setScene(checkinScene);
+                setCheckInScene();
                 break;
             case MAIN:
-                primaryStage.setResizable(true);
-                if (mainScene == null)
-                    mainScene = new Scene(mainLoader.load());
-                primaryStage.setScene(mainScene);
+                setMainScene();
                 break;
             default:
-                throw new IOException();
-        }
+                throw new IOException("No such scene.");
+    }
+        primaryStage.setScene(current);
         primaryStage.show();
+    }
+
+    private static void setLoginScene() {
+        primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(event -> {
+            if (!exit())
+            event.consume();
+        });
+        LoginController contr = (LoginController) getController(Scenes.LOGIN);
+        assert contr != null;
+        contr.reset();
+        current = loginScene;
+    }
+
+    private static void setCheckInScene() {
+        primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(event -> {
+            if (!exit())
+                event.consume();
+        });
+        CheckInController contr = (CheckInController) getController(Scenes.CHECK_IN);
+        assert contr != null;
+        contr.reset();
+        current = checkInScene;
+    }
+
+    private static void setMainScene() {
+        primaryStage.setResizable(true);
+        primaryStage.setOnCloseRequest(event -> {
+            if (!MenuHelper.exit())
+                event.consume();
+
+        });
+        MainController contr = (MainController) getController(Scenes.MAIN);
+        assert contr != null;
+        contr.reset();
+        current = mainScene;
+    }
+
+    public static boolean exit() {
+        if (Alerts.showConfirm("Are you sure you want to exit?")) {
+            DBConnector.close();
+            Platform.exit();
+            return true;
+        } else return false;
     }
 
     public static Object getController(Scenes scene) {
@@ -55,7 +111,7 @@ public class SceneSwitcher {
             case LOGIN:
                 return loginLoader.getController();
             case CHECK_IN:
-                return checkinLoader.getController();
+                return checkInLoader.getController();
             case MAIN:
                 return mainLoader.getController();
             default:
