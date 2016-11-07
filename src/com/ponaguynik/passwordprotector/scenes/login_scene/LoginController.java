@@ -33,7 +33,7 @@ public class LoginController {
             keywordPF.clear();
             try {
                 MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
-                SceneSwitcher.set(SceneSwitcher.Scenes.MAIN);
+                SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.MAIN);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(1);
@@ -49,7 +49,7 @@ public class LoginController {
     @FXML
     private void onCreateUserBtn() {
         try {
-            SceneSwitcher.set(SceneSwitcher.Scenes.CHECK_IN);
+            SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.CHECK_IN);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);

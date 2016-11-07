@@ -13,9 +13,17 @@ import java.util.Map;
 public class DBWorker {
 
     public static void addUser(String username, String keyword) {
-        String query = String.format("INSERT INTO users (username, keyword) VALUES('%s', '%s')",
-                username, keyword);
+        String query = String.format("INSERT INTO users (username, keyword) VALUES('%s', '%s')", username, keyword);
         DBConnector.execute(query);
+    }
+
+    public static void updateKeyword(String username, String keyword) {
+        String query = String.format("UPDATE users SET keyword = '%s' WHERE username = '%s'", keyword, username);
+        DBConnector.execute(query);
+    }
+
+    public static void deleteUser(String username) {
+
     }
 
     public static void addDataForm(String username) {

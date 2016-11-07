@@ -20,7 +20,7 @@ public class PasswordProtector extends Application {
         primaryStage.setTitle("PasswordProtector");
         DBConnector.makeConnection();
         PasswordProtector.primaryStage = primaryStage;
-        SceneSwitcher.set(SceneSwitcher.Scenes.LOGIN);
+        SceneSwitcher.set(primaryStage, SceneSwitcher.Scenes.LOGIN);
     }
 
     public static void main(String[] args) throws IOException {

@@ -1,5 +1,6 @@
 package com.ponaguynik.passwordprotector.scenes.checkin_scene;
 
+import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.other.Password;
@@ -23,17 +24,17 @@ public class CheckInController {
 
     @FXML
     private void onConfirmBtn() {
-        if (isValidated()) {
+        if (isValidated(usernameTF.getText(), keywordPF.getText(), keywordConfPF.getText())) {
             if (!DBWorker.userExists(usernameTF.getText())) {
                 try {
                     DBWorker.addUser(usernameTF.getText(), Password.getSaltedHash(keywordPF.getText()));
                     Alerts.showInformation("New account has been successfully created!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Alerts.showError("An error occurred!");
+                    System.exit(1);
                 }
                 try {
-                    SceneSwitcher.set(SceneSwitcher.Scenes.LOGIN);
+                    SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.exit(1);
@@ -47,35 +48,35 @@ public class CheckInController {
     @FXML
     private void onBackBtn() {
         try {
-            SceneSwitcher.set(SceneSwitcher.Scenes.LOGIN);
+            SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    private boolean isValidated() {
-        if (usernameTF.getText().isEmpty()) {
+    public static boolean isValidated(String username, String keyword, String confirmKey) {
+        if (username.isEmpty()) {
             Alerts.showWarning("Username field is empty!");
             return false;
-        } else if (keywordPF.getText().isEmpty()) {
+        } else if (keyword.isEmpty()) {
             Alerts.showWarning("Keyword field is empty!");
             return false;
-        } else if (keywordConfPF.getText().isEmpty()) {
+        } else if (confirmKey.isEmpty()) {
             Alerts.showWarning("Confirm Keyword field is empty!");
             return false;
         }
 
         Validator validator = Validator.getInstance();
-        validator.setString(usernameTF.getText());
+        validator.setString(username);
         if (!validate(validator, "Username", 4, 16))
             return false;
 
-        validator.setString(keywordPF.getText());
+        validator.setString(keyword);
         if (!validate(validator, "Keyword", 8, 16))
             return false;
 
-        if (!keywordPF.getText().equals(keywordConfPF.getText())) {
+        if (!keyword.equals(confirmKey)) {
             Alerts.showWarning("The Keyword does not match Confirm Keyword");
             return false;
         }
@@ -83,7 +84,11 @@ public class CheckInController {
         return true;
     }
 
-    private boolean validate(Validator validator, String field, int min, int max) {
+    public static boolean isValidated(String keyword, String confirmKey) {
+        return isValidated("fake", keyword, confirmKey);
+    }
+
+    private static boolean validate(Validator validator, String field, int min, int max) {
         if (!validator.lengthGreaterThanMin(min)) {
             Alerts.showWarning(String.format("The %s is too short!", field),
                     String.format("The %s must be at least %d characters.", field, min));
