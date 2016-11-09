@@ -23,7 +23,10 @@ public class DBWorker {
     }
 
     public static void deleteUser(String username) {
-
+        String query = String.format("DELETE FROM users WHERE username = '%s'", username);
+        DBConnector.execute(query);
+        query = String.format("DELETE FROM users_data WHERE username = '%s'", username);
+        DBConnector.execute(query);
     }
 
     public static void addDataForm(String username) {
@@ -38,6 +41,8 @@ public class DBWorker {
     }
 
     public static boolean checkKeyword(String username, String keyword) throws Exception {
+        if (keyword == null || keyword.isEmpty())
+            return false;
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
         ResultSet rs = DBConnector.executeQuery(query);
         return Password.check(keyword, rs.getString("keyword"));

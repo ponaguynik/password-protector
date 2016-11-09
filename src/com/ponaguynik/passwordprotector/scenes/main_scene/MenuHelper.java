@@ -52,7 +52,18 @@ public class MenuHelper {
     }
 
     public static void deleteAccount() {
-
+        boolean isConfirmed = Alerts.showConfirm("Are you sure you want to delete this account?", "All your data will be lost");
+        if (isConfirmed) {
+            Stage stage = new Stage();
+            stage.setTitle("Delete account");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            try {
+                SceneSwitcher.set(stage, SceneSwitcher.Scenes.CONFIRM);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
     }
 
     public static void about() {
