@@ -41,27 +41,27 @@
                       <Insets right="20.0" />
                   </GridPane.margin>
               </PasswordField>
-              <Button fx:id="confirmBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onConfirmBtn" prefWidth="80.0" text="Confirm" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+              <Button fx:id="confirmBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onConfirmBtn" prefWidth="80.0" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                   <cursor>
                       <Cursor fx:constant="HAND" />
                   </cursor>
               </Button>
-              <Label text="Username:" GridPane.halignment="RIGHT">
+              <Label fx:id="usernameLab" GridPane.halignment="RIGHT">
                   <GridPane.margin>
                       <Insets right="10.0" />
                   </GridPane.margin>
               </Label>
-              <Label text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+              <Label fx:id="keywordLab" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                   <GridPane.margin>
                       <Insets right="10.0" />
                   </GridPane.margin>
               </Label>
-              <Label text="Confirm Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+              <Label fx:id="keywordConfLab" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                   <GridPane.margin>
                       <Insets right="10.0" />
                   </GridPane.margin>
               </Label>
-              <Button fx:id="backBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBackBtn" prefWidth="80.0" text="&lt;&lt; Back" GridPane.rowIndex="3">
+              <Button fx:id="backBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBackBtn" prefWidth="80.0" GridPane.rowIndex="3">
                   <cursor>
                       <Cursor fx:constant="HAND" />
                   </cursor>

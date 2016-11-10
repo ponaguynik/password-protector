@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.confirm_scene.ConfirmController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.delete_scene.DeleteController">
     <center>
         <GridPane BorderPane.alignment="CENTER">
             <columnConstraints>
@@ -43,12 +43,12 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <Label text="Username:" GridPane.halignment="RIGHT">
+                <Label fx:id="usernameLab" text="Username:" GridPane.halignment="RIGHT">
                     <GridPane.margin>
                         <Insets right="10.0" />
                     </GridPane.margin>
                 </Label>
-                <Label text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Label fx:id="keywordLab" text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets right="10.0" />
                     </GridPane.margin>

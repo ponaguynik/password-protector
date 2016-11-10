@@ -14,10 +14,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class MainController {
 
+    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "main");
+
     private static ArrayList<DataForm> dataFormsList;
+
+    //Menu
+    @FXML
+    private Menu fileMenu, settingsMenu, languageMenu, helpMenu;
 
     //Menu items
         //File
@@ -39,13 +46,18 @@ public class MainController {
     @FXML
     private VBox contentBox;
 
-
     //Images
     private static final Image PLUS  = new Image(MainController.class.getResourceAsStream("../../res/images/plus-grey.png"));
     private static final Image PLUS_LIGHT  = new Image(MainController.class.getResourceAsStream("../../res/images/plus-lightgrey.png"));
 
+    private static boolean initialized = false;
+
     @FXML
     private void initialize() {
+        if (!initialized) {
+            init();
+            initialized = true;
+        }
         if (!contentBox.getChildren().isEmpty()) {
             contentBox.getChildren().clear();
         }
@@ -54,6 +66,20 @@ public class MainController {
         if (addBtn == null)
             createAddBtn();
         contentBox.getChildren().add(addBtn);
+    }
+
+    private void init() {
+        fileMenu.setText(res.getString("file.menu"));
+        settingsMenu.setText(res.getString("settings.menu"));
+        languageMenu.setText(res.getString("language.menu"));
+        helpMenu.setText(res.getString("help.menu"));
+        changeUserItem.setText(res.getString("change.user.item"));
+        exitItem.setText(res.getString("exit.item"));
+        englishItem.setText(res.getString("english.item"));
+        russianItem.setText(res.getString("russian.item"));
+        changeKeyItem.setText(res.getString("change.key.item"));
+        deleteAccItem.setText(res.getString("delete.account.item"));
+        aboutItem.setText(res.getString("about.item"));
     }
 
     @FXML

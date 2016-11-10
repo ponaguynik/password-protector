@@ -41,17 +41,17 @@
                         <Insets right="13.0" />
                     </GridPane.margin>
                 </PasswordField>
-                <Label text="Current Keyword:" GridPane.halignment="RIGHT">
+                <Label fx:id="currKeyLab" text="Current Keyword:" GridPane.halignment="RIGHT">
                     <GridPane.margin>
                         <Insets right="10.0" />
                     </GridPane.margin>
                 </Label>
-                <Label text="New Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Label fx:id="newKeyLab" text="New Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets right="10.0" />
                     </GridPane.margin>
                 </Label>
-                <Label text="Confirm Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                <Label fx:id="confirmKeyLab" text="Confirm Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets right="10.0" />
                     </GridPane.margin>

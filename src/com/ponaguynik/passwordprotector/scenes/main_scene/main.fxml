@@ -13,27 +13,27 @@
           <children>
               <MenuBar VBox.vgrow="NEVER">
                  <menus>
-                  <Menu mnemonicParsing="false" text="File">
+                  <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="changeUserItem" mnemonicParsing="false" text="Change user" onAction="#onMenuItemsAction" />
-                        <MenuItem fx:id="exitItem" mnemonicParsing="false" text="Exit" onAction="#onMenuItemsAction" />
+                        <MenuItem fx:id="changeUserItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="Change user" />
+                        <MenuItem fx:id="exitItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="Exit" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Settings">
+                  <Menu fx:id="settingsMenu" mnemonicParsing="false" text="Settings">
                      <items>
-                        <Menu mnemonicParsing="false" text="Language">
+                        <Menu fx:id="languageMenu" mnemonicParsing="false" text="Language">
                           <items>
-                            <MenuItem fx:id="englishItem" mnemonicParsing="false" text="English" onAction="#onMenuItemsAction" />
-                              <MenuItem fx:id="russianItem" mnemonicParsing="false" text="Russian" onAction="#onMenuItemsAction" />
+                            <MenuItem fx:id="englishItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="English" />
+                              <MenuItem fx:id="russianItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="Russian" />
                           </items>
                         </Menu>
-                        <MenuItem fx:id="changeKeyItem" mnemonicParsing="false" text="Change keyword" onAction="#onMenuItemsAction" />
-                        <MenuItem fx:id="deleteAccItem" mnemonicParsing="false" text="Delete account" onAction="#onMenuItemsAction" />
+                        <MenuItem fx:id="changeKeyItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="Change keyword" />
+                        <MenuItem fx:id="deleteAccItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="Delete account" />
                      </items>
                   </Menu>
-                     <Menu mnemonicParsing="false" text="Help">
+                     <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
                          <items>
-                             <MenuItem fx:id="aboutItem" mnemonicParsing="false" text="About" onAction="#onMenuItemsAction" />
+                             <MenuItem fx:id="aboutItem" mnemonicParsing="false" onAction="#onMenuItemsAction" text="About" />
                          </items>
                      </Menu>
                  </menus>

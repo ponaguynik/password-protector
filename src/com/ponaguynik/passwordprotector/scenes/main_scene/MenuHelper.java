@@ -58,7 +58,7 @@ public class MenuHelper {
             stage.setTitle("Delete account");
             stage.initModality(Modality.APPLICATION_MODAL);
             try {
-                SceneSwitcher.set(stage, SceneSwitcher.Scenes.CONFIRM);
+                SceneSwitcher.set(stage, SceneSwitcher.Scenes.DELETE);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);

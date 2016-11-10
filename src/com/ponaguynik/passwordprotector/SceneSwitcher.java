@@ -4,7 +4,7 @@ import com.ponaguynik.passwordprotector.database.DBConnector;
 import com.ponaguynik.passwordprotector.other.Alerts;
 import com.ponaguynik.passwordprotector.scenes.changekey_scene.ChangeKeyController;
 import com.ponaguynik.passwordprotector.scenes.checkin_scene.CheckInController;
-import com.ponaguynik.passwordprotector.scenes.confirm_scene.ConfirmController;
+import com.ponaguynik.passwordprotector.scenes.delete_scene.DeleteController;
 import com.ponaguynik.passwordprotector.scenes.login_scene.LoginController;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MenuHelper;
@@ -18,20 +18,20 @@ import java.io.IOException;
 public class SceneSwitcher {
 
     public enum Scenes {
-        LOGIN, CHECK_IN, MAIN, CHANGE_KEYWORD, CONFIRM
+        LOGIN, CHECK_IN, MAIN, CHANGE_KEYWORD, DELETE
     }
 
     private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/login_scene/login.fxml"));
     private static FXMLLoader checkInLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/checkin_scene/check-in.fxml"));
     private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/main_scene/main.fxml"));
     private static FXMLLoader changeKeyLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/changekey_scene/changekey.fxml"));
-    private static FXMLLoader confirmLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/confirm_scene/confirm.fxml"));
+    private static FXMLLoader deleteLoader = new FXMLLoader(PasswordProtector.class.getResource("scenes/delete_scene/delete.fxml"));
 
     private static Scene loginScene;
     private static Scene checkInScene;
     private static Scene mainScene;
     private static Scene changeKeyScene;
-    private static Scene confirmScene;
+    private static Scene deleteScene;
 
     static {
         try {
@@ -39,7 +39,7 @@ public class SceneSwitcher {
             checkInScene = new Scene(checkInLoader.load());
             mainScene = new Scene(mainLoader.load());
             changeKeyScene = new Scene(changeKeyLoader.load());
-            confirmScene = new Scene(confirmLoader.load());
+            deleteScene = new Scene(deleteLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -61,8 +61,8 @@ public class SceneSwitcher {
             case CHANGE_KEYWORD:
                 setChangeKeyScene(stage);
                 break;
-            case CONFIRM:
-                setConfirmScene(stage);
+            case DELETE:
+                setDeleteScene(stage);
                 break;
             default:
                 throw new IOException("No such scene");
@@ -122,17 +122,17 @@ public class SceneSwitcher {
         stage.showAndWait();
     }
 
-    private static void setConfirmScene(Stage stage) {
+    private static void setDeleteScene(Stage stage) {
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
             if (!Alerts.showConfirm("Do you want to cancel?"))
                 event.consume();
         });
-        ConfirmController contr = (ConfirmController) getController(Scenes.CONFIRM);
+        DeleteController contr = (DeleteController) getController(Scenes.DELETE);
         assert contr != null;
         contr.reset();
         contr.usernameTF.setText(PasswordProtector.currentUser);
-        stage.setScene(confirmScene);
+        stage.setScene(deleteScene);
         stage.showAndWait();
     }
 
@@ -154,8 +154,8 @@ public class SceneSwitcher {
                 return mainLoader.getController();
             case CHANGE_KEYWORD:
                 return changeKeyLoader.getController();
-            case CONFIRM:
-                return confirmLoader.getController();
+            case DELETE:
+                return deleteLoader.getController();
             default:
                 return null;
         }

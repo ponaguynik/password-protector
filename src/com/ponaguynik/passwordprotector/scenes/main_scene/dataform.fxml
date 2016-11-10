@@ -26,11 +26,11 @@
                 <TextField fx:id="loginTF" GridPane.columnIndex="2" />
                 <PasswordField fx:id="passwordField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <TextField fx:id="passwordTF" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Label text="login:" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                <Label fx:id="loginLab" text="login:" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                     <GridPane.margin>
                         <Insets right="4.0" />
                     </GridPane.margin></Label>
-                <Label text="password:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <Label fx:id="passwordLab" text="password:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets right="4.0" />
                 </GridPane.margin></Label>

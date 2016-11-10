@@ -10,14 +10,20 @@ import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class LoginController {
 
+    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "login");
+
+    @FXML
+    private Label usernameLab, keywordLab;
     @FXML
     private PasswordField keywordPF;
     @FXML
@@ -42,6 +48,15 @@ public class LoginController {
     }
 
     @FXML
+    private void initialize() {
+        usernameLab.setText(res.getString("username.label"));
+        keywordLab.setText(res.getString("keyword.label"));
+        okBtn.setText(res.getString("ok.button"));
+        cancelBtn.setText(res.getString("cancel.button"));
+        createUserBtn.setText(res.getString("create.new.user.button"));
+    }
+
+    @FXML
     private void onCancelBtnAction() {
         SceneSwitcher.exit();
     }
@@ -58,23 +73,23 @@ public class LoginController {
 
     private boolean isVerified() {
         if (usernameTF.getText().isEmpty()) {
-            Alerts.showWarning("Username field is empty!");
+            Alerts.showWarning(res.getString("username.empty"));
             return false;
         }
         else if (keywordPF.getText().isEmpty()) {
-            Alerts.showWarning("Keyword field is empty");
+            Alerts.showWarning(res.getString("keyword.empty"));
             return false;
         }
 
         try {
             if (DBWorker.checkKeyword(usernameTF.getText(), keywordPF.getText())) {
-                Alerts.showInformation("Welcome!");
+                Alerts.showInformation(res.getString("welcome"));
                 return true;
             } else {
-                Alerts.showError("Invalid username or password!");
+                Alerts.showError(res.getString("invalid"));
             }
         } catch (SQLException e) {
-            Alerts.showError("Invalid username or password!");
+            Alerts.showError(res.getString("invalid"));
         }
         catch (Exception e) {
             e.printStackTrace();

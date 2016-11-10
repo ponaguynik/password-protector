@@ -1,22 +1,25 @@
 package com.ponaguynik.passwordprotector.scenes.main_scene;
 
+import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class DataForm extends GridPane {
 
+    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "dataform");
+
+    @FXML
+    private Label loginLab, passwordLab;
     @FXML
     private CheckBox showCB;
     @FXML
@@ -25,6 +28,8 @@ public class DataForm extends GridPane {
     private TextField titleTF, loginTF, passwordTF;
     @FXML
     private PasswordField passwordField;
+
+    private static boolean initialized = false;
 
     private boolean editMode;
 
@@ -63,6 +68,12 @@ public class DataForm extends GridPane {
 
     @FXML
     public void initialize() {
+        if (!initialized) {
+            loginLab.setText(res.getString("login.label"));
+            passwordLab.setText(res.getString("password.label"));
+            showCB.setText(res.getString("show.check.box"));
+            initialized = true;
+        }
         deleteBtn.setGraphic(new ImageView(X_LIGHT));
     }
 
@@ -75,7 +86,7 @@ public class DataForm extends GridPane {
             passwordField.setEditable(true);
             passwordTF.setEditable(true);
             showBorders();
-            editBtn.setText("Save");
+            editBtn.setText(res.getString("save.button"));
         } else {
             editMode = false;
             titleTF.setEditable(false);
@@ -84,7 +95,7 @@ public class DataForm extends GridPane {
             passwordTF.setEditable(false);
             hideBorders();
             saveData();
-            editBtn.setText("Edit");
+            editBtn.setText(res.getString("edit.button"));
         }
     }
 

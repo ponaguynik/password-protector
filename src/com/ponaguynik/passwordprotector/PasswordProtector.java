@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class PasswordProtector extends Application {
 
+    public static final String PATH =  "com.ponaguynik.passwordprotector.res.strings.";
+
     public static String currentUser = null;
 
     public static Stage primaryStage;

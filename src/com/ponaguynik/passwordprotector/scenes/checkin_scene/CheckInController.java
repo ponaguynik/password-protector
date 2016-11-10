@@ -8,13 +8,19 @@ import com.ponaguynik.passwordprotector.other.Validator;
 import com.ponaguynik.passwordprotector.other.Alerts;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class CheckInController {
 
+    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "checkin");
+
+    @FXML
+    private Label usernameLab, keywordLab, keywordConfLab;
     @FXML
     private TextField usernameTF;
     @FXML
@@ -22,13 +28,23 @@ public class CheckInController {
     @FXML
     private Button confirmBtn, backBtn;
 
+
+    @FXML
+    private void initialize() {
+        usernameLab.setText(res.getString("username.label"));
+        keywordLab.setText(res.getString("keyword.label"));
+        keywordConfLab.setText(res.getString("confirm.keyword.label"));
+        backBtn.setText(res.getString("back.button"));
+        confirmBtn.setText(res.getString("confirm.button"));
+    }
+
     @FXML
     private void onConfirmBtn() {
         if (isValidated(usernameTF.getText(), keywordPF.getText(), keywordConfPF.getText())) {
             if (!DBWorker.userExists(usernameTF.getText())) {
                 try {
                     DBWorker.addUser(usernameTF.getText(), Password.getSaltedHash(keywordPF.getText()));
-                    Alerts.showInformation("New account has been successfully created!");
+                    Alerts.showInformation(res.getString("account.created"));
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.exit(1);
@@ -40,7 +56,7 @@ public class CheckInController {
                     System.exit(1);
                 }
             } else {
-                Alerts.showWarning(String.format("%s already exists!", usernameTF.getText()));
+                Alerts.showWarning(String.format(res.getString("already.exists"), usernameTF.getText()));
             }
         }
     }
@@ -57,13 +73,13 @@ public class CheckInController {
 
     public static boolean isValidated(String username, String keyword, String confirmKey) {
         if (username.isEmpty()) {
-            Alerts.showWarning("Username field is empty!");
+            Alerts.showWarning(res.getString("username.empty"));
             return false;
         } else if (keyword.isEmpty()) {
-            Alerts.showWarning("Keyword field is empty!");
+            Alerts.showWarning(res.getString("keyword.empty"));
             return false;
         } else if (confirmKey.isEmpty()) {
-            Alerts.showWarning("Confirm Keyword field is empty!");
+            Alerts.showWarning(res.getString("confirm.keyword.empty"));
             return false;
         }
 
@@ -77,7 +93,7 @@ public class CheckInController {
             return false;
 
         if (!keyword.equals(confirmKey)) {
-            Alerts.showWarning("The Keyword does not match Confirm Keyword");
+            Alerts.showWarning(res.getString("not.match"));
             return false;
         }
 
@@ -90,32 +106,29 @@ public class CheckInController {
 
     private static boolean validate(Validator validator, String field, int min, int max) {
         if (!validator.lengthGreaterThanMin(min)) {
-            Alerts.showWarning(String.format("The %s is too short!", field),
-                    String.format("The %s must be at least %d characters.", field, min));
+            Alerts.showWarning(String.format(res.getString("too.short"), field),
+                    String.format(res.getString("too.short.content"), field, min));
             return false;
         } else if (!validator.lengthLessThanMax(max)) {
-            Alerts.showWarning(String.format("The %s is too long!", field),
-                    String.format("The %s must be less than %d characters.", field, max));
+            Alerts.showWarning(String.format(res.getString("too.long"), field),
+                    String.format(res.getString("too.long.content"), field, max));
             return false;
         } else if (!validator.startsWithLetter()) {
-            Alerts.showWarning(String.format("The %s does not start with a letter!", field),
-                    String.format("The %s must start with an English letter.", field));
+            Alerts.showWarning(String.format(res.getString("start.letter"), field),
+                    String.format(res.getString("start.letter.content"), field));
             return false;
         } else if (!validator.noSpaces()) {
-            Alerts.showWarning("There is a space!", String.format("The %s must not include spaces.", field));
+            Alerts.showWarning(res.getString("space"), String.format(res.getString("space.content"), field));
             return false;
         } else if (field.equals("Username") && !validator.onlyLettersAndDigits()) {
-            Alerts.showWarning("Not permissible characters used!", "The Username must consist of only English letters" +
-                    " and digits.");
+            Alerts.showWarning(res.getString("not.permissible"), res.getString("not.permissible.content"));
             return false;
         } else if (field.equals("Keyword") && !validator.hasAllCharacters()) {
-            Alerts.showWarning("Not enough characters used!", "The Keyword must include at least one number (0-9), " +
-                    "lowercase letter (a-z), uppercase letter (A-Z) and one special character (@_#()^!.,~%&:;/)");
+            Alerts.showWarning(res.getString("not.enough.characters"), res.getString("not.enough.characters.content"));
             return false;
         } else if (!field.equals("Username") && !validator.onlyPermissibleCharacters()) {
-            Alerts.showWarning("Not permissible characters used!",
-                    String.format("The %s must consist of only English letters (a-z, A-Z), digits (0-9) " +
-                            "and special characters (@_#()^!.,~%%&:;/)).", field));
+            Alerts.showWarning(res.getString("not.permissible"),
+                    String.format(res.getString("consist.of"), field));
             return false;
         }
 
