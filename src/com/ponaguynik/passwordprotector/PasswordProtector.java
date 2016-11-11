@@ -13,6 +13,8 @@ public class PasswordProtector extends Application {
 
     public static final String PATH =  "com.ponaguynik.passwordprotector.res.strings.";
 
+    public static String theme = "default-theme.css";
+
     public static String currentUser = null;
 
     public static Stage primaryStage;

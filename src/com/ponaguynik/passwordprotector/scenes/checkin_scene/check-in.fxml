@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.checkin_scene.CheckInController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.checkin_scene.CheckInController">
    <center>
        <GridPane BorderPane.alignment="CENTER">
            <columnConstraints>
@@ -41,36 +41,36 @@
                       <Insets right="20.0" />
                   </GridPane.margin>
               </PasswordField>
-              <Button fx:id="confirmBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onConfirmBtn" prefWidth="80.0" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+              <Button fx:id="confirmBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onConfirmBtn" prefWidth="80.0" text="Confirm" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                   <cursor>
-                      <Cursor fx:constant="HAND" />
+                      <Cursor fx:constant="DEFAULT" />
                   </cursor>
               </Button>
-              <Label fx:id="usernameLab" GridPane.halignment="RIGHT">
+              <Label fx:id="usernameLab" text="Username:" GridPane.halignment="RIGHT">
                   <GridPane.margin>
                       <Insets right="10.0" />
                   </GridPane.margin>
               </Label>
-              <Label fx:id="keywordLab" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+              <Label fx:id="keywordLab" text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                   <GridPane.margin>
                       <Insets right="10.0" />
                   </GridPane.margin>
               </Label>
-              <Label fx:id="keywordConfLab" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+              <Label fx:id="keywordConfLab" text="Confirm Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                   <GridPane.margin>
                       <Insets right="10.0" />
                   </GridPane.margin>
               </Label>
-              <Button fx:id="backBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBackBtn" prefWidth="80.0" GridPane.rowIndex="3">
+              <Button fx:id="backBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBackBtn" prefWidth="80.0" text="&lt;&lt; Back" GridPane.rowIndex="3">
                   <cursor>
-                      <Cursor fx:constant="HAND" />
+                      <Cursor fx:constant="DEFAULT" />
                   </cursor>
               </Button>
           </children>
        </GridPane>
    </center>
    <top>
-      <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="PasswordProtector" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
+      <Label fx:id="passProtLab" alignment="TOP_LEFT" contentDisplay="CENTER" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
          <font>
             <Font name="Aharoni Bold" size="30.0" />
          </font>

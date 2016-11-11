@@ -5,12 +5,10 @@ import com.ponaguynik.passwordprotector.database.DBWorker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -21,6 +19,9 @@ public class MainController {
     private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "main");
 
     private static ArrayList<DataForm> dataFormsList;
+
+    @FXML
+    private BorderPane root;
 
     //Menu
     @FXML
@@ -44,11 +45,14 @@ public class MainController {
     private Button addBtn;
 
     @FXML
+    private Label passProtLab;
+    @FXML
     private VBox contentBox;
 
     //Images
     private static final Image PLUS  = new Image(MainController.class.getResourceAsStream("../../res/images/plus-grey.png"));
     private static final Image PLUS_LIGHT  = new Image(MainController.class.getResourceAsStream("../../res/images/plus-lightgrey.png"));
+    private static final Image PASSWORD_PROTECTOR  = new Image(MainController.class.getResourceAsStream("../../res/images/password-protector-36.png"));
 
     private static boolean initialized = false;
 
@@ -69,6 +73,8 @@ public class MainController {
     }
 
     private void init() {
+        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         fileMenu.setText(res.getString("file.menu"));
         settingsMenu.setText(res.getString("settings.menu"));
         languageMenu.setText(res.getString("language.menu"));
@@ -103,6 +109,7 @@ public class MainController {
 
     private void createAddBtn() {
         addBtn = new Button();
+        addBtn.getStyleClass().add("button-blue");
         addBtn.setGraphic(new ImageView(PLUS_LIGHT));
         addBtn.setAlignment(Pos.CENTER);
         addBtn.setOnAction(e -> onAddBtnAction());

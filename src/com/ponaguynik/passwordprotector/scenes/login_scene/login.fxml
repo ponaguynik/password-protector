@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.login_scene.LoginController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="420.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.login_scene.LoginController">
    <center>
        <GridPane BorderPane.alignment="CENTER">
            <columnConstraints>
@@ -38,22 +38,22 @@
                      <Insets right="5.0" />
                  </GridPane.margin>
               </PasswordField>
-              <Button fx:id="okBtn" defaultButton="true" mnemonicParsing="false" onAction="#onOkBtn" prefWidth="70.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+              <Button fx:id="okBtn" defaultButton="true" mnemonicParsing="false" onAction="#onOkBtn" prefWidth="70.0" text="Ok" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                  <cursor>
                      <Cursor fx:constant="HAND" />
                  </cursor>
               </Button>
-              <Label fx:id="usernameLab" GridPane.halignment="RIGHT">
+              <Label fx:id="usernameLab" text="Username:" GridPane.halignment="RIGHT">
                  <GridPane.margin>
                      <Insets right="10.0" />
                  </GridPane.margin>
               </Label>
-              <Label fx:id="keywordLab" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+              <Label fx:id="keywordLab" text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                  <GridPane.margin>
                      <Insets right="10.0" />
                  </GridPane.margin>
               </Label>
-              <Button fx:id="cancelBtn" cancelButton="true" mnemonicParsing="false" onAction="#onCancelBtnAction" prefWidth="70.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+              <Button fx:id="cancelBtn" cancelButton="true" mnemonicParsing="false" onAction="#onCancelBtnAction" prefWidth="70.0" text="Cancel" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                  <cursor>
                      <Cursor fx:constant="HAND" />
                  </cursor>
@@ -62,7 +62,7 @@
        </GridPane>
    </center>
    <top>
-      <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="PasswordProtector" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
+      <Label fx:id="passProtLab" alignment="TOP_LEFT" contentDisplay="CENTER" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
          <font>
             <Font name="Aharoni Bold" size="30.0" />
          </font>
@@ -75,9 +75,9 @@
       <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
    </padding>
    <bottom>
-      <Button fx:id="createUserBtn" mnemonicParsing="false" onAction="#onCreateUserBtn" style="-fx-background-color: #F4F4F4; -fx-text-fill: blue; -fx-underline: true;" BorderPane.alignment="CENTER_RIGHT">
+      <Button styleClass="button-blue" fx:id="createUserBtn" mnemonicParsing="false" onAction="#onCreateUserBtn" text="Create a new user" BorderPane.alignment="CENTER_RIGHT">
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="DEFAULT" />
          </cursor></Button>
    </bottom>
 </BorderPane>

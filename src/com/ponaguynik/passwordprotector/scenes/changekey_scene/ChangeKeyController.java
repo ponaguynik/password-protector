@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
@@ -18,6 +19,8 @@ public class ChangeKeyController {
     private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "changekey");
 
     @FXML
+    private BorderPane root;
+    @FXML
     private Label currKeyLab, newKeyLab, confirmKeyLab;
     @FXML
     private Button cancelBtn, okBtn;
@@ -26,6 +29,7 @@ public class ChangeKeyController {
 
     @FXML
     private void initialize() {
+        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
         currKeyLab.setText(res.getString("current.keyword.label"));
         newKeyLab.setText(res.getString("new.keyword.label"));
         confirmKeyLab.setText(res.getString("confirm.keyword.label"));

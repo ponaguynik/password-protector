@@ -19,6 +19,8 @@ public class DataForm extends GridPane {
     private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "dataform");
 
     @FXML
+    private GridPane data_form;
+    @FXML
     private Label loginLab, passwordLab;
     @FXML
     private CheckBox showCB;
@@ -69,12 +71,21 @@ public class DataForm extends GridPane {
     @FXML
     public void initialize() {
         if (!initialized) {
-            loginLab.setText(res.getString("login.label"));
-            passwordLab.setText(res.getString("password.label"));
-            showCB.setText(res.getString("show.check.box"));
+            init();
             initialized = true;
         }
         deleteBtn.setGraphic(new ImageView(X_LIGHT));
+    }
+
+    private void init() {
+        data_form.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        loginLab.setText(res.getString("login.label"));
+        passwordLab.setText(res.getString("password.label"));
+        showCB.setText(res.getString("show.check.box"));
+        titleTF.getStyleClass().add("hide-border");
+        loginTF.getStyleClass().add("hide-border");
+        passwordTF.getStyleClass().add("hide-border");
+        passwordField.getStyleClass().add("hide-border");
     }
 
     @FXML
@@ -115,41 +126,25 @@ public class DataForm extends GridPane {
     }
 
     private void showBorders() {
-        titleTF.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: #5E5E5E;" +
-                        "-fx-border-width: 1px");
-        loginTF.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: #5E5E5E;" +
-                        "-fx-border-width: 1px");
-        passwordField.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: #5E5E5E;" +
-                        "-fx-border-width: 1px");
-        passwordTF.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: #5E5E5E;" +
-                        "-fx-border-width: 1px");
+        titleTF.getStyleClass().remove("hide-border");
+        titleTF.getStyleClass().add("show-border");
+        loginTF.getStyleClass().remove("hide-border");
+        loginTF.getStyleClass().add("show-border");
+        passwordTF.getStyleClass().remove("hide-border");
+        passwordTF.getStyleClass().add("show-border");
+        passwordField.getStyleClass().remove("hide-border");
+        passwordField.getStyleClass().add("show-border");
     }
 
     private void hideBorders() {
-        titleTF.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: white;" +
-                        "-fx-border-width: 1");
-        loginTF.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: white;" +
-                        "-fx-border-width: 1");
-        passwordField.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: white;" +
-                        "-fx-border-width: 1");
-        passwordTF.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-border-color: white;" +
-                        "-fx-border-width: 1");
+        titleTF.getStyleClass().remove("show-border");
+        titleTF.getStyleClass().add("hide-border");
+        loginTF.getStyleClass().remove("show-border");
+        loginTF.getStyleClass().add("hide-border");
+        passwordTF.getStyleClass().remove("show-border");
+        passwordTF.getStyleClass().add("hide-border");
+        passwordField.getStyleClass().remove("show-border");
+        passwordField.getStyleClass().add("hide-border");
     }
 
     @FXML

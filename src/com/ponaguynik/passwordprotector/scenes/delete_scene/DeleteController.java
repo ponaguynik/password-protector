@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
@@ -18,6 +19,9 @@ public class DeleteController {
 
     private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "delete");
 
+
+    @FXML
+    private BorderPane root;
     @FXML
     private Label usernameLab, keywordLab;
     @FXML
@@ -30,6 +34,7 @@ public class DeleteController {
 
     @FXML
     private void initialize() {
+        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
         usernameLab.setText(res.getString("username.label"));
         keywordLab.setText(res.getString("keyword.label"));
         okBtn.setText(res.getString("ok.button"));

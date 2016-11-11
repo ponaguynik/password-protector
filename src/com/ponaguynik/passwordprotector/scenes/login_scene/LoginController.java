@@ -13,6 +13,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,13 +26,18 @@ public class LoginController {
     private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "login");
 
     @FXML
-    private Label usernameLab, keywordLab;
+    private BorderPane root;
+    @FXML
+    private Label passProtLab, usernameLab, keywordLab;
     @FXML
     private PasswordField keywordPF;
     @FXML
     private Button okBtn, cancelBtn, createUserBtn;
     @FXML
     private TextField usernameTF;
+
+    private static final Image PASSWORD_PROTECTOR =
+            new Image(LoginController.class.getResourceAsStream("../../res/images/password-protector-30.png"));
 
     @FXML
     private void onOkBtn() {
@@ -49,6 +57,8 @@ public class LoginController {
 
     @FXML
     private void initialize() {
+        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         usernameLab.setText(res.getString("username.label"));
         keywordLab.setText(res.getString("keyword.label"));
         okBtn.setText(res.getString("ok.button"));
