@@ -56,10 +56,6 @@ public class DBConnector {
         }
     }
 
-    static Connection getConnection() {
-        return connection;
-    }
-
     static void execute(String query) {
         try {
             connection.createStatement().execute(query);

@@ -25,16 +25,13 @@ public class MainController {
 
     //Menu
     @FXML
-    private Menu fileMenu, settingsMenu, languageMenu, helpMenu;
+    private Menu fileMenu, settingsMenu, helpMenu;
 
     //Menu items
         //File
         @FXML
         private MenuItem changeUserItem, exitItem;
         //Settings
-            //Language
-            @FXML
-            private MenuItem englishItem, russianItem;
         @FXML
         private MenuItem changeKeyItem, deleteAccItem;
         //Help
@@ -73,16 +70,13 @@ public class MainController {
     }
 
     private void init() {
-        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        root.getStylesheets().add(getClass().getResource("../../res/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         fileMenu.setText(res.getString("file.menu"));
         settingsMenu.setText(res.getString("settings.menu"));
-        languageMenu.setText(res.getString("language.menu"));
         helpMenu.setText(res.getString("help.menu"));
         changeUserItem.setText(res.getString("change.user.item"));
         exitItem.setText(res.getString("exit.item"));
-        englishItem.setText(res.getString("english.item"));
-        russianItem.setText(res.getString("russian.item"));
         changeKeyItem.setText(res.getString("change.key.item"));
         deleteAccItem.setText(res.getString("delete.account.item"));
         aboutItem.setText(res.getString("about.item"));
@@ -95,10 +89,6 @@ public class MainController {
             MenuHelper.changeUser();
         else if (item == exitItem)
             MenuHelper.exit();
-        else if (item == englishItem)
-            MenuHelper.english();
-        else if (item == russianItem)
-            MenuHelper.russian();
         else if (item == changeKeyItem)
             MenuHelper.changeKeyword();
         else if (item == deleteAccItem)

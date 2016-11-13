@@ -3,14 +3,12 @@ package com.ponaguynik.passwordprotector.other;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import java.util.Optional;
-
 public class Alerts {
 
-    private static Alert info = new Alert(Alert.AlertType.INFORMATION);
-    private static Alert warn = new Alert(Alert.AlertType.WARNING);
-    private static Alert error = new Alert(Alert.AlertType.ERROR);
-    private static Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+    private static final Alert info = new Alert(Alert.AlertType.INFORMATION);
+    private static final Alert warn = new Alert(Alert.AlertType.WARNING);
+    private static final Alert error = new Alert(Alert.AlertType.ERROR);
+    private static final Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
 
     public static void showInformation(String message) {
         info.setTitle("Information");

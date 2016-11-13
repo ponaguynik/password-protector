@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class ChangeKeyController {
 
-    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "changekey");
+    private static final ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "changekey");
 
     @FXML
     private BorderPane root;
@@ -29,7 +29,7 @@ public class ChangeKeyController {
 
     @FXML
     private void initialize() {
-        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        root.getStylesheets().add(getClass().getResource("../../res/styles/default-theme.css").toExternalForm());
         currKeyLab.setText(res.getString("current.keyword.label"));
         newKeyLab.setText(res.getString("new.keyword.label"));
         confirmKeyLab.setText(res.getString("confirm.keyword.label"));

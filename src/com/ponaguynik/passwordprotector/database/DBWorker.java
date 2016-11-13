@@ -7,8 +7,6 @@ import com.ponaguynik.passwordprotector.scenes.main_scene.DataForm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DBWorker {
 

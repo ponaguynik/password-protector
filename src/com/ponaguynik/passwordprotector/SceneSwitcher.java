@@ -14,8 +14,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class SceneSwitcher {
+
+    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "login");
 
     public enum Scenes {
         LOGIN, CHECK_IN, MAIN, CHANGE_KEYWORD, DELETE
@@ -112,7 +115,7 @@ public class SceneSwitcher {
     private static void setChangeKeyScene(Stage stage) {
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
-            if (!Alerts.showConfirm("Do you want to cancel?"))
+            if (!Alerts.showConfirm(res.getString("cancel")))
                 event.consume();
         });
         ChangeKeyController contr = (ChangeKeyController) getController(Scenes.CHANGE_KEYWORD);
@@ -125,7 +128,7 @@ public class SceneSwitcher {
     private static void setDeleteScene(Stage stage) {
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
-            if (!Alerts.showConfirm("Do you want to cancel?"))
+            if (!Alerts.showConfirm(res.getString("cancel")))
                 event.consume();
         });
         DeleteController contr = (DeleteController) getController(Scenes.DELETE);
@@ -137,7 +140,7 @@ public class SceneSwitcher {
     }
 
     public static boolean exit() {
-        if (Alerts.showConfirm("Are you sure you want to exit?")) {
+        if (Alerts.showConfirm(res.getString("exit"))) {
             DBConnector.close();
             Platform.exit();
             return true;

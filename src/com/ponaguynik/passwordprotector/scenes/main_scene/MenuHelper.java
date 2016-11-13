@@ -9,11 +9,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class MenuHelper {
 
+    private static ResourceBundle res = ResourceBundle.getBundle(PasswordProtector.PATH + "main");
+
     public static void changeUser() {
-        if (Alerts.showConfirm("Are you sure you want to change account?", "All unsaved data will be lost")) {
+        if (Alerts.showConfirm(res.getString("change.user"), res.getString("change.user.content"))) {
             try {
                 SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
             } catch (IOException e) {
@@ -24,24 +27,16 @@ public class MenuHelper {
     }
 
     public static boolean exit() {
-        if (Alerts.showConfirm("Are you sure you want to exit?", "All unsaved data will be lost")) {
+        if (Alerts.showConfirm(res.getString("exit"), res.getString("exit.content"))) {
             DBConnector.close();
             Platform.exit();
             return true;
         } else return false;
     }
 
-    public static void english() {
-
-    }
-
-    public static void russian() {
-
-    }
-
     public static void changeKeyword() {
         Stage stage = new Stage();
-        stage.setTitle("Change keyword");
+        stage.setTitle(res.getString("change.keyword.title"));
         stage.initModality(Modality.APPLICATION_MODAL);
         try {
             SceneSwitcher.set(stage, SceneSwitcher.Scenes.CHANGE_KEYWORD);
@@ -52,10 +47,10 @@ public class MenuHelper {
     }
 
     public static void deleteAccount() {
-        boolean isConfirmed = Alerts.showConfirm("Are you sure you want to delete this account?", "All your data will be lost");
+        boolean isConfirmed = Alerts.showConfirm(res.getString("delete.account"), res.getString("delete.account.content"));
         if (isConfirmed) {
             Stage stage = new Stage();
-            stage.setTitle("Delete account");
+            stage.setTitle(res.getString("delete.account.title"));
             stage.initModality(Modality.APPLICATION_MODAL);
             try {
                 SceneSwitcher.set(stage, SceneSwitcher.Scenes.DELETE);

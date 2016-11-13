@@ -39,7 +39,7 @@ public class CheckInController {
 
     @FXML
     private void initialize() {
-        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        root.getStylesheets().add(getClass().getResource("../../res/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         usernameLab.setText(res.getString("username.label"));
         keywordLab.setText(res.getString("keyword.label"));

@@ -2,12 +2,9 @@ package com.ponaguynik.passwordprotector.scenes.login_scene;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
-import com.ponaguynik.passwordprotector.database.DBConnector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
-import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
 import com.ponaguynik.passwordprotector.other.Alerts;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -57,7 +54,7 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        root.getStylesheets().add(getClass().getResource("../../res/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         usernameLab.setText(res.getString("username.label"));
         keywordLab.setText(res.getString("keyword.label"));

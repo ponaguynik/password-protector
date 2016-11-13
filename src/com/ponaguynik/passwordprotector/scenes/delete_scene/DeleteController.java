@@ -34,7 +34,7 @@ public class DeleteController {
 
     @FXML
     private void initialize() {
-        root.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        root.getStylesheets().add(getClass().getResource("../../res/styles/default-theme.css").toExternalForm());
         usernameLab.setText(res.getString("username.label"));
         keywordLab.setText(res.getString("keyword.label"));
         okBtn.setText(res.getString("ok.button"));

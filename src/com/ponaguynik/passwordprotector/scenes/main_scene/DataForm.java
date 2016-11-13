@@ -78,7 +78,7 @@ public class DataForm extends GridPane {
     }
 
     private void init() {
-        data_form.getStylesheets().add(getClass().getResource("../../res/styles/" + PasswordProtector.theme).toExternalForm());
+        data_form.getStylesheets().add(getClass().getResource("../../res/styles/default-theme.css").toExternalForm());
         loginLab.setText(res.getString("login.label"));
         passwordLab.setText(res.getString("password.label"));
         showCB.setText(res.getString("show.check.box"));
