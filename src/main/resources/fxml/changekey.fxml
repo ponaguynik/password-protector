@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.scenes.changekey_scene.ChangeKeyController">
+    <center>
+        <GridPane BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="114.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="304.0" minWidth="0.0" prefWidth="90.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="304.0" minWidth="0.0" prefWidth="98.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="304.0" minWidth="10.0" prefWidth="112.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <padding>
+                <Insets left="40.0" right="40.0"/>
+            </padding>
+            <PasswordField fx:id="currKeyPF" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                <GridPane.margin>
+                    <Insets right="13.0"/>
+                </GridPane.margin>
+            </PasswordField>
+            <PasswordField fx:id="newKeyPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets right="13.0"/>
+                </GridPane.margin>
+            </PasswordField>
+            <PasswordField fx:id="confKeyPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets right="13.0"/>
+                </GridPane.margin>
+            </PasswordField>
+            <Label fx:id="currKeyLab" text="Current Keyword:" GridPane.halignment="RIGHT">
+                <GridPane.margin>
+                    <Insets right="10.0"/>
+                </GridPane.margin>
+            </Label>
+            <Label fx:id="newKeyLab" text="New Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets right="10.0"/>
+                </GridPane.margin>
+            </Label>
+            <Label fx:id="confirmKeyLab" text="Confirm Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets right="10.0"/>
+                </GridPane.margin>
+            </Label>
+            <Button fx:id="okBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#onOkBtnAction" prefWidth="80.0" text="Ok" GridPane.columnIndex="2"
+                    GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                <cursor>
+                    <Cursor fx:constant="HAND"/>
+                </cursor>
+            </Button>
+            <Button fx:id="cancelBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity"
+                    mnemonicParsing="false" onAction="#onOkCancelAction" prefWidth="80.0" text="Cancel"
+                    GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                <cursor>
+                    <Cursor fx:constant="HAND"/>
+                </cursor>
+            </Button>
+        </GridPane>
+    </center>
+    <top>
+        <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="PasswordProtector" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
+            <font>
+                <Font name="Aharoni Bold" size="30.0" />
+            </font>
+            <BorderPane.margin>
+                <Insets bottom="20.0" />
+            </BorderPane.margin>
+        </Label>
+    </top>
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+</BorderPane>
