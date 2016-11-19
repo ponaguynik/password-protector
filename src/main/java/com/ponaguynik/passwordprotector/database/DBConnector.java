@@ -8,16 +8,14 @@ import java.sql.SQLException;
 
 public class DBConnector {
 
-    private static final String URL = "jdbc:sqlite:src/main/resources/db/database.db";
+    private static final String URL = "jdbc:sqlite:./users_data.db";
     private static Connection connection;
 
-    public static void makeConnection() {
-        if (!new File("src/main/resources/db/database.db").exists()) {
-            createDB();
-        } else {
+    public static void loadDatabase() {
+        if (new File("./database.db").exists()) {
             connect();
-        }
-        System.out.println("The connection to the database has been successfully established!");
+        } else createDB();
+        System.out.println("The connection to the database has been established!");
     }
 
     private static void connect() {
@@ -25,6 +23,7 @@ public class DBConnector {
             connection = DriverManager.getConnection(URL);
         } catch (SQLException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
