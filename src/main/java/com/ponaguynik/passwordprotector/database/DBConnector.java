@@ -6,11 +6,27 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBConnector {
+/**
+ * The abstract DBConnector class is used for creating a new database and connecting
+ * to it. It is completely implemented. It has got only
+ * static fields and methods.
+ */
 
-    private static final String URL = "jdbc:sqlite:./users_data.db";
+public abstract class DBConnector {
+
+    /**
+     * The string representing URL to a database file.
+     */
+    private static final String URL = "jdbc:sqlite:./database.db";
+    /**
+     * The Connection object representing connection to the database.
+     */
     private static Connection connection;
 
+    /**
+     * Make connection to a database or, if the database
+     * does not exist, create a new database and initialize it.
+     */
     public static void loadDatabase() {
         if (new File("./database.db").exists()) {
             connect();
@@ -18,6 +34,9 @@ public class DBConnector {
         System.out.println("The connection to the database has been established!");
     }
 
+    /**
+     * Make connection to the database by URL.
+     */
     private static void connect() {
         try {
             connection = DriverManager.getConnection(URL);
@@ -27,6 +46,13 @@ public class DBConnector {
         }
     }
 
+    /**
+     * Create a new database and initialize it.
+     * In the database create "users" and "users_data" tables.
+     * "users" table contains username (primary key) and keyword fields.
+     * "users_data" table contains id (primary key), username (reference
+     * to the "username" field in "users" table), title, login and password fields.
+     */
     private static void createDB() {
         connect();
 
@@ -47,6 +73,9 @@ public class DBConnector {
         System.out.println("A new database has been successfully created!");
     }
 
+    /**
+     * Close connection to the database.
+     */
     public static void close() {
         try {
             connection.close();
@@ -55,6 +84,11 @@ public class DBConnector {
         }
     }
 
+    /**
+     * Execute the given SQL statement.
+     *
+     * @param query is SQL statement that should be executed.
+     */
     static void execute(String query) {
         try {
             connection.createStatement().execute(query);
@@ -63,6 +97,12 @@ public class DBConnector {
         }
     }
 
+    /**
+     * Execute the given SQL statement.
+     *
+     * @param query is SQL statement that should be executed.
+     * @return ResultSet object.
+     */
     static ResultSet executeQuery(String query) {
         ResultSet rs = null;
         try {

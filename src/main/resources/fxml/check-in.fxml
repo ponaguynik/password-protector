@@ -39,7 +39,7 @@
                </GridPane.margin>
            </PasswordField>
            <Button fx:id="confirmBtn" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity"
-                   mnemonicParsing="false" onAction="#onConfirmBtn" prefWidth="80.0" text="Confirm"
+                   mnemonicParsing="false" onAction="#onConfirmBtnAction" prefWidth="80.0" text="Confirm"
                    GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT"
                    GridPane.rowIndex="3">
                <cursor>

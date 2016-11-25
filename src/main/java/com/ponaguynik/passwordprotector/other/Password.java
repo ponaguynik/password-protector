@@ -1,5 +1,9 @@
 package com.ponaguynik.passwordprotector.other;
 
+/**
+ * The Password class is used for encryption/decryption and hashing data.
+ */
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -7,47 +11,69 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
 
 public class Password {
 
-    //Variables for hashing
-    private static final int iterations = 2000;
-    private static final int saltLen = 16;
-    private static final int desiredKeyLen = 128;
     private static final Base64.Encoder ENCODER = Base64.getEncoder();
     private static final Base64.Decoder DECODER = Base64.getDecoder();
 
-    //Variables for encryption and decryption
-    private static final Key key = new SecretKeySpec(new byte[] {'H', 'e', '1', '/', 'I', '8', 'U',
+    /**
+     * Special key for encoding and decoding data.
+     */
+    private static final Key KEY = new SecretKeySpec(new byte[] {'H', 'e', '1', '/', 'I', '8', 'U',
             'M', '.', '4', '\\',';', 'o', 'J', 'S', 'y'} , "AES");
 
-    public static String getSaltedHash(String password) throws Exception {
-        byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
+    /**
+     * @return a string of salt and hash of the data.
+     * The string has salt$hash format.
+     */
+    public static String getSaltedHash(String data) {
+        byte[] salt = new byte[0];
+        try {
+            salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
-        return ENCODER.encodeToString(salt) + "$" + hash(password, salt);
+        return ENCODER.encodeToString(salt) + "$" + hash(data, salt);
     }
 
-    public static boolean check(String password, String stored) throws Exception{
-        String[] saltAndPass = stored.split("\\$");
+    /**
+     * Check whether salted hash of s1 match salted hash of s2.
+     *
+     * @param s1 is a string of salt$hash format.
+     * @param s2 is a string of salt$hash format.
+     * @return return true if s1 matches s2.
+     */
+    public static boolean check(String s1, String s2) {
+        String[] saltAndPass = s2.split("\\$");
         if (saltAndPass.length != 2) {
             throw new IllegalStateException(
-                    "The stored password have the form 'salt$hash'");
+                    "The stored data has the form 'salt$hash'");
         }
-        String hashOfInput = hash(password, DECODER.decode(saltAndPass[0]));
+        String hashOfInput = hash(s1, DECODER.decode(saltAndPass[0]));
 
         return hashOfInput.equals(saltAndPass[1]);
     }
 
+    /**
+     * Encrypt a string.
+     *
+     * @param data is a string that should be encrypted.
+     * @return the encrypted string of the data.
+     */
     public static String encrypt(String data) {
         if (data == null || data.isEmpty())
             return "";
         byte[] encVal = null;
         try {
             Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.ENCRYPT_MODE, key);
+            c.init(Cipher.ENCRYPT_MODE, KEY);
             encVal = c.doFinal(data.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,14 +82,21 @@ public class Password {
         return DatatypeConverter.printBase64Binary(encVal);
     }
 
+    /**
+     * Decrypt an encrypted string.
+     *
+     * @param encryptedData is an encrypted data that should
+     * be decrypted.
+     * @return the decrypted string of the encrypted data.
+     */
     public static String decrypt(String encryptedData) {
         if (encryptedData == null || encryptedData.isEmpty())
             return "";
         byte[] decValue;
         try {
             Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.DECRYPT_MODE, key);
-            byte[] decodedValue = DatatypeConverter.parseBase64Binary(encryptedData);;
+            c.init(Cipher.DECRYPT_MODE, KEY);
+            byte[] decodedValue = DatatypeConverter.parseBase64Binary(encryptedData);
             decValue = c.doFinal(decodedValue);
         } catch (Exception e) {
             return null;
@@ -71,13 +104,23 @@ public class Password {
         return new String(decValue);
     }
 
-    private static String hash(String password, byte[] salt) throws Exception {
-        if (password == null || password.isEmpty())
+    /**
+     * @return a string of salted hash of data.
+     */
+    private static String hash(String data, byte[] salt)  {
+        if (data == null || data.isEmpty())
             throw new IllegalArgumentException("Empty passwords are not supported.");
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        SecretKey key = f.generateSecret(new PBEKeySpec(
-                password.toCharArray(), salt, iterations, desiredKeyLen)
-        );
+        SecretKeyFactory f;
+        SecretKey key = null;
+        try {
+            f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            key = f.generateSecret(new PBEKeySpec(
+                    data.toCharArray(), salt, 2000, 128)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         return ENCODER.encodeToString(key.getEncoded());
     }

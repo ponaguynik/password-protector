@@ -1,5 +1,10 @@
 package com.ponaguynik.passwordprotector.scenes.checkin_scene;
 
+/**
+ * The CheckInController class is controller class
+ * for checkin.fxml (Check In scene).
+ */
+
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
@@ -20,23 +25,51 @@ import java.util.ResourceBundle;
 
 public class CheckInController {
 
+    /**
+     * ResourceBundle object that contains strings of the
+     * checkin.properties file.
+     */
     private static ResourceBundle res = ResourceBundle.getBundle("strings.checkin");
 
+    /**
+     * The PasswordProtector image.
+     */
     private static final Image PASSWORD_PROTECTOR =
             new Image(CheckInController.class.getResourceAsStream("/images/password-protector-30.png"));
 
+    /**
+     * The root pane of the Check In scene.
+     */
     @FXML
     private BorderPane root;
-    @FXML
-    private Label passProtLab, usernameLab, keywordLab, keywordConfLab;
+    /**
+     * Username text field.
+     */
     @FXML
     private TextField usernameTF;
+    /**
+     * Keyword and Confirm Keyword password fields.
+     */
     @FXML
     private PasswordField keywordPF, keywordConfPF;
+    /**
+     * PasswordProtector label and labels for Username, Keyword and
+     * Confirm Keyword fields.
+     */
+    @FXML
+    private Label passProtLab, usernameLab, keywordLab, keywordConfLab;
+    /**
+     * Confirm and Back buttons.
+     */
     @FXML
     private Button confirmBtn, backBtn;
 
 
+    /**
+     * Initialize the Check In scene. Set "default-theme.css" stylesheet
+     * for root pane and set text for all elements of the scene from res.
+     * Set PasswordProtector image on PasswordProtector label.
+     */
     @FXML
     private void initialize() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
@@ -48,8 +81,13 @@ public class CheckInController {
         confirmBtn.setText(res.getString("confirm.button"));
     }
 
+    /**
+     * The action event listener method for Confirm button.
+     * Validates all fields. Checks whether user with such username exists.
+     * Adds a user to the database.
+     */
     @FXML
-    private void onConfirmBtn() {
+    private void onConfirmBtnAction() {
         if (isValidated(usernameTF.getText(), keywordPF.getText(), keywordConfPF.getText())) {
             if (!DBWorker.userExists(usernameTF.getText())) {
                 try {
@@ -71,6 +109,10 @@ public class CheckInController {
         }
     }
 
+    /**
+     * The action event listener method for Back button.
+     * Set Login scene.
+     */
     @FXML
     private void onBackBtn() {
         try {
@@ -81,6 +123,11 @@ public class CheckInController {
         }
     }
 
+    /**
+     * Validate username, keyword and confirm keyword.
+     *
+     * @return true if it is validated.
+     */
     public static boolean isValidated(String username, String keyword, String confirmKey) {
         if (username.isEmpty()) {
             Alerts.showWarning(res.getString("username.empty"));
@@ -110,41 +157,58 @@ public class CheckInController {
         return true;
     }
 
+    /**
+     * Validate keyword and confirm keyword.
+     *
+     * @return true if it is validated.
+     */
     public static boolean isValidated(String keyword, String confirmKey) {
         return isValidated("fake", keyword, confirmKey);
     }
 
-    private static boolean validate(Validator validator, String field, int min, int max) {
+    /**
+     * Validate a string.
+     *
+     * @param validator is Validator object.
+     * @param str is the string that should be validated.
+     * @param min length of the str.
+     * @param max length of the str.
+     * @return true if str is validated.
+     */
+    private static boolean validate(Validator validator, String str, int min, int max) {
         if (!validator.lengthGreaterThanMin(min)) {
-            Alerts.showWarning(String.format(res.getString("too.short"), field),
-                    String.format(res.getString("too.short.content"), field, min));
+            Alerts.showWarning(String.format(res.getString("too.short"), str),
+                    String.format(res.getString("too.short.content"), str, min));
             return false;
         } else if (!validator.lengthLessThanMax(max)) {
-            Alerts.showWarning(String.format(res.getString("too.long"), field),
-                    String.format(res.getString("too.long.content"), field, max));
+            Alerts.showWarning(String.format(res.getString("too.long"), str),
+                    String.format(res.getString("too.long.content"), str, max));
             return false;
         } else if (!validator.startsWithLetter()) {
-            Alerts.showWarning(String.format(res.getString("start.letter"), field),
-                    String.format(res.getString("start.letter.content"), field));
+            Alerts.showWarning(String.format(res.getString("start.letter"), str),
+                    String.format(res.getString("start.letter.content"), str));
             return false;
         } else if (!validator.noSpaces()) {
-            Alerts.showWarning(res.getString("space"), String.format(res.getString("space.content"), field));
+            Alerts.showWarning(res.getString("space"), String.format(res.getString("space.content"), str));
             return false;
-        } else if (field.equals("Username") && !validator.onlyLettersAndDigits()) {
+        } else if (str.equals("Username") && !validator.onlyLettersAndDigits()) {
             Alerts.showWarning(res.getString("not.permissible"), res.getString("not.permissible.content"));
             return false;
-        } else if (field.equals("Keyword") && !validator.hasAllCharacters()) {
+        } else if (str.equals("Keyword") && !validator.hasAllCharacters()) {
             Alerts.showWarning(res.getString("not.enough.characters"), res.getString("not.enough.characters.content"));
             return false;
-        } else if (!field.equals("Username") && !validator.onlyPermissibleCharacters()) {
+        } else if (!str.equals("Username") && !validator.onlyPermissibleCharacters()) {
             Alerts.showWarning(res.getString("not.permissible"),
-                    String.format(res.getString("consist.of"), field));
+                    String.format(res.getString("consist.of"), str));
             return false;
         }
 
         return true;
     }
 
+    /**
+     * Reset all fields and request focus on Username field.
+     */
     public void reset() {
         usernameTF.clear();
         keywordPF.clear();

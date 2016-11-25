@@ -61,7 +61,7 @@
                 </cursor>
             </Button>
             <Button fx:id="cancelBtn" cancelButton="true" maxWidth="-Infinity" minWidth="-Infinity"
-                    mnemonicParsing="false" onAction="#onOkCancelAction" prefWidth="80.0" text="Cancel"
+                    mnemonicParsing="false" onAction="#onCancelBtnAction" prefWidth="80.0" text="Cancel"
                     GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                 <cursor>
                     <Cursor fx:constant="HAND"/>

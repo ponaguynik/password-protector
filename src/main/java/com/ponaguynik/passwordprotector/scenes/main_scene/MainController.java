@@ -76,7 +76,7 @@ public class MainController {
         fileMenu.setText(res.getString("file.menu"));
         settingsMenu.setText(res.getString("settings.menu"));
         helpMenu.setText(res.getString("help.menu"));
-        changeUserItem.setText(res.getString("change.user.item"));
+        changeUserItem.setText(res.getString("change.account.item"));
         exitItem.setText(res.getString("exit.item"));
         changeKeyItem.setText(res.getString("change.key.item"));
         deleteAccItem.setText(res.getString("delete.account.item"));
@@ -87,7 +87,7 @@ public class MainController {
     private void onMenuItemsAction(ActionEvent event) {
         MenuItem item = (MenuItem) event.getSource();
         if (item == changeUserItem)
-            MenuHelper.changeUser();
+            MenuHelper.changeAccount();
         else if (item == exitItem)
             MenuHelper.exit();
         else if (item == changeKeyItem)

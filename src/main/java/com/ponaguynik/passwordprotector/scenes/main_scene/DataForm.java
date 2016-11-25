@@ -1,6 +1,10 @@
 package com.ponaguynik.passwordprotector.scenes.main_scene;
 
-import com.ponaguynik.passwordprotector.PasswordProtector;
+/**
+ * The DataForm class is a root and controller class for dataform.fxml.
+ * It is a GridPane that stores fields for user's data (title, login, password).
+ */
+
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.other.Alerts;
@@ -16,32 +20,73 @@ import java.util.ResourceBundle;
 
 public class DataForm extends GridPane {
 
+    /**
+     * ResourceBundle object that contains strings of the
+     * dataform.properties file.
+     */
     private static ResourceBundle res = ResourceBundle.getBundle("strings.dataform");
 
+    /**
+     * The root pane for DataForm scene.
+     */
     @FXML
-    private GridPane data_form;
-    @FXML
-    private Label loginLab, passwordLab;
-    @FXML
-    private CheckBox showCB;
-    @FXML
-    private Button editBtn, deleteBtn;
+    private GridPane root;
+    /**
+     * Title, Login and Password text fields.
+     */
     @FXML
     private TextField titleTF, loginTF, passwordTF;
+    /**
+     * Password password field.
+     */
     @FXML
     private PasswordField passwordField;
+    /**
+     * Labels for Login and Password fields.
+     */
+    @FXML
+    private Label loginLab, passwordLab;
+    /**
+     * Show check box.
+     */
+    @FXML
+    private CheckBox showCB;
+    /**
+     * Edit and X (delete form) buttons.
+     */
+    @FXML
+    private Button editBtn, deleteBtn;
 
+    /**
+     * Whether the DataForm has been initialized.
+     */
     private static boolean initialized = false;
 
+    /**
+     * Current mode of the DataForm (editable or not).
+     */
     private boolean editMode;
 
+    /**
+     * Id of the DataForm.
+     */
     private final int id;
 
-    //Images
+    /**
+     * The images for X (delete form) button.
+     */
     private static final Image X  = new Image(DataForm.class.getResourceAsStream("/images/x-grey.png"));
     private static final Image X_LIGHT  = new Image(DataForm.class.getResourceAsStream("/images/x-lightgrey.png"));
 
 
+    /**
+     * Load dataform.fxml and set the DataForm as root and
+     * controller of it. Default mode is "not editable" mode.
+     * Bind together text property of Password text field
+     * and Password password field.
+     *
+     * @param id of the DataForm.
+     */
     public DataForm(int id) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dataform.fxml"));
         loader.setRoot(this);
@@ -61,6 +106,11 @@ public class DataForm extends GridPane {
         onEditBtnAction();
     }
 
+    /**
+     * Invoke DataFrom(int id) constructor. Set text of Title,
+     * Login and Password text fields as "title", "login" and
+     * "password" respectively.
+     */
     public DataForm(int id, String title, String login, String password) {
         this(id);
         titleTF.setText(title);
@@ -68,6 +118,10 @@ public class DataForm extends GridPane {
         passwordTF.setText(password);
     }
 
+    /**
+     * Initialize the DataFrom if it is not initialized.
+     * Set image for X (delete DataForm) button.
+     */
     @FXML
     public void initialize() {
         if (!initialized) {
@@ -77,8 +131,12 @@ public class DataForm extends GridPane {
         deleteBtn.setGraphic(new ImageView(X_LIGHT));
     }
 
+    /**
+     * Initialize the DataForm scene. Set "default-theme.css" stylesheet
+     * for the root pane. Set text for all elements of the scene from res.
+     */
     private void init() {
-        data_form.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
         loginLab.setText(res.getString("login.label"));
         passwordLab.setText(res.getString("password.label"));
         showCB.setText(res.getString("show.check.box"));
@@ -88,6 +146,13 @@ public class DataForm extends GridPane {
         passwordField.getStyleClass().add("hide-border");
     }
 
+    /**
+     * The action event listener method for 'Edit' button.
+     * If editMode = false: set editMode = true, set editable
+     * mode for Title, Login and Password fields, show borders,
+     * set "save" text for edit button. And vise versa
+     * if editMode = true.
+     */
     @FXML
     private void onEditBtnAction() {
         if (!editMode) {
@@ -110,6 +175,12 @@ public class DataForm extends GridPane {
         }
     }
 
+    /**
+     * The action event listener method for 'Show' check box.
+     * If 'Show' is selected - show Password text field and
+     * hide Password password field. And vise versa if 'Show'
+     * isn't selected.
+     */
     @FXML
     private void onShowCBAction() {
         if (showCB.isSelected()) {
@@ -121,10 +192,16 @@ public class DataForm extends GridPane {
         }
     }
 
+    /**
+     * Save all data of fields to the database.
+     */
     private void saveData() {
         DBWorker.updateDataForm(this);
     }
 
+    /**
+     * Show borders of the fields.
+     */
     private void showBorders() {
         titleTF.getStyleClass().remove("hide-border");
         titleTF.getStyleClass().add("show-border");
@@ -136,6 +213,9 @@ public class DataForm extends GridPane {
         passwordField.getStyleClass().add("show-border");
     }
 
+    /**
+     * Hide borders of the fields.
+     */
     private void hideBorders() {
         titleTF.getStyleClass().remove("show-border");
         titleTF.getStyleClass().add("hide-border");
@@ -147,6 +227,11 @@ public class DataForm extends GridPane {
         passwordField.getStyleClass().add("hide-border");
     }
 
+    /**
+     * The moving event listener method of X
+     * (delete DataForm) button. Set X image
+     * if it is hovered and set X_LIGHT if it isn't.
+     */
     @FXML
     private void onDeleteBtnMoving() {
         if (deleteBtn.isHover())
@@ -155,6 +240,12 @@ public class DataForm extends GridPane {
             deleteBtn.setGraphic(new ImageView(X_LIGHT));
     }
 
+    /**
+     * The action event listener method of X
+     * (delete DataForm) button. Ask the user
+     * whether it wants to delete this form.
+     * Delete DataForm if true.
+     */
     @FXML
     private void onDeleteBtnAction() {
         if (!titleTF.getText().isEmpty()
