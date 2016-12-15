@@ -4,7 +4,7 @@ package com.ponaguynik.passwordprotector.database;
  * The abstract DBWorker class is used for working with the database.
  * It can add and delete users, update keyword, add, delete
  * and update data forms and verify keywords in the database.
- * It is completely implemented. It has got only
+ * It is completely implemented. There are only
  * static fields and methods.
  */
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public abstract class DBWorker {
 
     /**
-     * Add user's username and keyword to the database.
+     * Add user's username and keyword to a database.
      *
      */
     public static void addUser(String username, String keyword) {
@@ -55,7 +55,7 @@ public abstract class DBWorker {
     }
 
     /**
-     * Delete a data form by its id.
+     * Delete a data form by id.
      */
     public static void deleteDataForm(int id) {
         String query = String.format("DELETE FROM users_data WHERE id = %d", id);
@@ -80,7 +80,7 @@ public abstract class DBWorker {
     }
 
     /**
-     * Check whether user with such username exists.
+     * Check whether user, with such username, exists.
      */
     public static boolean userExists(String username) {
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
@@ -96,7 +96,7 @@ public abstract class DBWorker {
      * Update a data form in the database.
      * Encrypt password of the data form.
      *
-     * @param dataForm is object that contains its id, title, login and password.
+     * @param dataForm is object that contains id, title, login and password.
      */
     public static void updateDataForm(DataForm dataForm) {
         String query = String.format("UPDATE users_data SET title = '%s', login = '%s', password = '%s' WHERE id = %d",

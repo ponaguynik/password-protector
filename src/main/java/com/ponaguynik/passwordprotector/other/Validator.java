@@ -80,16 +80,10 @@ public class Validator {
         return s.matches("^[a-zA-Z0-9]+$");
     }
 
-    /**
-     * @return the s string.
-     */
     public String getString() {
         return s;
     }
 
-    /**
-     * Set the s string.
-     */
     public void setString(String s) {
         this.s = s;
     }

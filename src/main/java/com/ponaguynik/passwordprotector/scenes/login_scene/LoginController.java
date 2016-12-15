@@ -112,7 +112,7 @@ public class LoginController {
      * Set Check In scene.
      */
     @FXML
-    private void onCreateUserBtn() {
+    private void onCreateUserBtnAction() {
         try {
             SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.CHECK_IN);
         } catch (IOException e) {

@@ -228,7 +228,7 @@ public class DataForm extends GridPane {
     }
 
     /**
-     * The moving event listener method of X
+     * The moving event listener method for X
      * (delete DataForm) button. Set X image
      * if it is hovered and set X_LIGHT if it isn't.
      */
@@ -241,7 +241,7 @@ public class DataForm extends GridPane {
     }
 
     /**
-     * The action event listener method of X
+     * The action event listener method for X
      * (delete DataForm) button. Ask the user
      * whether it wants to delete this form.
      * Delete DataForm if true.

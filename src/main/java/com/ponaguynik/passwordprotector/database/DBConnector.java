@@ -8,18 +8,18 @@ import java.sql.SQLException;
 
 /**
  * The abstract DBConnector class is used for creating a new database and connecting
- * to it. It is completely implemented. It has got only
+ * to it. It is completely implemented. There are only
  * static fields and methods.
  */
 
 public abstract class DBConnector {
 
     /**
-     * The string representing URL to a database file.
+     * URL to a database file.
      */
     private static final String URL = "jdbc:sqlite:./database.db";
     /**
-     * The Connection object representing connection to the database.
+     * Connection a the database.
      */
     private static Connection connection;
 
@@ -27,20 +27,24 @@ public abstract class DBConnector {
      * Make connection to a database or, if the database
      * does not exist, create a new database and initialize it.
      */
-    public static void loadDatabase() {
+    public static boolean loadDatabase() {
         if (new File("./database.db").exists()) {
             connect();
-        } else createDB();
+        } else
+            createDB();
         System.out.println("The connection to the database has been established!");
+        return connection != null;
     }
 
     /**
-     * Make connection to the database by URL.
+     * Make connection to a database by URL.
+     * Catch an SQLException: print stack trace and exit with 1.
      */
     private static void connect() {
         try {
             connection = DriverManager.getConnection(URL);
         } catch (SQLException e) {
+            System.out.println("Connection to a database failed");
             e.printStackTrace();
             System.exit(1);
         }
@@ -81,13 +85,13 @@ public abstract class DBConnector {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
 
     /**
      * Execute the given SQL statement.
-     *
-     * @param query is SQL statement that should be executed.
+     * Catch an SQLException: print stack trace and exit with 1.
      */
     static void execute(String query) {
         try {
@@ -98,10 +102,8 @@ public abstract class DBConnector {
     }
 
     /**
-     * Execute the given SQL statement.
-     *
-     * @param query is SQL statement that should be executed.
-     * @return ResultSet object.
+     * Execute the given SQL statement and return a ResultSet object.
+     * Catch an SQLException: print stack trace and exit with 1.
      */
     static ResultSet executeQuery(String query) {
         ResultSet rs = null;
@@ -109,6 +111,7 @@ public abstract class DBConnector {
             rs = connection.createStatement().executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
+            System.exit(1);
         }
         return rs;
     }

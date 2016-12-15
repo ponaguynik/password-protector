@@ -3,7 +3,7 @@ package com.ponaguynik.passwordprotector.other;
 /**
  * The abstract MenuHelper class is used for handling
  * events of menu items on the Main scene. It is completely
- * implemented. It has got only static fields and methods.
+ * implemented. There are only static fields and methods.
  */
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
@@ -25,7 +25,7 @@ public abstract class MenuHelper {
     private static ResourceBundle res = ResourceBundle.getBundle("strings.main");
 
     /**
-     * Handle event of "Change user" menu item. Ask the user whether it wants to change account.
+     * Handle event of "Change user" menu item. Ask a user whether it wants to change account.
      * Set login scene if true.
      */
     public static void changeAccount() {
@@ -40,10 +40,10 @@ public abstract class MenuHelper {
     }
 
     /**
-     * Handle event of "Exit" menu item. Ask the user whether it
+     * Handle event of "Exit" menu item. Ask a user whether it
      * wants to close the program.
      *
-     * @return false if Cancel button has been pressed.
+     * @return false if it has been pressed Cancel button.
      */
     public static boolean exit() {
         if (Alerts.showConfirm(res.getString("exit"), res.getString("exit.content"))) {

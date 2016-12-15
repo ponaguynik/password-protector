@@ -3,7 +3,7 @@ package com.ponaguynik.passwordprotector.other;
 /**
  * The abstract Alerts class is used for showing
  * information, warning and error pop up dialogs.
- * It is completely implemented. It has got only
+ * It is completely implemented. There are only
  * static fields and methods.
  */
 

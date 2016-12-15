@@ -18,24 +18,37 @@ import java.util.ResourceBundle;
 
 public class SceneSwitcher {
 
+    /**
+     * ResourceBundle object that contains strings of the
+     * login.properties file.
+     */
     private static ResourceBundle res = ResourceBundle.getBundle("strings.login");
 
     public enum Scenes {
         LOGIN, CHECK_IN, MAIN, CHANGE_KEYWORD, DELETE
     }
 
+    /**
+     * Login, Check In, Main, Change Keyword and Delete FXML loaders.
+     */
     private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/login.fxml"));
     private static FXMLLoader checkInLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/check-in.fxml"));
     private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/main.fxml"));
     private static FXMLLoader changeKeyLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/changekey.fxml"));
     private static FXMLLoader deleteLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/delete.fxml"));
 
+    /**
+     * Login, Check In, Main, Change Keyword and Delete scenes.
+     */
     private static Scene loginScene;
     private static Scene checkInScene;
     private static Scene mainScene;
     private static Scene changeKeyScene;
     private static Scene deleteScene;
 
+    /**
+     * Load scenes from loaders.
+     */
     static {
         try {
             loginScene = new Scene(loginLoader.load());
@@ -49,6 +62,10 @@ public class SceneSwitcher {
         }
     }
 
+
+    /**
+     * Set a scene to a stage.
+     */
     public static void set(Stage stage, Scenes scene) throws IOException {
         stage.hide();
         switch (scene) {
