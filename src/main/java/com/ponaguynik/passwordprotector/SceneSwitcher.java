@@ -2,11 +2,11 @@ package com.ponaguynik.passwordprotector;
 
 import com.ponaguynik.passwordprotector.database.DBConnector;
 import com.ponaguynik.passwordprotector.other.Alerts;
-import com.ponaguynik.passwordprotector.scenes.changekey_scene.ChangeKeyController;
-import com.ponaguynik.passwordprotector.scenes.checkin_scene.CheckInController;
-import com.ponaguynik.passwordprotector.scenes.delete_scene.DeleteController;
-import com.ponaguynik.passwordprotector.scenes.login_scene.LoginController;
-import com.ponaguynik.passwordprotector.scenes.main_scene.MainController;
+import com.ponaguynik.passwordprotector.scenes.changekey.ChangeKeyController;
+import com.ponaguynik.passwordprotector.scenes.register.RegisterController;
+import com.ponaguynik.passwordprotector.scenes.delete.DeleteController;
+import com.ponaguynik.passwordprotector.scenes.login.LoginController;
+import com.ponaguynik.passwordprotector.scenes.main.MainController;
 import com.ponaguynik.passwordprotector.other.MenuHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -25,34 +25,32 @@ public class SceneSwitcher {
     private static ResourceBundle res = ResourceBundle.getBundle("strings.login");
 
     public enum Scenes {
-        LOGIN, CHECK_IN, MAIN, CHANGE_KEYWORD, DELETE
+        LOGIN, REGISTER, MAIN, CHANGE_KEYWORD, DELETE
     }
 
     /**
-     * Login, Check In, Main, Change Keyword and Delete FXML loaders.
+     * Login, Register, Main, Change Keyword and Delete FXML loaders.
      */
     private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/login.fxml"));
-    private static FXMLLoader checkInLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/check-in.fxml"));
+    private static FXMLLoader registerLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/register.fxml"));
     private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/main.fxml"));
     private static FXMLLoader changeKeyLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/changekey.fxml"));
     private static FXMLLoader deleteLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/delete.fxml"));
 
     /**
-     * Login, Check In, Main, Change Keyword and Delete scenes.
+     * Login, Register, Main, Change Keyword and Delete scenes.
      */
     private static Scene loginScene;
-    private static Scene checkInScene;
+    private static Scene registerScene;
     private static Scene mainScene;
     private static Scene changeKeyScene;
     private static Scene deleteScene;
 
-    /**
-     * Load scenes from loaders.
-     */
+//    Load scenes from loaders.
     static {
         try {
             loginScene = new Scene(loginLoader.load());
-            checkInScene = new Scene(checkInLoader.load());
+            registerScene = new Scene(registerLoader.load());
             mainScene = new Scene(mainLoader.load());
             changeKeyScene = new Scene(changeKeyLoader.load());
             deleteScene = new Scene(deleteLoader.load());
@@ -72,8 +70,8 @@ public class SceneSwitcher {
             case LOGIN:
                 setLoginScene(stage);
                 break;
-            case CHECK_IN:
-                setCheckInScene(stage);
+            case REGISTER:
+                setRegisterScene(stage);
                 break;
             case MAIN:
                 setMainScene(stage);
@@ -102,16 +100,16 @@ public class SceneSwitcher {
         stage.show();
     }
 
-    private static void setCheckInScene(Stage stage) {
+    private static void setRegisterScene(Stage stage) {
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
             if (!exit())
                 event.consume();
         });
-        CheckInController contr = (CheckInController) getController(Scenes.CHECK_IN);
+        RegisterController contr = (RegisterController) getController(Scenes.REGISTER);
         assert contr != null;
         contr.reset();
-        stage.setScene(checkInScene);
+        stage.setScene(registerScene);
         stage.show();
     }
 
@@ -168,8 +166,8 @@ public class SceneSwitcher {
         switch (scene) {
             case LOGIN:
                 return loginLoader.getController();
-            case CHECK_IN:
-                return checkInLoader.getController();
+            case REGISTER:
+                return registerLoader.getController();
             case MAIN:
                 return mainLoader.getController();
             case CHANGE_KEYWORD:

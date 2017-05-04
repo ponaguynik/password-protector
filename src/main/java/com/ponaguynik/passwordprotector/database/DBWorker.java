@@ -10,7 +10,7 @@ package com.ponaguynik.passwordprotector.database;
 
 import com.ponaguynik.passwordprotector.other.Alerts;
 import com.ponaguynik.passwordprotector.other.Password;
-import com.ponaguynik.passwordprotector.scenes.main_scene.DataForm;
+import com.ponaguynik.passwordprotector.scenes.main.DataForm;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

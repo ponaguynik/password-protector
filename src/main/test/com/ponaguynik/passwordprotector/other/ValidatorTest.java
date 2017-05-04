@@ -11,7 +11,7 @@ public class ValidatorTest {
 
     @Before
     public void setUp() throws Exception {
-        validator = Validator.getInstance();
+        validator = new Validator();
     }
 
     @Test

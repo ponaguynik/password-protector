@@ -9,6 +9,7 @@ package com.ponaguynik.passwordprotector.other;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Region;
 
 public abstract class Alerts {
 
@@ -16,6 +17,13 @@ public abstract class Alerts {
     private static final Alert WARN = new Alert(Alert.AlertType.WARNING);
     private static final Alert ERROR = new Alert(Alert.AlertType.ERROR);
     private static final Alert CONFIRM = new Alert(Alert.AlertType.CONFIRMATION);
+
+    static {
+        INFO.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        WARN.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        ERROR.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        CONFIRM.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+    }
 
     /**
      * Show Information pop up dialog.

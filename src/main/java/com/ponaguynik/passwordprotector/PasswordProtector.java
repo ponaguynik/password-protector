@@ -4,7 +4,6 @@ import com.ponaguynik.passwordprotector.database.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 
 public class PasswordProtector extends Application {

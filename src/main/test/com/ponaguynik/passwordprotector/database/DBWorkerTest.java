@@ -1,7 +1,6 @@
 package com.ponaguynik.passwordprotector.database;
 
 import com.ponaguynik.passwordprotector.other.Password;
-import com.ponaguynik.passwordprotector.scenes.main_scene.DataForm;
 import org.junit.*;
 
 import java.sql.ResultSet;
