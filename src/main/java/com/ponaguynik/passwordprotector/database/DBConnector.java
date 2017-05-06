@@ -1,10 +1,11 @@
 package com.ponaguynik.passwordprotector.database;
 
+import com.ponaguynik.passwordprotector.other.Alerts;
+
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.*;
 
 /**
  * The abstract DBConnector class is used for creating a new database and connecting
@@ -12,28 +13,29 @@ import java.sql.SQLException;
  * static fields and methods.
  */
 
-public abstract class DBConnector {
+public class DBConnector {
+
+    private static final String URL = "jdbc:sqlite:./database.db";
+
+    private static Connection connection;
 
     /**
-     * URL to a database file.
+     * Private constructor because the class consist of only static methods.
      */
-    private static final String URL = "jdbc:sqlite:./database.db";
-    /**
-     * Connection a the database.
-     */
-    private static Connection connection;
+    private DBConnector() {
+
+    }
 
     /**
      * Make connection to a database or, if the database
      * does not exist, create a new database and initialize it.
      */
-    public static boolean loadDatabase() {
-        if (new File("./database.db").exists()) {
+    public static void loadDatabase() {
+        if (Files.exists(Paths.get("./database.db"))) {
             connect();
         } else
             createDB();
-        System.out.println("The connection to the database has been established!");
-        return connection != null;
+        System.out.println("Connection to the database has been established!");
     }
 
     /**
@@ -44,8 +46,9 @@ public abstract class DBConnector {
         try {
             connection = DriverManager.getConnection(URL);
         } catch (SQLException e) {
-            System.out.println("Connection to a database failed");
+            System.out.println("Connection to the database failed");
             e.printStackTrace();
+            Alerts.showError(e.getMessage());
             System.exit(1);
         }
     }
@@ -60,20 +63,27 @@ public abstract class DBConnector {
     private static void createDB() {
         connect();
 
-        execute("CREATE TABLE users\n" +
-                "(\n" +
-                "    username TEXT PRIMARY KEY,\n" +
-                "    keyword TEXT NOT NULL\n" +
-                ");");
-        execute("CREATE TABLE users_data\n" +
-                "(\n" +
-                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "    username TEXT NOT NULL,\n" +
-                "    title TEXT,\n" +
-                "    login TEXT,\n" +
-                "    password TEXT,\n" +
-                "    CONSTRAINT username_fk FOREIGN KEY (username) REFERENCES users (username)\n" +
-                ");");
+        try (
+                Statement statement = connection.createStatement()
+                ) {
+            statement.execute("CREATE TABLE users" +
+                    "(" +
+                    "    username TEXT PRIMARY KEY," +
+                    "    keyword TEXT NOT NULL\n" +
+                    ");");
+            statement.execute("CREATE TABLE users_data" +
+                    "(" +
+                    "    id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "    username TEXT NOT NULL," +
+                    "    title TEXT," +
+                    "    login TEXT," +
+                    "    password TEXT," +
+                    "    CONSTRAINT username_fk FOREIGN KEY (username) REFERENCES users (username)" +
+                    ");");
+        } catch (SQLException e) {
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
         System.out.println("A new database has been successfully created!");
     }
 
@@ -82,37 +92,15 @@ public abstract class DBConnector {
      */
     public static void close() {
         try {
-            connection.close();
+            if (connection != null)
+                connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    /**
-     * Execute the given SQL statement.
-     * Catch an SQLException: print stack trace and exit with 1.
-     */
-    static void execute(String query) {
-        try {
-            connection.createStatement().execute(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Execute the given SQL statement and return a ResultSet object.
-     * Catch an SQLException: print stack trace and exit with 1.
-     */
-    static ResultSet executeQuery(String query) {
-        ResultSet rs = null;
-        try {
-            rs = connection.createStatement().executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return rs;
+    static Connection getConnection() {
+        return connection;
     }
 }

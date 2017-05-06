@@ -12,11 +12,13 @@ import com.ponaguynik.passwordprotector.other.Alerts;
 import com.ponaguynik.passwordprotector.other.Password;
 import com.ponaguynik.passwordprotector.scenes.main.DataForm;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class DBWorker {
+public class DBWorker {
+    
 
     /**
      * Add user's username and keyword to a database.
@@ -24,7 +26,7 @@ public abstract class DBWorker {
      */
     public static void addUser(String username, String keyword) {
         String query = String.format("INSERT INTO users (username, keyword) VALUES('%s', '%s')", username, keyword);
-        DBConnector.execute(query);
+        execute(query);
     }
 
     /**
@@ -32,7 +34,7 @@ public abstract class DBWorker {
      */
     public static void updateKeyword(String username, String keyword) {
         String query = String.format("UPDATE users SET keyword = '%s' WHERE username = '%s'", keyword, username);
-        DBConnector.execute(query);
+        execute(query);
     }
 
     /**
@@ -40,9 +42,9 @@ public abstract class DBWorker {
      */
     public static void deleteUser(String username) {
         String query = String.format("DELETE FROM users WHERE username = '%s'", username);
-        DBConnector.execute(query);
+        execute(query);
         query = String.format("DELETE FROM users_data WHERE username = '%s'", username);
-        DBConnector.execute(query);
+        execute(query);
     }
 
     /**
@@ -51,7 +53,7 @@ public abstract class DBWorker {
     public static void addDataForm(String username) {
         String query = String.format("INSERT INTO users_data (username, title, login, password) " +
                 "VALUES('%s', '%s', '%s', '%s')", username, "", "", "");
-        DBConnector.execute(query);
+        execute(query);
     }
 
     /**
@@ -59,7 +61,7 @@ public abstract class DBWorker {
      */
     public static void deleteDataForm(int id) {
         String query = String.format("DELETE FROM users_data WHERE id = %d", id);
-        DBConnector.execute(query);
+        execute(query);
     }
 
     /**
@@ -70,13 +72,9 @@ public abstract class DBWorker {
         if (keyword == null || keyword.isEmpty())
             return false;
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
-        ResultSet rs = DBConnector.executeQuery(query);
+        ArrayList<Map<String, Object>> result = executeQuery(query);
 
-        try {
-            return Password.check(keyword, rs.getString("keyword"));
-        } catch (SQLException e) {
-            return false;
-        }
+        return Password.check(keyword, (String) result.get(0).get("keyword"));
     }
 
     /**
@@ -84,12 +82,7 @@ public abstract class DBWorker {
      */
     public static boolean userExists(String username) {
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
-        try {
-            DBConnector.executeQuery(query).getString("keyword");
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
+        return executeQuery(query) != null;
     }
 
     /**
@@ -101,7 +94,7 @@ public abstract class DBWorker {
     public static void updateDataForm(DataForm dataForm) {
         String query = String.format("UPDATE users_data SET title = '%s', login = '%s', password = '%s' WHERE id = %d",
                 dataForm.getTitle(), dataForm.getLogin(), Password.encrypt(dataForm.getPassword()), dataForm.getDFId());
-        DBConnector.execute(query);
+        execute(query);
     }
 
     /**
@@ -110,20 +103,65 @@ public abstract class DBWorker {
     public static ArrayList<DataForm> getAllDataForms(String username) {
         ArrayList<DataForm> list = new ArrayList<>();
         String query = String.format("SELECT * FROM users_data WHERE username = '%s'", username);
-        ResultSet rs = DBConnector.executeQuery(query);
+        ArrayList<Map<String, Object>> result = executeQuery(query);
+        if (result == null)
+            return null;
         DataForm dataForm;
-        try {
-            while (rs.next()) {
-                dataForm = new DataForm(rs.getInt("id"), rs.getString("title"), rs.getString("login"),
-                        Password.decrypt(rs.getString("password")));
-                dataForm.setEditMode(false);
-                list.add(dataForm);
-            }
-        } catch (Exception e) {
+        for (Map<String, Object> map : result) {
+            dataForm = new DataForm((Integer) map.get("id"), (String) map.get("title"), (String) map.get("login"),
+                    Password.decrypt((String) map.get("password")));
+            dataForm.setEditMode(false);
+            list.add(dataForm);
+        }
+
+        return list;
+    }
+
+    private static void execute(String query) {
+        Connection connection = DBConnector.getConnection();
+
+        try (
+                Statement statement = connection.createStatement()
+        ) {
+            statement.execute(query);
+        } catch (SQLException e) {
             e.printStackTrace();
-            Alerts.showError("Database error!");
+            Alerts.showError(e.getMessage());
             System.exit(1);
         }
-        return list;
+    }
+
+    private static ArrayList<Map<String,Object>> executeQuery(String query) {
+        Connection connection = DBConnector.getConnection();
+
+        ArrayList<Map<String, Object>> results = null;
+        try (
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(query)
+        ) {
+            results = convertToListOfMaps(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
+
+        return results;
+    }
+
+    private static ArrayList<Map<String, Object>> convertToListOfMaps(ResultSet rs) throws SQLException {
+        ArrayList<Map<String, Object>> result = new ArrayList<>();
+
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        while (rs.next()) {
+            Map<String, Object> map = new HashMap<>();
+            for (int i = 1; i <= rsMetaData.getColumnCount(); i++)
+                map.put(rsMetaData.getColumnName(i), rs.getObject(i));
+            result.add(map);
+        }
+        if (result.isEmpty())
+            return null;
+
+        return result;
     }
 }
