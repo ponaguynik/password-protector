@@ -1,4 +1,4 @@
-package com.ponaguynik.passwordprotector.other;
+package com.ponaguynik.passwordprotector.util;
 
 import org.junit.Before;
 import org.junit.Test;

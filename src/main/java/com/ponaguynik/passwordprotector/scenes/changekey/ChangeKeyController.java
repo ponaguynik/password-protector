@@ -7,8 +7,8 @@ package com.ponaguynik.passwordprotector.scenes.changekey;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
-import com.ponaguynik.passwordprotector.other.Alerts;
-import com.ponaguynik.passwordprotector.other.Password;
+import com.ponaguynik.passwordprotector.util.Alerts;
+import com.ponaguynik.passwordprotector.util.Password;
 import com.ponaguynik.passwordprotector.scenes.register.RegisterController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

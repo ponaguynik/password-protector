@@ -1,8 +1,7 @@
 package com.ponaguynik.passwordprotector.database;
 
-import com.ponaguynik.passwordprotector.other.Alerts;
+import com.ponaguynik.passwordprotector.util.Alerts;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;

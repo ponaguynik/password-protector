@@ -8,8 +8,8 @@ package com.ponaguynik.passwordprotector.database;
  * static fields and methods.
  */
 
-import com.ponaguynik.passwordprotector.other.Alerts;
-import com.ponaguynik.passwordprotector.other.Password;
+import com.ponaguynik.passwordprotector.util.Alerts;
+import com.ponaguynik.passwordprotector.util.Password;
 import com.ponaguynik.passwordprotector.scenes.main.DataForm;
 
 import java.sql.*;

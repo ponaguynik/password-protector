@@ -1,6 +1,6 @@
 package com.ponaguynik.passwordprotector.database;
 
-import com.ponaguynik.passwordprotector.other.Password;
+import com.ponaguynik.passwordprotector.util.Password;
 import org.junit.*;
 
 import java.sql.ResultSet;

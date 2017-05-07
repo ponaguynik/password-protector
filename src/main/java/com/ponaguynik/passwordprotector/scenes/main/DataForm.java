@@ -7,7 +7,7 @@ package com.ponaguynik.passwordprotector.scenes.main;
 
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBWorker;
-import com.ponaguynik.passwordprotector.other.Alerts;
+import com.ponaguynik.passwordprotector.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;

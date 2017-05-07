@@ -7,7 +7,7 @@ package com.ponaguynik.passwordprotector.scenes.main;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
-import com.ponaguynik.passwordprotector.other.MenuHelper;
+import com.ponaguynik.passwordprotector.util.MenuHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

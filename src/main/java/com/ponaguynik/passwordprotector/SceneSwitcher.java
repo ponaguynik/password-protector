@@ -1,13 +1,13 @@
 package com.ponaguynik.passwordprotector;
 
 import com.ponaguynik.passwordprotector.database.DBConnector;
-import com.ponaguynik.passwordprotector.other.Alerts;
+import com.ponaguynik.passwordprotector.util.Alerts;
 import com.ponaguynik.passwordprotector.scenes.changekey.ChangeKeyController;
 import com.ponaguynik.passwordprotector.scenes.register.RegisterController;
 import com.ponaguynik.passwordprotector.scenes.delete.DeleteController;
 import com.ponaguynik.passwordprotector.scenes.login.LoginController;
 import com.ponaguynik.passwordprotector.scenes.main.MainController;
-import com.ponaguynik.passwordprotector.other.MenuHelper;
+import com.ponaguynik.passwordprotector.util.MenuHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
