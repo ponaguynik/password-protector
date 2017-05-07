@@ -29,7 +29,7 @@ public class DBConnector {
      * Make connection to a database or, if the database
      * does not exist, create a new database and initialize it.
      */
-    public static void loadDatabase() {
+    public static void loadDatabase() throws SQLException {
         if (Files.exists(Paths.get("./database.db"))) {
             connect();
         } else
@@ -41,15 +41,8 @@ public class DBConnector {
      * Make connection to a database by URL.
      * Catch an SQLException: print stack trace and exit with 1.
      */
-    private static void connect() {
-        try {
-            connection = DriverManager.getConnection(URL);
-        } catch (SQLException e) {
-            System.out.println("Connection to the database failed");
-            e.printStackTrace();
-            Alerts.showError(e.getMessage());
-            System.exit(1);
-        }
+    private static void connect() throws SQLException {
+        connection = DriverManager.getConnection(URL);
     }
 
     /**
@@ -59,7 +52,7 @@ public class DBConnector {
      * "users_data" table contains id (primary key), username (reference
      * to the "username" field in "users" table), title, login and password fields.
      */
-    private static void createDB() {
+    private static void createDB() throws SQLException {
         connect();
 
         try (
@@ -93,10 +86,7 @@ public class DBConnector {
         try {
             if (connection != null)
                 connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        } catch (SQLException ignore) {}
     }
 
     static Connection getConnection() {

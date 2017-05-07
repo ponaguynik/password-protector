@@ -8,9 +8,8 @@ package com.ponaguynik.passwordprotector.database;
  * static fields and methods.
  */
 
-import com.ponaguynik.passwordprotector.util.Alerts;
 import com.ponaguynik.passwordprotector.util.Password;
-import com.ponaguynik.passwordprotector.scenes.main.DataForm;
+import com.ponaguynik.passwordprotector.model.DataForm;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class DBWorker {
      * Add user's username and keyword to a database.
      *
      */
-    public static void addUser(String username, String keyword) {
+    public static void addUser(String username, String keyword) throws SQLException {
         String query = String.format("INSERT INTO users (username, keyword) VALUES('%s', '%s')", username, keyword);
         execute(query);
     }
@@ -32,7 +31,7 @@ public class DBWorker {
     /**
      * Update user's keyword by username.
      */
-    public static void updateKeyword(String username, String keyword) {
+    public static void updateKeyword(String username, String keyword) throws SQLException {
         String query = String.format("UPDATE users SET keyword = '%s' WHERE username = '%s'", keyword, username);
         execute(query);
     }
@@ -40,7 +39,7 @@ public class DBWorker {
     /**
      * Delete a user and its data by username.
      */
-    public static void deleteUser(String username) {
+    public static void deleteUser(String username) throws SQLException {
         String query = String.format("DELETE FROM users WHERE username = '%s'", username);
         execute(query);
         query = String.format("DELETE FROM users_data WHERE username = '%s'", username);
@@ -50,7 +49,7 @@ public class DBWorker {
     /**
      * Add a new empty data form to the database by username.
      */
-    public static void addDataForm(String username) {
+    public static void addDataForm(String username) throws SQLException {
         String query = String.format("INSERT INTO users_data (username, title, login, password) " +
                 "VALUES('%s', '%s', '%s', '%s')", username, "", "", "");
         execute(query);
@@ -59,7 +58,7 @@ public class DBWorker {
     /**
      * Delete a data form by id.
      */
-    public static void deleteDataForm(int id) {
+    public static void deleteDataForm(int id) throws SQLException {
         String query = String.format("DELETE FROM users_data WHERE id = %d", id);
         execute(query);
     }
@@ -68,7 +67,7 @@ public class DBWorker {
      * Compare keyword with user's keyword by username.
      * @return true if keyword and user's keyword matched.
      */
-    public static boolean verifyKeyword(String username, String keyword) {
+    public static boolean verifyKeyword(String username, String keyword) throws SQLException {
         if (keyword == null || keyword.isEmpty())
             return false;
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
@@ -80,7 +79,7 @@ public class DBWorker {
     /**
      * Check whether user, with such username, exists.
      */
-    public static boolean userExists(String username) {
+    public static boolean userExists(String username) throws SQLException {
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", username);
         return executeQuery(query) != null;
     }
@@ -91,7 +90,7 @@ public class DBWorker {
      *
      * @param dataForm is object that contains id, title, login and password.
      */
-    public static void updateDataForm(DataForm dataForm) {
+    public static void updateDataForm(DataForm dataForm) throws SQLException {
         String query = String.format("UPDATE users_data SET title = '%s', login = '%s', password = '%s' WHERE id = %d",
                 dataForm.getTitle(), dataForm.getLogin(), Password.encrypt(dataForm.getPassword()), dataForm.getDFId());
         execute(query);
@@ -100,7 +99,7 @@ public class DBWorker {
     /**
      * @return ArrayList of DataForm objects of a user by username.
      */
-    public static ArrayList<DataForm> getAllDataForms(String username) {
+    public static ArrayList<DataForm> getAllDataForms(String username) throws SQLException {
         ArrayList<DataForm> list = new ArrayList<>();
         String query = String.format("SELECT * FROM users_data WHERE username = '%s'", username);
         ArrayList<Map<String, Object>> result = executeQuery(query);
@@ -117,21 +116,17 @@ public class DBWorker {
         return list;
     }
 
-    private static void execute(String query) {
+    private static void execute(String query) throws SQLException {
         Connection connection = DBConnector.getConnection();
 
         try (
                 Statement statement = connection.createStatement()
         ) {
             statement.execute(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alerts.showError(e.getMessage());
-            System.exit(1);
         }
     }
 
-    private static ArrayList<Map<String,Object>> executeQuery(String query) {
+    private static ArrayList<Map<String,Object>> executeQuery(String query) throws SQLException {
         Connection connection = DBConnector.getConnection();
 
         ArrayList<Map<String, Object>> results = null;
@@ -140,10 +135,6 @@ public class DBWorker {
                 ResultSet rs = statement.executeQuery(query)
         ) {
             results = convertToListOfMaps(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alerts.showError(e.getMessage());
-            System.exit(1);
         }
 
         return results;

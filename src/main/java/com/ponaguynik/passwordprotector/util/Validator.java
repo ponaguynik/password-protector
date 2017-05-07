@@ -15,6 +15,7 @@ public class Validator {
         this.s = s;
     }
 
+
     /**
      * @return true if length of the string s greater than min.
      */

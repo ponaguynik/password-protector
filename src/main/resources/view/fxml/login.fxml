@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" styleClass="pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ponaguynik.passwordprotector.controller.controllers.LoginController">
+   <center>
+       <GridPane BorderPane.alignment="CENTER">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" prefWidth="250.0"/>
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="250.0"/>
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="250.0"/>
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="250.0"/>
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+           </rowConstraints>
+           <padding>
+               <Insets left="40.0" right="40.0"/>
+           </padding>
+           <opaqueInsets>
+               <Insets/>
+           </opaqueInsets>
+           <TextField fx:id="usernameTF" GridPane.columnIndex="1" GridPane.columnSpan="3">
+               <GridPane.margin>
+                   <Insets right="5.0"/>
+               </GridPane.margin>
+           </TextField>
+           <PasswordField fx:id="keywordPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+               <GridPane.margin>
+                   <Insets right="5.0"/>
+               </GridPane.margin>
+           </PasswordField>
+           <Button fx:id="okBtn" defaultButton="true" mnemonicParsing="false" onAction="#onOkBtnAction" prefWidth="70.0"
+                   text="Ok" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <cursor>
+                   <Cursor fx:constant="HAND"/>
+               </cursor>
+           </Button>
+           <Label fx:id="usernameLab" text="Username:" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                   <Insets right="10.0"/>
+               </GridPane.margin>
+           </Label>
+           <Label fx:id="keywordLab" text="Keyword:" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                   <Insets right="10.0"/>
+               </GridPane.margin>
+           </Label>
+           <Button fx:id="cancelBtn" cancelButton="true" mnemonicParsing="false" onAction="#onCancelBtnAction"
+                   prefWidth="70.0" text="Cancel" GridPane.columnIndex="3" GridPane.halignment="CENTER"
+                   GridPane.rowIndex="2">
+               <cursor>
+                   <Cursor fx:constant="HAND"/>
+               </cursor>
+           </Button>
+       </GridPane>
+   </center>
+   <top>
+      <Label fx:id="passProtLab" alignment="TOP_LEFT" contentDisplay="CENTER" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER_LEFT">
+         <font>
+            <Font name="Aharoni Bold" size="30.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="20.0" />
+         </BorderPane.margin>
+      </Label>
+   </top>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+   <bottom>
+      <Button styleClass="button-blue" fx:id="createUserBtn" mnemonicParsing="false" onAction="#onCreateUserBtnAction" text="Create a new user" BorderPane.alignment="CENTER_RIGHT">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor></Button>
+   </bottom>
+</BorderPane>

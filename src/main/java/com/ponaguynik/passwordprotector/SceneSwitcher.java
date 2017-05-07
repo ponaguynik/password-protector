@@ -2,11 +2,11 @@ package com.ponaguynik.passwordprotector;
 
 import com.ponaguynik.passwordprotector.database.DBConnector;
 import com.ponaguynik.passwordprotector.util.Alerts;
-import com.ponaguynik.passwordprotector.scenes.changekey.ChangeKeyController;
-import com.ponaguynik.passwordprotector.scenes.register.RegisterController;
-import com.ponaguynik.passwordprotector.scenes.delete.DeleteController;
-import com.ponaguynik.passwordprotector.scenes.login.LoginController;
-import com.ponaguynik.passwordprotector.scenes.main.MainController;
+import com.ponaguynik.passwordprotector.controller.controllers.ChangeKeyController;
+import com.ponaguynik.passwordprotector.controller.controllers.RegisterController;
+import com.ponaguynik.passwordprotector.controller.controllers.DeleteController;
+import com.ponaguynik.passwordprotector.controller.controllers.LoginController;
+import com.ponaguynik.passwordprotector.controller.controllers.MainController;
 import com.ponaguynik.passwordprotector.util.MenuHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -31,14 +31,14 @@ public class SceneSwitcher {
     /**
      * Login, Register, Main, Change Keyword and Delete FXML loaders.
      */
-    private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/login.fxml"));
-    private static FXMLLoader registerLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/register.fxml"));
-    private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/main.fxml"));
-    private static FXMLLoader changeKeyLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/changekey.fxml"));
-    private static FXMLLoader deleteLoader = new FXMLLoader(PasswordProtector.class.getResource("/fxml/delete.fxml"));
+    private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/login.fxml"));
+    private static FXMLLoader registerLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/register.fxml"));
+    private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/main.fxml"));
+    private static FXMLLoader changeKeyLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/changekey.fxml"));
+    private static FXMLLoader deleteLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/delete.fxml"));
 
     /**
-     * Login, Register, Main, Change Keyword and Delete scenes.
+     * Login, Register, Main, Change Keyword and Delete controllers.
      */
     private static Scene loginScene;
     private static Scene registerScene;
@@ -46,7 +46,7 @@ public class SceneSwitcher {
     private static Scene changeKeyScene;
     private static Scene deleteScene;
 
-//    Load scenes from loaders.
+//    Load controllers from loaders.
     static {
         try {
             loginScene = new Scene(loginLoader.load());
