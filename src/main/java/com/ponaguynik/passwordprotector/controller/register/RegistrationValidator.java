@@ -1,4 +1,4 @@
-package com.ponaguynik.passwordprotector.controller;
+package com.ponaguynik.passwordprotector.controller.register;
 
 
 import com.ponaguynik.passwordprotector.util.Validator;

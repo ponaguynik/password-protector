@@ -64,7 +64,7 @@ public class SceneSwitcher {
     /**
      * Set a scene to a stage.
      */
-    public static void set(Stage stage, Scenes scene) throws IOException {
+    public static void set(Stage stage, Scenes scene) {
         stage.hide();
         switch (scene) {
             case LOGIN:
@@ -82,8 +82,6 @@ public class SceneSwitcher {
             case DELETE:
                 setDeleteScene(stage);
                 break;
-            default:
-                throw new IOException("No such scene");
         }
     }
 

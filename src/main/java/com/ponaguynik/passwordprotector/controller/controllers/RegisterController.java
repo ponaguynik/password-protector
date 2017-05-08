@@ -3,8 +3,8 @@ package com.ponaguynik.passwordprotector.controller.controllers;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
-import com.ponaguynik.passwordprotector.controller.Registrar;
-import com.ponaguynik.passwordprotector.controller.RegistrationValidator;
+import com.ponaguynik.passwordprotector.controller.register.Registrar;
+import com.ponaguynik.passwordprotector.controller.register.RegistrationValidator;
 import com.ponaguynik.passwordprotector.exceptions.UserAlreadyExists;
 import com.ponaguynik.passwordprotector.util.Alerts;
 import javafx.fxml.FXML;
