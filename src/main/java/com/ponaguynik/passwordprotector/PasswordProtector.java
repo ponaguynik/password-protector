@@ -1,6 +1,7 @@
 package com.ponaguynik.passwordprotector;
 
 import com.ponaguynik.passwordprotector.database.*;
+import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 
 public class PasswordProtector extends Application {
 
-    public static String currentUser = null;
+    public static User currentUser = null;
 
     public static Stage primaryStage;
 

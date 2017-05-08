@@ -7,7 +7,7 @@ import com.ponaguynik.passwordprotector.controller.controllers.RegisterControlle
 import com.ponaguynik.passwordprotector.controller.controllers.DeleteController;
 import com.ponaguynik.passwordprotector.controller.controllers.LoginController;
 import com.ponaguynik.passwordprotector.controller.controllers.MainController;
-import com.ponaguynik.passwordprotector.util.MenuHelper;
+import com.ponaguynik.passwordprotector.controller.main.MenuHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -6,7 +6,9 @@ import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.controller.register.Registrar;
 import com.ponaguynik.passwordprotector.controller.register.RegistrationValidator;
 import com.ponaguynik.passwordprotector.exceptions.UserAlreadyExists;
+import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
+import com.ponaguynik.passwordprotector.util.Password;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -81,19 +83,12 @@ public class RegisterController {
         }
 
         try {
-            Registrar.register(usernameTF.getText(), keywordPF.getText());
+            Registrar.register(new User(usernameTF.getText(), Password.getSaltedHash(keywordPF.getText())));
             Alerts.showInformation(RES.getString("account.created"));
+            SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
         } catch (UserAlreadyExists e) {
             Alerts.showWarning(String.format(RES.getString("already.exists"), usernameTF.getText()));
         } catch (SQLException e) {
-            e.printStackTrace();
-            Alerts.showError(e.getMessage());
-            System.exit(1);
-        }
-
-        try {
-            SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
-        } catch (IOException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
             System.exit(1);
@@ -106,12 +101,7 @@ public class RegisterController {
      */
     @FXML
     private void onBackBtn() {
-        try {
-            SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
     }
 
     /**

@@ -6,7 +6,7 @@ import com.ponaguynik.passwordprotector.database.DBWorker;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class Verifier {
+public class LoginVerifier {
 
     private static ResourceBundle res = ResourceBundle.getBundle("strings.login");
 

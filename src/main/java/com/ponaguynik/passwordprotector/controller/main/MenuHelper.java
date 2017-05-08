@@ -1,4 +1,4 @@
-package com.ponaguynik.passwordprotector.util;
+package com.ponaguynik.passwordprotector.controller.main;
 
 /**
  * The abstract MenuHelper class is used for handling
@@ -9,6 +9,7 @@ package com.ponaguynik.passwordprotector.util;
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.database.DBConnector;
+import com.ponaguynik.passwordprotector.util.Alerts;
 import javafx.application.Platform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,14 +30,8 @@ public abstract class MenuHelper {
      * Set login scene if true.
      */
     public static void changeAccount() {
-        if (Alerts.showConfirm(res.getString("change.account"), res.getString("change.account.content"))) {
-            try {
-                SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
-        }
+        if (Alerts.showConfirm(res.getString("change.account"), res.getString("change.account.content")))
+            SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
     }
 
     /**
@@ -62,12 +57,7 @@ public abstract class MenuHelper {
         Stage stage = new Stage();
         stage.setTitle(res.getString("change.keyword.title"));
         stage.initModality(Modality.APPLICATION_MODAL);
-        try {
-            SceneSwitcher.set(stage, SceneSwitcher.Scenes.CHANGE_KEYWORD);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        SceneSwitcher.set(stage, SceneSwitcher.Scenes.CHANGE_KEYWORD);
     }
 
     /**
@@ -81,12 +71,7 @@ public abstract class MenuHelper {
             Stage stage = new Stage();
             stage.setTitle(res.getString("delete.account.title"));
             stage.initModality(Modality.APPLICATION_MODAL);
-            try {
-                SceneSwitcher.set(stage, SceneSwitcher.Scenes.DELETE);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+            SceneSwitcher.set(stage, SceneSwitcher.Scenes.DELETE);
         }
     }
 

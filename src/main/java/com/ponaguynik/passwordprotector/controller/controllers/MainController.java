@@ -1,14 +1,11 @@
 package com.ponaguynik.passwordprotector.controller.controllers;
 
-/**
- * The MainController class is a controller class
- * for main.view.fxml (Main scene).
- */
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.controller.main.MenuHelper;
 import com.ponaguynik.passwordprotector.model.DataForm;
-import com.ponaguynik.passwordprotector.util.MenuHelper;
+import com.ponaguynik.passwordprotector.util.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -18,78 +15,56 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The MainController class is a controller class
+ * for main.fxml (Main scene).
+ */
 public class MainController {
 
-    /**
-     * ResourceBundle object that contains strings of the
-     * main.properties file.
-     */
-    private static ResourceBundle res = ResourceBundle.getBundle("strings.main");
-
+    private static ResourceBundle RES = ResourceBundle.getBundle("strings.main");
     private static ArrayList<DataForm> dataFormsList;
+    private static boolean initialized = false;
 
-    /**
-     * The root pane of the Main scene.
-     */
+    //Images
+    private static final Image PLUS  =
+            new Image(MainController.class.getResourceAsStream("/images/plus-grey.png"));
+    private static final Image PLUS_LIGHT  =
+            new Image(MainController.class.getResourceAsStream("/images/plus-lightgrey.png"));
+    private static final Image PASSWORD_PROTECTOR  =
+            new Image(MainController.class.getResourceAsStream("/images/password-protector-36.png"));
+
+    //GUI elements
     @FXML
     private BorderPane root;
 
     //Menu
-    /**
-     * File, Settings and Help menu.
-     */
     @FXML
     private Menu fileMenu, settingsMenu, helpMenu;
     //Menu items
         //File
-        /**
-         * Change user and Exit menu items.
-         */
         @FXML
         private MenuItem changeUserItem, exitItem;
         //Settings
-        /**
-         * Change keyword and Delete account menu items.
-         */
         @FXML
         private MenuItem changeKeyItem, deleteAccItem;
         //Help
-        /**
-         * About menu item.
-         */
         @FXML
         private MenuItem aboutItem;
     //End menu items
 
-    /**
-     * Add (+) button.
-     */
+    //Add (+) button.
     private Button addBtn;
 
-    /**
-     * PasswordProtector label.
-     */
     @FXML
     private Label passProtLab;
-    /**
-     * Content VBox.
-     */
+
     @FXML
     private VBox contentBox;
 
-    /**
-     * Dark plus and light plus images for Add button.
-     * PasswordProtector image for PasswordProtector label.
-     */
-    //Images
-    private static final Image PLUS  = new Image(MainController.class.getResourceAsStream("/images/plus-grey.png"));
-    private static final Image PLUS_LIGHT  = new Image(MainController.class.getResourceAsStream("/images/plus-lightgrey.png"));
-    private static final Image PASSWORD_PROTECTOR  = new Image(MainController.class.getResourceAsStream("/images/password-protector-36.png"));
-
-    private static boolean initialized = false;
 
     /**
      * If it's not initialized than invoke init() method.
@@ -107,7 +82,7 @@ public class MainController {
             contentBox.getChildren().clear();
         }
         if (dataFormsList != null && !dataFormsList.isEmpty())
-            contentBox.getChildren().addAll(dataFormsList);
+            contentBox.getChildren().addAll(convertToDataFormControllers(dataFormsList));
         if (addBtn == null)
             createAddBtn();
         contentBox.getChildren().add(addBtn);
@@ -115,25 +90,24 @@ public class MainController {
 
     /**
      * Initialize the Main scene. Set "default-theme.css" stylesheet
-     * for root pane. Set text for all elements of the scene from res.
+     * for root pane. Set text for all elements of the scene from RES.
      * Set PasswordProtector image on PasswordProtector label.
      */
     private void init() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
-        fileMenu.setText(res.getString("file.menu"));
-        settingsMenu.setText(res.getString("settings.menu"));
-        helpMenu.setText(res.getString("help.menu"));
-        changeUserItem.setText(res.getString("change.account.item"));
-        exitItem.setText(res.getString("exit.item"));
-        changeKeyItem.setText(res.getString("change.key.item"));
-        deleteAccItem.setText(res.getString("delete.account.item"));
-        aboutItem.setText(res.getString("about.item"));
+        fileMenu.setText(RES.getString("file.menu"));
+        settingsMenu.setText(RES.getString("settings.menu"));
+        helpMenu.setText(RES.getString("help.menu"));
+        changeUserItem.setText(RES.getString("change.account.item"));
+        exitItem.setText(RES.getString("exit.item"));
+        changeKeyItem.setText(RES.getString("change.key.item"));
+        deleteAccItem.setText(RES.getString("delete.account.item"));
+        aboutItem.setText(RES.getString("about.item"));
     }
 
     /**
-     * The action event listener method for menu items.
-     * It is using MenuHelper class.
+     * MenuHelper class is used.
      */
     @FXML
     private void onMenuItemsAction(ActionEvent event) {
@@ -164,19 +138,22 @@ public class MainController {
     }
 
     /**
-     * The action event listener method for Add button.
-     * Add a new data form to a database and set data forms list from the database.
-     * Invoke initialize() method.
+     * Add a new data form to the database and set data forms list from the database.
+     * Invoke reset().
      */
     private void onAddBtnAction() {
-        DBWorker.addDataForm(PasswordProtector.currentUser);
-        setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
-        initialize();
+        try {
+            DBWorker.addDataForm(PasswordProtector.currentUser);
+            reset();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
     }
 
     /**
-     * The moving event listener method for Add button. Set PLUS image
-     * if it is hovered and set PLUS_LIGHT if it isn't.
+     * Set PLUS image if it is hovered and set PLUS_LIGHT if it isn't.
      */
     private void onAddBtnMoving() {
         if (addBtn.isHover())
@@ -188,22 +165,36 @@ public class MainController {
     /**
      * Delete data form from the database by id.
      * Set data forms list from the database.
-     * Invoke initialize() method.
+     * Invoke reset().
      */
-    void deleteDataForm(int id) {
-        DBWorker.deleteDataForm(id);
-        setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
-        initialize();
+    public void deleteDataForm(DataForm dataForm) {
+        try {
+            DBWorker.deleteDataForm(dataForm);
+            reset();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
     }
 
-    public static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
+    private static ArrayList<DataFormController> convertToDataFormControllers(ArrayList<DataForm> dataForms) {
+        ArrayList<DataFormController> dataFormControllers = new ArrayList<>();
+
+        for (DataForm dataForm : dataForms) {
+            DataFormController dataFormController = new DataFormController(dataForm);
+            dataFormControllers.add(dataFormController);
+        }
+
+        return dataFormControllers;
+    }
+
+    static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
         MainController.dataFormsList = dataFormsList;
     }
 
-    /**
-     * Invoke initialize() method.
-     */
-    public void reset() {
+    public void reset() throws SQLException {
+        setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
         initialize();
     }
 }

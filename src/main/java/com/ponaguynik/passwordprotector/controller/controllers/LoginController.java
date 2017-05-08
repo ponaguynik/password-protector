@@ -3,8 +3,9 @@ package com.ponaguynik.passwordprotector.controller.controllers;
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
-import com.ponaguynik.passwordprotector.controller.login.Verifier;
+import com.ponaguynik.passwordprotector.controller.login.LoginVerifier;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -67,7 +68,7 @@ public class LoginController {
     private void onOkBtnAction() {
         String msg = null;
         try {
-            msg = Verifier.verify(usernameTF.getText(), keywordPF.getText());
+            msg = LoginVerifier.verify(usernameTF.getText(), keywordPF.getText());
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
@@ -75,7 +76,7 @@ public class LoginController {
         }
 
         if (msg == null) {
-            PasswordProtector.currentUser = usernameTF.getText();
+            PasswordProtector.currentUser = new User(usernameTF.getText());
             reset();
             try {
                 MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
