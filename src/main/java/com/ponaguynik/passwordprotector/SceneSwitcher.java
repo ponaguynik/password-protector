@@ -147,7 +147,7 @@ public class SceneSwitcher {
         DeleteController contr = (DeleteController) getController(Scenes.DELETE);
         assert contr != null;
         contr.reset();
-        contr.usernameTF.setText(PasswordProtector.currentUser);
+        contr.usernameTF.setText(PasswordProtector.currentUser.getUsername());
         stage.setScene(deleteScene);
         stage.showAndWait();
     }

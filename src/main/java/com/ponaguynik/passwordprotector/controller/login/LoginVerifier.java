@@ -2,6 +2,7 @@ package com.ponaguynik.passwordprotector.controller.login;
 
 
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.model.User;
 
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -10,14 +11,12 @@ public class LoginVerifier {
 
     private static ResourceBundle res = ResourceBundle.getBundle("strings.login");
 
-    public static String verify(String username, String keyword) throws SQLException {
-        if (username.isEmpty())
-            return res.getString("username.empty");
-        if (keyword.isEmpty())
-            return res.getString("keyword.empty");
+    public static String verify(User user) throws SQLException {
+        if (user.getUsername().isEmpty())
+            return String.format(res.getString("field.empty"), res.getString("username"));
+        if (user.getKeyword().isEmpty())
+            return String.format(res.getString("field.empty"), res.getString("keyword"));
 
-        res.getString("welcome");
-
-        return DBWorker.verifyKeyword(username, keyword) ? null : res.getString("invalid");
+        return DBWorker.verifyKeyword(user) ? null : res.getString("invalid");
     }
 }

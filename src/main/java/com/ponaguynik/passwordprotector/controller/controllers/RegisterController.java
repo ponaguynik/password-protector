@@ -4,11 +4,11 @@ package com.ponaguynik.passwordprotector.controller.controllers;
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
 import com.ponaguynik.passwordprotector.controller.register.Registrar;
-import com.ponaguynik.passwordprotector.controller.register.RegistrationValidator;
 import com.ponaguynik.passwordprotector.exceptions.UserAlreadyExists;
 import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
 import com.ponaguynik.passwordprotector.util.Password;
+import com.ponaguynik.passwordprotector.util.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -59,9 +58,9 @@ public class RegisterController {
     private void initialize() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
-        usernameLab.setText(RES.getString("username.label"));
-        keywordLab.setText(RES.getString("keyword.label"));
-        keywordConfLab.setText(RES.getString("confirm.keyword.label"));
+        usernameLab.setText(RES.getString("username") + ":");
+        keywordLab.setText(RES.getString("keyword") + ":");
+        keywordConfLab.setText(RES.getString("confirm.keyword") + ":");
         backBtn.setText(RES.getString("back.button"));
         confirmBtn.setText(RES.getString("confirm.button"));
     }
@@ -73,12 +72,9 @@ public class RegisterController {
      */
     @FXML
     private void onConfirmBtnAction() {
-        String[] msg = RegistrationValidator.validate(usernameTF.getText(), keywordPF.getText(), keywordConfPF.getText());
+        String[] msg = validate(usernameTF.getText(), keywordPF.getText(), keywordConfPF.getText());
         if (msg != null) {
-            if (msg[1] != null)
-                Alerts.showWarning(msg[0], msg[1]);
-            else
-                Alerts.showWarning(msg[0]);
+            Alerts.showWarning(msg[0], msg[1]);
             return;
         }
 
@@ -102,6 +98,18 @@ public class RegisterController {
     @FXML
     private void onBackBtn() {
         SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
+    }
+
+    private String[] validate(String username, String keyword, String confirmKeyword) {
+        String[] msg;
+        if ((msg = Validator.validateAsUsername(RES.getString("username"), username)) != null)
+            return msg;
+        else if ((msg = Validator.validateAsKeyword(RES.getString("keyword"), keyword)) != null)
+            return msg;
+        else if ((msg = Validator.validateAsKeyword(RES.getString("confirm.keyword"), confirmKeyword)) != null)
+            return msg;
+        else
+            return null;
     }
 
     /**

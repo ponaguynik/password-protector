@@ -53,8 +53,8 @@ public class LoginController {
     private void initialize() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
-        usernameLab.setText(RES.getString("username.label"));
-        keywordLab.setText(RES.getString("keyword.label"));
+        usernameLab.setText(RES.getString("username") + ":");
+        keywordLab.setText(RES.getString("keyword") + ":");
         okBtn.setText(RES.getString("ok.button"));
         cancelBtn.setText(RES.getString("cancel.button"));
         createUserBtn.setText(RES.getString("create.new.user.button"));
@@ -68,7 +68,7 @@ public class LoginController {
     private void onOkBtnAction() {
         String msg = null;
         try {
-            msg = LoginVerifier.verify(usernameTF.getText(), keywordPF.getText());
+            msg = LoginVerifier.verify(new User(usernameTF.getText(), keywordPF.getText()));
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());

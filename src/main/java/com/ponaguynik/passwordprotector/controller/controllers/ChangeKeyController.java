@@ -6,9 +6,12 @@ package com.ponaguynik.passwordprotector.controller.controllers;
  */
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
+import com.ponaguynik.passwordprotector.controller.login.LoginVerifier;
 import com.ponaguynik.passwordprotector.database.DBWorker;
+import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
 import com.ponaguynik.passwordprotector.util.Password;
+import com.ponaguynik.passwordprotector.util.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,49 +19,37 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ChangeKeyController {
 
-    /**
-     * ResourceBundle object that contains strings of the
-     * changekey.properties file.
-     */
-    private static final ResourceBundle res = ResourceBundle.getBundle("strings.changekey");
+    private static final ResourceBundle RES = ResourceBundle.getBundle("strings.changekey");
 
-    /**
-     * The root pane of the Change Keyword scene.
-     */
     @FXML
     private BorderPane root;
-    /**
-     * Current Keyword, New Keyword and Confirm Keyword password fields.
-     */
+
     @FXML
     private PasswordField currKeyPF, confKeyPF, newKeyPF;
-    /**
-     * Labels for Current Keyword, New Keyword and Confirm Keyword password fields.
-     */
+
     @FXML
     private Label currKeyLab, newKeyLab, confirmKeyLab;
-    /**
-     * Ok and Cancel buttons.
-     */
+
     @FXML
     private Button okBtn, cancelBtn;
 
     /**
      * Initialize the Change Keyword scene. Set "default-theme.css" stylesheet
-     * for root pane and set text for all elements of the scene from res.
+     * for root pane and set text for all elements of the scene from RES.
      */
     @FXML
     private void initialize() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
-        currKeyLab.setText(res.getString("current.keyword.label"));
-        newKeyLab.setText(res.getString("new.keyword.label"));
-        confirmKeyLab.setText(res.getString("confirm.keyword.label"));
-        okBtn.setText(res.getString("ok.button"));
-        cancelBtn.setText(res.getString("cancel.button"));
+        currKeyLab.setText(RES.getString("current.keyword") + ":");
+        newKeyLab.setText(RES.getString("new.keyword") + ":");
+        confirmKeyLab.setText(RES.getString("confirm.keyword") + ":");
+        okBtn.setText(RES.getString("ok.button"));
+        cancelBtn.setText(RES.getString("cancel.button"));
     }
 
     /**
@@ -68,15 +59,34 @@ public class ChangeKeyController {
      */
     @FXML
     private void onOkBtnAction() {
-        if (!DBWorker.verifyKeyword(PasswordProtector.currentUser, currKeyPF.getText())) {
-            Alerts.showError(res.getString("invalid"));
+        User user = new User(PasswordProtector.currentUser.getUsername(), currKeyPF.getText());
+        String msg = null;
+        try {
+            msg = LoginVerifier.verify(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
+        if (msg != null) {
+            Alerts.showError(msg);
             return;
         }
-        if (RegisterController.isValidated(newKeyPF.getText(), confKeyPF.getText())) {
-            DBWorker.updateKeyword(PasswordProtector.currentUser, Password.getSaltedHash(newKeyPF.getText()));
-            Alerts.showInformation(res.getString("success"));
+
+        String[] msgs = validate(newKeyPF.getText(), confKeyPF.getText());
+        if (msgs == null) {
+            user.setKeyword(Password.getSaltedHash(newKeyPF.getText()));
+            try {
+                DBWorker.updateKeyword(user);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alerts.showError(e.getMessage());
+                System.exit(1);
+            }
+            Alerts.showInformation(RES.getString("success"));
             ((Stage) cancelBtn.getScene().getWindow()).close();
-        }
+        } else
+            Alerts.showWarning(msgs[0], msgs[1]);
     }
 
     /**
@@ -85,9 +95,19 @@ public class ChangeKeyController {
      */
     @FXML
     private void onCancelBtnAction() {
-        if (Alerts.showConfirm(res.getString("cancel"))) {
+        if (Alerts.showConfirm(RES.getString("cancel"))) {
             ((Stage) cancelBtn.getScene().getWindow()).close();
         }
+    }
+
+    private String[] validate(String keyword, String confirmKeyword) {
+        String[] msg;
+        if ((msg = Validator.validateAsKeyword(RES.getString("new.keyword"), keyword)) != null)
+            return msg;
+        else if ((msg = Validator.validateAsKeyword(RES.getString("confirm.keyword"), confirmKeyword)) != null)
+            return msg;
+        else
+            return null;
     }
 
     /**

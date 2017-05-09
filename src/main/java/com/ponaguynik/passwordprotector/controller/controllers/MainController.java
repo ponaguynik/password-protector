@@ -193,8 +193,14 @@ public class MainController {
         MainController.dataFormsList = dataFormsList;
     }
 
-    public void reset() throws SQLException {
-        setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+    public void reset() {
+        try {
+            setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
         initialize();
     }
 }
