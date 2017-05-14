@@ -24,6 +24,7 @@ public class DataFormController extends GridPane {
 
     private static ResourceBundle res = ResourceBundle.getBundle("strings.dataform");
     private DataForm dataForm;
+    private int id;
 
     //GUI elements
     @FXML
@@ -50,7 +51,7 @@ public class DataFormController extends GridPane {
     /**
      * Current mode of the DataFormController (editable or not).
      */
-    private boolean editMode;
+    private boolean editMode = false;
 
     /**
      * The images for X (delete form) button.
@@ -81,12 +82,11 @@ public class DataFormController extends GridPane {
             System.exit(1);
         }
 
-        editMode = false;
         passwordField.textProperty().bindBidirectional(passwordTF.textProperty());
         passwordField.setVisible(true);
         passwordTF.setVisible(false);
         onEditBtnAction();
-
+        viewMode();
         updateFields();
     }
 
@@ -100,7 +100,6 @@ public class DataFormController extends GridPane {
             init();
             initialized = true;
         }
-        deleteBtn.setGraphic(new ImageView(X_LIGHT));
     }
 
     /**
@@ -116,6 +115,7 @@ public class DataFormController extends GridPane {
         loginTF.getStyleClass().add("hide-border");
         passwordTF.getStyleClass().add("hide-border");
         passwordField.getStyleClass().add("hide-border");
+        deleteBtn.setGraphic(new ImageView(X_LIGHT));
     }
 
     /**
@@ -126,24 +126,32 @@ public class DataFormController extends GridPane {
      */
     @FXML
     private void onEditBtnAction() {
-        if (!editMode) {
-            editMode = true;
-            titleTF.setEditable(true);
-            loginTF.setEditable(true);
-            passwordField.setEditable(true);
-            passwordTF.setEditable(true);
-            showBorders();
-            editBtn.setText(res.getString("save.button"));
-        } else {
-            editMode = false;
-            titleTF.setEditable(false);
-            loginTF.setEditable(false);
-            passwordField.setEditable(false);
-            passwordTF.setEditable(false);
-            hideBorders();
+        if (editMode) {
+            viewMode();
             saveData();
-            editBtn.setText(res.getString("edit.button"));
+        } else {
+            editMode();
         }
+    }
+
+    private void editMode() {
+        editMode = true;
+        titleTF.setEditable(true);
+        loginTF.setEditable(true);
+        passwordField.setEditable(true);
+        passwordTF.setEditable(true);
+        showBorders();
+        editBtn.setText(res.getString("save.button"));
+    }
+
+    private void viewMode() {
+        editMode = false;
+        titleTF.setEditable(false);
+        loginTF.setEditable(false);
+        passwordField.setEditable(false);
+        passwordTF.setEditable(false);
+        hideBorders();
+        editBtn.setText(res.getString("edit.button"));
     }
 
     /**
@@ -167,10 +175,16 @@ public class DataFormController extends GridPane {
      * Update DataFormController fields from dataForm.
      */
     private void updateFields() {
+        id = dataForm.getId();
         titleTF.setText(dataForm.getTitle());
         loginTF.setText(dataForm.getLogin());
         passwordTF.setText(dataForm.getPassword());
-        passwordField.setText(dataForm.getPassword());
+    }
+
+    private void saveInDataForm() {
+        dataForm.setTitle(titleTF.getText());
+        dataForm.setLogin(loginTF.getText());
+        dataForm.setPassword(passwordField.getText());
     }
 
     /**
@@ -178,6 +192,7 @@ public class DataFormController extends GridPane {
      */
     private void saveData() {
         try {
+            saveInDataForm();
             DBWorker.updateDataForm(dataForm);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -243,5 +258,14 @@ public class DataFormController extends GridPane {
         MainController mainController = ((MainController)SceneSwitcher.getController(SceneSwitcher.Scenes.MAIN));
         assert mainController != null;
         mainController.deleteDataForm(dataForm);
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+        onEditBtnAction();
+    }
+
+    public boolean getEditMode() {
+        return editMode;
     }
 }

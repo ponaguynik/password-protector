@@ -27,7 +27,8 @@ public class MainController {
 
     private static ResourceBundle RES = ResourceBundle.getBundle("strings.main");
     private static ArrayList<DataForm> dataFormsList;
-    private static boolean initialized = false;
+
+    private static ArrayList<DataFormController> dataFormControllersList;
 
     //Images
     private static final Image PLUS  =
@@ -74,18 +75,7 @@ public class MainController {
      */
     @FXML
     private void initialize() {
-        if (!initialized) {
-            init();
-            initialized = true;
-        }
-        if (!contentBox.getChildren().isEmpty()) {
-            contentBox.getChildren().clear();
-        }
-        if (dataFormsList != null && !dataFormsList.isEmpty())
-            contentBox.getChildren().addAll(convertToDataFormControllers(dataFormsList));
-        if (addBtn == null)
-            createAddBtn();
-        contentBox.getChildren().add(addBtn);
+        init();
     }
 
     /**
@@ -104,6 +94,26 @@ public class MainController {
         changeKeyItem.setText(RES.getString("change.key.item"));
         deleteAccItem.setText(RES.getString("delete.account.item"));
         aboutItem.setText(RES.getString("about.item"));
+    }
+
+    public void update() {
+        try {
+            setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showError(e.getMessage());
+            System.exit(1);
+        }
+        if (!contentBox.getChildren().isEmpty()) {
+            contentBox.getChildren().clear();
+        }
+        if (dataFormsList != null && !dataFormsList.isEmpty()) {
+            dataFormControllersList = convertToDataFormControllers(dataFormsList);
+            contentBox.getChildren().addAll(dataFormControllersList);
+        }
+        if (addBtn == null)
+            createAddBtn();
+        contentBox.getChildren().add(addBtn);
     }
 
     /**
@@ -144,7 +154,7 @@ public class MainController {
     private void onAddBtnAction() {
         try {
             DBWorker.addDataForm(PasswordProtector.currentUser);
-            reset();
+            update();
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
@@ -170,7 +180,7 @@ public class MainController {
     public void deleteDataForm(DataForm dataForm) {
         try {
             DBWorker.deleteDataForm(dataForm);
-            reset();
+            update();
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
@@ -178,7 +188,7 @@ public class MainController {
         }
     }
 
-    private static ArrayList<DataFormController> convertToDataFormControllers(ArrayList<DataForm> dataForms) {
+    private ArrayList<DataFormController> convertToDataFormControllers(ArrayList<DataForm> dataForms) {
         ArrayList<DataFormController> dataFormControllers = new ArrayList<>();
 
         for (DataForm dataForm : dataForms) {
@@ -191,16 +201,5 @@ public class MainController {
 
     static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
         MainController.dataFormsList = dataFormsList;
-    }
-
-    public void reset() {
-        try {
-            setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alerts.showError(e.getMessage());
-            System.exit(1);
-        }
-        initialize();
     }
 }

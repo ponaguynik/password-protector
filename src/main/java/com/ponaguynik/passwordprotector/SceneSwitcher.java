@@ -120,7 +120,7 @@ public class SceneSwitcher {
         });
         MainController contr = (MainController) getController(Scenes.MAIN);
         assert contr != null;
-        contr.reset();
+        contr.update();
         stage.setScene(mainScene);
         stage.show();
     }

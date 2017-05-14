@@ -76,6 +76,10 @@ public class RegisterController {
         if (msg != null) {
             Alerts.showWarning(msg[0], msg[1]);
             return;
+        } else if (!keywordPF.getText().equals(keywordConfPF.getText())) {
+            Alerts.showWarning(String.format(RES.getString("not.match"),
+                    RES.getString("keyword"), RES.getString("confirm.keyword")));
+            return;
         }
 
         try {

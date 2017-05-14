@@ -74,8 +74,7 @@ public class DBWorker {
             return false;
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", user.getUsername());
         ArrayList<Map<String, Object>> result = executeQuery(query);
-
-        return Password.check(user.getKeyword(), (String) result.get(0).get("keyword"));
+        return result != null && Password.check(user.getKeyword(), (String) result.get(0).get("keyword"));
     }
 
     /**
