@@ -73,7 +73,11 @@ public class ChangeKeyController {
             return;
         }
 
-        String[] msgs = validate(newKeyPF.getText(), confKeyPF.getText());
+        String[] msgs = validate(newKeyPF.getText());
+        if (!newKeyPF.getText().equals(confKeyPF.getText()))
+            msgs = new String[]{ String.format(RES.getString("not.match"),
+                    RES.getString("confirm.keyword"),
+                    RES.getString("new.keyword")), "" };
         if (msgs == null) {
             user.setKeyword(Password.getSaltedHash(newKeyPF.getText()));
             try {
@@ -100,11 +104,9 @@ public class ChangeKeyController {
         }
     }
 
-    private String[] validate(String keyword, String confirmKeyword) {
+    private String[] validate(String keyword) {
         String[] msg;
         if ((msg = Validator.validateAsKeyword(RES.getString("new.keyword"), keyword)) != null)
-            return msg;
-        else if ((msg = Validator.validateAsKeyword(RES.getString("confirm.keyword"), confirmKeyword)) != null)
             return msg;
         else
             return null;
