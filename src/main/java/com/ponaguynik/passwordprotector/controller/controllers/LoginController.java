@@ -29,6 +29,7 @@ public class LoginController {
     private static final Image PASSWORD_PROTECTOR =
             new Image(LoginController.class.getResourceAsStream("/images/password-protector-30.png"));
 
+    //GUI elements
     @FXML
     private BorderPane root;
 
@@ -61,14 +62,14 @@ public class LoginController {
     }
 
     /**
-     * Verify username and keyword. Set Data Forms list from database for Main scene.
-     * Set Main scene.
+     * Verify username and keyword. Set Main scene.
      */
     @FXML
     private void onOkBtnAction() {
         String msg = null;
+        User user = new User(usernameTF.getText(), keywordPF.getText());
         try {
-            msg = LoginVerifier.verify(new User(usernameTF.getText(), keywordPF.getText()));
+            msg = LoginVerifier.verify(user);
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
@@ -76,24 +77,14 @@ public class LoginController {
         }
 
         if (msg == null) {
-            PasswordProtector.currentUser = new User(usernameTF.getText());
+            PasswordProtector.currentUser = user;
             reset();
-            try {
-                MainController.setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Alerts.showError(e.getMessage());
-                System.exit(1);
-            }
             Alerts.showInformation(RES.getString("welcome"));
             SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.MAIN);
         } else
             Alerts.showError(msg);
     }
 
-    /**
-     * Use SceneSwitcher.exit() to exit.
-     */
     @FXML
     private void onCancelBtnAction() {
         SceneSwitcher.exit();

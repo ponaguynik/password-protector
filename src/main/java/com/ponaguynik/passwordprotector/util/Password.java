@@ -14,7 +14,6 @@ import java.util.Base64;
 
 /**
  * The Password class is used for encryption/decryption and hashing data.
- * This class contains only static methods and fields.
  */
 public final class Password {
 
@@ -27,9 +26,6 @@ public final class Password {
     private static final Key KEY = new SecretKeySpec(new byte[] {'H', 'e', '1', '/', 'I', '8', 'U',
             'M', '.', '4', '\\',';', 'o', 'J', 'S', 'y'} , "AES");
 
-    /**
-     * To make sure no one can create instance of this class.
-     */
     private Password() {
 
     }

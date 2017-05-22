@@ -1,9 +1,5 @@
 package com.ponaguynik.passwordprotector.controller.controllers;
 
-/**
- * The ChangeKeyController class is controller class
- * for changekey.view.fxml (Change Keyword scene).
- */
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.controller.login.LoginVerifier;
@@ -22,15 +18,21 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+
+/**
+ * The ChangeKeyController class is controller class
+ * for changekey.fxml (Change Keyword scene).
+ */
 public class ChangeKeyController {
 
     private static final ResourceBundle RES = ResourceBundle.getBundle("strings.changekey");
 
+    //GUI elements
     @FXML
     private BorderPane root;
 
     @FXML
-    private PasswordField currKeyPF, confKeyPF, newKeyPF;
+    private PasswordField currKeyPF, confirmKeyPF, newKeyPF;
 
     @FXML
     private Label currKeyLab, newKeyLab, confirmKeyLab;
@@ -54,8 +56,8 @@ public class ChangeKeyController {
 
     /**
      * The action event listener method for Ok button.
-     * Verifies Current Keyword and validates all fields.
-     * Changes keyword in a database.
+     * Verify Current Keyword and validate all fields.
+     * Change keyword in the database.
      */
     @FXML
     private void onOkBtnAction() {
@@ -73,11 +75,7 @@ public class ChangeKeyController {
             return;
         }
 
-        String[] msgs = validate(newKeyPF.getText());
-        if (!newKeyPF.getText().equals(confKeyPF.getText()))
-            msgs = new String[]{ String.format(RES.getString("not.match"),
-                    RES.getString("confirm.keyword"),
-                    RES.getString("new.keyword")), "" };
+        String[] msgs = validate(newKeyPF.getText(), confirmKeyPF.getText());
         if (msgs == null) {
             user.setKeyword(Password.getSaltedHash(newKeyPF.getText()));
             try {
@@ -95,7 +93,7 @@ public class ChangeKeyController {
 
     /**
      * The action event listener method for Cancel button.
-     * Asks the user whether it wants to cancel. Closes the window if true.
+     * Ask the user whether it wants to cancel. Close the window if true.
      */
     @FXML
     private void onCancelBtnAction() {
@@ -104,11 +102,15 @@ public class ChangeKeyController {
         }
     }
 
-    private String[] validate(String keyword) {
+    private String[] validate(String keyword, String confirmKey) {
         String[] msg;
         if ((msg = Validator.validateAsKeyword(RES.getString("new.keyword"), keyword)) != null)
             return msg;
-        else
+        if (!keyword.equals(confirmKey)) {
+            msg = new String[]{String.format(RES.getString("not.match"), RES.getString("confirm.keyword"),
+                    RES.getString("new.keyword")), ""};
+            return msg;
+        } else
             return null;
     }
 
@@ -117,7 +119,7 @@ public class ChangeKeyController {
      */
     public void reset() {
         currKeyPF.clear();
-        confKeyPF.clear();
+        confirmKeyPF.clear();
         newKeyPF.clear();
         currKeyPF.requestFocus();
     }

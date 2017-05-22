@@ -25,10 +25,8 @@ import java.util.ResourceBundle;
  */
 public class MainController {
 
-    private static ResourceBundle RES = ResourceBundle.getBundle("strings.main");
+    private static final ResourceBundle RES = ResourceBundle.getBundle("strings.main");
     private static ArrayList<DataForm> dataFormsList;
-
-    private static ArrayList<DataFormController> dataFormControllersList;
 
     //Images
     private static final Image PLUS  =
@@ -66,24 +64,13 @@ public class MainController {
     @FXML
     private VBox contentBox;
 
-
-    /**
-     * If it's not initialized than invoke init() method.
-     * If a content box isn't empty than clear it.
-     * Add all data forms from data forms list to the content box.
-     * Create Add button and add it to the content box.
-     */
-    @FXML
-    private void initialize() {
-        init();
-    }
-
     /**
      * Initialize the Main scene. Set "default-theme.css" stylesheet
      * for root pane. Set text for all elements of the scene from RES.
      * Set PasswordProtector image on PasswordProtector label.
      */
-    private void init() {
+    @FXML
+    private void initialize() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         fileMenu.setText(RES.getString("file.menu"));
@@ -96,9 +83,13 @@ public class MainController {
         aboutItem.setText(RES.getString("about.item"));
     }
 
+    /**
+     * Update Data Forms from database.
+     * Add 'Add' button to the end.
+     */
     public void update() {
         try {
-            setDataFormsList(DBWorker.getAllDataForms(PasswordProtector.currentUser));
+            dataFormsList = DBWorker.getAllDataForms(PasswordProtector.currentUser);
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
@@ -108,8 +99,7 @@ public class MainController {
             contentBox.getChildren().clear();
         }
         if (dataFormsList != null && !dataFormsList.isEmpty()) {
-            dataFormControllersList = convertToDataFormControllers(dataFormsList);
-            contentBox.getChildren().addAll(dataFormControllersList);
+            contentBox.getChildren().addAll(convertToDataFormControllers(dataFormsList));
         }
         if (addBtn == null)
             createAddBtn();
@@ -174,10 +164,9 @@ public class MainController {
 
     /**
      * Delete data form from the database by id.
-     * Set data forms list from the database.
-     * Invoke reset().
+     * Invoke update().
      */
-    public void deleteDataForm(DataForm dataForm) {
+    void deleteDataForm(DataForm dataForm) {
         try {
             DBWorker.deleteDataForm(dataForm);
             update();
@@ -197,9 +186,5 @@ public class MainController {
         }
 
         return dataFormControllers;
-    }
-
-    static void setDataFormsList(ArrayList<DataForm> dataFormsList) {
-        MainController.dataFormsList = dataFormsList;
     }
 }

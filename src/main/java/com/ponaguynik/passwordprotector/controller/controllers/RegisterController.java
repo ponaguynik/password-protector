@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  */
 public class RegisterController {
 
-    private static ResourceBundle RES = ResourceBundle.getBundle("strings.register");
+    private static final ResourceBundle RES = ResourceBundle.getBundle("strings.register");
     private static final Image PASSWORD_PROTECTOR =
             new Image(RegisterController.class.getResourceAsStream("/images/password-protector-30.png"));
 
@@ -40,10 +40,10 @@ public class RegisterController {
     private TextField usernameTF;
 
     @FXML
-    private PasswordField keywordPF, keywordConfPF;
+    private PasswordField keywordPF, confirmKeyPF;
 
     @FXML
-    private Label passProtLab, usernameLab, keywordLab, keywordConfLab;
+    private Label passProtLab, usernameLab, keywordLab, confirmKeyLab;
 
     @FXML
     private Button confirmBtn, backBtn;
@@ -60,34 +60,32 @@ public class RegisterController {
         passProtLab.setGraphic(new ImageView(PASSWORD_PROTECTOR));
         usernameLab.setText(RES.getString("username") + ":");
         keywordLab.setText(RES.getString("keyword") + ":");
-        keywordConfLab.setText(RES.getString("confirm.keyword") + ":");
+        confirmKeyLab.setText(RES.getString("confirm.keyword") + ":");
         backBtn.setText(RES.getString("back.button"));
         confirmBtn.setText(RES.getString("confirm.button"));
     }
 
     /**
      * The action event listener method for Confirm button.
-     * Validates all input fields. Register user.
-     * Switches to the Login scene.
+     * Validate all input fields. Register user. Switch to the Login scene.
      */
     @FXML
     private void onConfirmBtnAction() {
-        String[] msg = validate(usernameTF.getText(), keywordPF.getText(), keywordConfPF.getText());
+        String username = usernameTF.getText();
+        String keyword = keywordPF.getText();
+        String confirmKey = confirmKeyPF.getText();
+        String[] msg = validate(username, keyword, confirmKey);
+
         if (msg != null) {
             Alerts.showWarning(msg[0], msg[1]);
             return;
-        } else if (!keywordPF.getText().equals(keywordConfPF.getText())) {
-            Alerts.showWarning(String.format(RES.getString("not.match"),
-                    RES.getString("keyword"), RES.getString("confirm.keyword")));
-            return;
         }
-
         try {
-            Registrar.register(new User(usernameTF.getText(), Password.getSaltedHash(keywordPF.getText())));
+            Registrar.register(new User(username, Password.getSaltedHash(keyword)));
             Alerts.showInformation(RES.getString("account.created"));
             SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
         } catch (UserAlreadyExists e) {
-            Alerts.showWarning(String.format(RES.getString("already.exists"), usernameTF.getText()));
+            Alerts.showWarning(String.format(RES.getString("already.exists"), username));
         } catch (SQLException e) {
             e.printStackTrace();
             Alerts.showError(e.getMessage());
@@ -110,8 +108,11 @@ public class RegisterController {
             return msg;
         else if ((msg = Validator.validateAsKeyword(RES.getString("keyword"), keyword)) != null)
             return msg;
-        else if ((msg = Validator.validateAsKeyword(RES.getString("confirm.keyword"), confirmKeyword)) != null)
+        else if (!keyword.equals(confirmKeyword)) {
+            msg = new String[] {String.format(RES.getString("not.match"),
+                    RES.getString("keyword"), RES.getString("confirm.keyword")), ""};
             return msg;
+        }
         else
             return null;
     }
@@ -122,7 +123,7 @@ public class RegisterController {
     public void reset() {
         usernameTF.clear();
         keywordPF.clear();
-        keywordConfPF.clear();
+        confirmKeyPF.clear();
         usernameTF.requestFocus();
     }
 }

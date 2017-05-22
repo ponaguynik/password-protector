@@ -33,7 +33,7 @@
                     <Insets right="13.0"/>
                 </GridPane.margin>
             </PasswordField>
-            <PasswordField fx:id="confKeyPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <PasswordField fx:id="confirmKeyPF" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets right="13.0"/>
                 </GridPane.margin>

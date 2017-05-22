@@ -22,9 +22,8 @@ import java.util.ResourceBundle;
  */
 public class DataFormController extends GridPane {
 
-    private static ResourceBundle res = ResourceBundle.getBundle("strings.dataform");
+    private static final ResourceBundle RES = ResourceBundle.getBundle("strings.dataform");
     private DataForm dataForm;
-    private int id;
 
     //GUI elements
     @FXML
@@ -63,9 +62,8 @@ public class DataFormController extends GridPane {
 
 
     /**
-     * Load dataform.fxml and set the DataFormController as root and
-     * controller of it. Default mode is "not editable" mode.
-     * Bind together text property of Password text field
+     * Load dataform.fxml and set the DataFormController as a root and
+     * controller of it. Bind together text properties of Password text field
      * and Password password field.
      */
     DataFormController(DataForm dataForm) {
@@ -92,7 +90,6 @@ public class DataFormController extends GridPane {
 
     /**
      * Initialize the DataFrom if it is not initialized.
-     * Set image for X (delete DataFormController) button.
      */
     @FXML
     public void initialize() {
@@ -104,13 +101,13 @@ public class DataFormController extends GridPane {
 
     /**
      * Initialize the DataFormController scene. Set "default-theme.css" stylesheet
-     * for the root pane. Set text for all elements of the scene from res.
+     * for the root pane. Set text for all elements of the scene from RES.
      */
     private void init() {
         root.getStylesheets().add(getClass().getResource("/styles/default-theme.css").toExternalForm());
-        loginLab.setText(res.getString("login.label"));
-        passwordLab.setText(res.getString("password.label"));
-        showCB.setText(res.getString("show.check.box"));
+        loginLab.setText(RES.getString("login.label"));
+        passwordLab.setText(RES.getString("password.label"));
+        showCB.setText(RES.getString("show.check.box"));
         titleTF.getStyleClass().add("hide-border");
         loginTF.getStyleClass().add("hide-border");
         passwordTF.getStyleClass().add("hide-border");
@@ -118,12 +115,6 @@ public class DataFormController extends GridPane {
         deleteBtn.setGraphic(new ImageView(X_LIGHT));
     }
 
-    /**
-     * If editMode = false: set editMode = true, set editable
-     * mode for Title, Login and Password fields, show borders,
-     * set "save" text for edit button. And vise versa
-     * if editMode = true.
-     */
     @FXML
     private void onEditBtnAction() {
         if (editMode) {
@@ -141,7 +132,7 @@ public class DataFormController extends GridPane {
         passwordField.setEditable(true);
         passwordTF.setEditable(true);
         showBorders();
-        editBtn.setText(res.getString("save.button"));
+        editBtn.setText(RES.getString("save.button"));
     }
 
     private void viewMode() {
@@ -151,15 +142,9 @@ public class DataFormController extends GridPane {
         passwordField.setEditable(false);
         passwordTF.setEditable(false);
         hideBorders();
-        editBtn.setText(res.getString("edit.button"));
+        editBtn.setText(RES.getString("edit.button"));
     }
 
-    /**
-     * The action event listener method for 'Show' check box.
-     * If 'Show' is selected - show Password text field and
-     * hide Password password field. And vise versa if 'Show'
-     * isn't selected.
-     */
     @FXML
     private void onShowCBAction() {
         if (showCB.isSelected()) {
@@ -172,15 +157,17 @@ public class DataFormController extends GridPane {
     }
 
     /**
-     * Update DataFormController fields from dataForm.
+     * Update DataFormController fields from the dataForm.
      */
     private void updateFields() {
-        id = dataForm.getId();
         titleTF.setText(dataForm.getTitle());
         loginTF.setText(dataForm.getLogin());
         passwordTF.setText(dataForm.getPassword());
     }
 
+    /**
+     * Save data from the fields to the dataForm.
+     */
     private void saveInDataForm() {
         dataForm.setTitle(titleTF.getText());
         dataForm.setLogin(loginTF.getText());
@@ -188,7 +175,7 @@ public class DataFormController extends GridPane {
     }
 
     /**
-     * Save data form to the database.
+     * Save the dataForm to the database.
      */
     private void saveData() {
         try {
@@ -243,29 +230,19 @@ public class DataFormController extends GridPane {
 
     /**
      * The action event listener method for X
-     * (delete DataFormController) button. Ask the user
-     * whether it wants to delete this form.
-     * Delete DataFormController if true.
+     * (delete DataFormController) button.
      */
     @FXML
     private void onDeleteBtnAction() {
         if (!titleTF.getText().isEmpty()
                 || !loginTF.getText().isEmpty()
-                || !passwordTF.getText().isEmpty())
+                || !passwordTF.getText().isEmpty()) {
             if (!Alerts.showConfirm("Are you sure you want to delete this form?"))
                 return;
+        }
 
         MainController mainController = ((MainController)SceneSwitcher.getController(SceneSwitcher.Scenes.MAIN));
         assert mainController != null;
         mainController.deleteDataForm(dataForm);
-    }
-
-    public void setEditMode(boolean editMode) {
-        this.editMode = editMode;
-        onEditBtnAction();
-    }
-
-    public boolean getEditMode() {
-        return editMode;
     }
 }

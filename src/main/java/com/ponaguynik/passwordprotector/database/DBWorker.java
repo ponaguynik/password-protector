@@ -1,12 +1,5 @@
 package com.ponaguynik.passwordprotector.database;
 
-/**
- * The abstract DBWorker class is used for working with the database.
- * It can add and delete users, update keyword, add, delete
- * and update data forms and verify keywords in the database.
- * It is completely implemented. There are only
- * static fields and methods.
- */
 
 import com.ponaguynik.passwordprotector.model.DataForm;
 import com.ponaguynik.passwordprotector.model.User;
@@ -17,30 +10,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * The DBWorker class is used for working with the database.
+ */
 public class DBWorker {
     
+    private DBWorker() {
 
-    /**
-     * Add user to the database.
-     *
-     */
+    }
+
     public static void addUser(User user) throws SQLException {
         String query = String.format("INSERT INTO users (username, keyword) VALUES('%s', '%s')",
                 user.getUsername(), user.getKeyword());
         execute(query);
     }
 
-    /**
-     * Update user's keyword.
-     */
     public static void updateKeyword(User user) throws SQLException {
         String query = String.format("UPDATE users SET keyword = '%s' WHERE username = '%s'", user.getKeyword(), user.getUsername());
         execute(query);
     }
 
-    /**
-     * Delete user and its data.
-     */
     public static void deleteUser(User user) throws SQLException {
         String query = String.format("DELETE FROM users WHERE username = '%s'", user.getUsername());
         execute(query);
@@ -48,27 +38,17 @@ public class DBWorker {
         execute(query);
     }
 
-    /**
-     * Add new empty data form to the database.
-     */
     public static void addDataForm(User user) throws SQLException {
         String query = String.format("INSERT INTO users_data (username, title, login, password) " +
                 "VALUES('%s', '%s', '%s', '%s')", user.getUsername(), "", "", "");
         execute(query);
     }
 
-    /**
-     * Delete data form by id.
-     */
     public static void deleteDataForm(DataForm dataForm) throws SQLException {
         String query = String.format("DELETE FROM users_data WHERE id = %d", dataForm.getId());
         execute(query);
     }
 
-    /**
-     * Compare keyword with user's keyword.
-     * @return true if keyword and user's keyword match.
-     */
     public static boolean verifyKeyword(User user) throws SQLException {
         if (user.getKeyword() == null || user.getKeyword().isEmpty())
             return false;
@@ -77,20 +57,11 @@ public class DBWorker {
         return result != null && Password.check(user.getKeyword(), (String) result.get(0).get("keyword"));
     }
 
-    /**
-     * Check whether user exists.
-     */
     public static boolean userExists(User user) throws SQLException {
         String query = String.format("SELECT keyword FROM users WHERE username = '%s'", user.getUsername());
         return executeQuery(query) != null;
     }
 
-    /**
-     * Update a data form in the database.
-     * Encrypt password of the data form.
-     *
-     * @param dataForm is object that contains id, title, login and password.
-     */
     public static void updateDataForm(DataForm dataForm) throws SQLException {
         String query = String.format("UPDATE users_data SET title = '%s', login = '%s', password = '%s' WHERE id = %d",
                 dataForm.getTitle(), dataForm.getLogin(), Password.encrypt(dataForm.getPassword()), dataForm.getId());
@@ -98,7 +69,7 @@ public class DBWorker {
     }
 
     /**
-     * @return ArrayList of DataForm objects of user.
+     * @return ArrayList of DataForm objects of the user.
      */
     public static ArrayList<DataForm> getAllDataForms(User user) throws SQLException {
         ArrayList<DataForm> list = new ArrayList<>();

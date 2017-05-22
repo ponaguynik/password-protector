@@ -6,10 +6,6 @@ public class User {
     private String username;
     private String keyword;
 
-    public User(String username) {
-        this.username = username;
-    }
-
     public User(String username, String keyword) {
         this.username = username;
         this.keyword = keyword;

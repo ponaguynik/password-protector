@@ -18,35 +18,30 @@ import java.util.ResourceBundle;
 
 public class SceneSwitcher {
 
-    /**
-     * ResourceBundle object that contains strings of the
-     * login.properties file.
-     */
-    private static ResourceBundle res = ResourceBundle.getBundle("strings.login");
+    private static final ResourceBundle RES = ResourceBundle.getBundle("strings.login");
+
+    private SceneSwitcher() {
+
+    }
 
     public enum Scenes {
         LOGIN, REGISTER, MAIN, CHANGE_KEYWORD, DELETE
     }
 
-    /**
-     * Login, Register, Main, Change Keyword and Delete FXML loaders.
-     */
+    //FXML Loaders
     private static FXMLLoader loginLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/login.fxml"));
     private static FXMLLoader registerLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/register.fxml"));
     private static FXMLLoader mainLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/main.fxml"));
     private static FXMLLoader changeKeyLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/changekey.fxml"));
     private static FXMLLoader deleteLoader = new FXMLLoader(PasswordProtector.class.getResource("/view/fxml/delete.fxml"));
 
-    /**
-     * Login, Register, Main, Change Keyword and Delete controllers.
-     */
+    //Scenes
     private static Scene loginScene;
     private static Scene registerScene;
     private static Scene mainScene;
     private static Scene changeKeyScene;
     private static Scene deleteScene;
 
-//    Load controllers from loaders.
     static {
         try {
             loginScene = new Scene(loginLoader.load());
@@ -128,7 +123,7 @@ public class SceneSwitcher {
     private static void setChangeKeyScene(Stage stage) {
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
-            if (!Alerts.showConfirm(res.getString("cancel")))
+            if (!Alerts.showConfirm(RES.getString("cancel")))
                 event.consume();
         });
         ChangeKeyController contr = (ChangeKeyController) getController(Scenes.CHANGE_KEYWORD);
@@ -141,7 +136,7 @@ public class SceneSwitcher {
     private static void setDeleteScene(Stage stage) {
         stage.setResizable(false);
         stage.setOnCloseRequest(event -> {
-            if (!Alerts.showConfirm(res.getString("cancel")))
+            if (!Alerts.showConfirm(RES.getString("cancel")))
                 event.consume();
         });
         DeleteController contr = (DeleteController) getController(Scenes.DELETE);
@@ -153,7 +148,7 @@ public class SceneSwitcher {
     }
 
     public static boolean exit() {
-        if (Alerts.showConfirm(res.getString("exit"))) {
+        if (Alerts.showConfirm(RES.getString("exit"))) {
             DBConnector.close();
             Platform.exit();
             return true;

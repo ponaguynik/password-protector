@@ -1,33 +1,27 @@
 package com.ponaguynik.passwordprotector.database;
 
-import com.ponaguynik.passwordprotector.util.Alerts;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 
-/**
- * The abstract DBConnector class is used for creating a new database and connecting
- * to it. It is completely implemented. There are only
- * static fields and methods.
- */
 
+/**
+ * The DBConnector class is used for creating a new database and connecting
+ * to it.
+ */
 public class DBConnector {
 
     private static final String URL = "jdbc:sqlite:./database.db";
-
     private static Connection connection;
 
-    /**
-     * Private constructor because the class consist of only static methods.
-     */
     private DBConnector() {
 
     }
 
     /**
-     * Make connection to a database or, if the database
-     * does not exist, create a new database and initialize it.
+     * Make connection to the database or, if the database
+     * does not exist, create a new one and initialize it.
      */
     public static void loadDatabase() throws SQLException {
         if (Files.exists(Paths.get("./database.db"))) {
@@ -38,8 +32,7 @@ public class DBConnector {
     }
 
     /**
-     * Make connection to a database by URL.
-     * Catch an SQLException: print stack trace and exit with 1.
+     * Make connection to the database by URL.
      */
     private static void connect() throws SQLException {
         connection = DriverManager.getConnection(URL);
@@ -48,13 +41,9 @@ public class DBConnector {
     /**
      * Create a new database and initialize it.
      * In the database create "users" and "users_data" tables.
-     * "users" table contains username (primary key) and keyword fields.
-     * "users_data" table contains id (primary key), username (reference
-     * to the "username" field in "users" table), title, login and password fields.
      */
     private static void createDB() throws SQLException {
         connect();
-
         try (
                 Statement statement = connection.createStatement()
                 ) {
@@ -72,9 +61,6 @@ public class DBConnector {
                     "    password TEXT," +
                     "    CONSTRAINT username_fk FOREIGN KEY (username) REFERENCES users (username)" +
                     ");");
-        } catch (SQLException e) {
-            Alerts.showError(e.getMessage());
-            System.exit(1);
         }
         System.out.println("A new database has been successfully created!");
     }

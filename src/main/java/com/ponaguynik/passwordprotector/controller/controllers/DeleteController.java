@@ -1,9 +1,5 @@
 package com.ponaguynik.passwordprotector.controller.controllers;
 
-/**
- * The DeleteController class is controller class
- * for delete.view.fxml (Delete scene).
- */
 
 import com.ponaguynik.passwordprotector.PasswordProtector;
 import com.ponaguynik.passwordprotector.SceneSwitcher;
@@ -23,43 +19,33 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
+/**
+ * The DeleteController class is controller class
+ * for delete.fxml (Delete scene).
+ */
 public class DeleteController {
 
-    /**
-     * ResourceBundle object that contains strings of the
-     * delete.properties file.
-     */
     private static final ResourceBundle RES = ResourceBundle.getBundle("strings.delete");
 
-    /**
-     * The root pane of the Delete scene.
-     */
+    //GUI elements
     @FXML
     private BorderPane root;
-    /**
-     * Username text field.
-     */
+
     @FXML
     public TextField usernameTF;
-    /**
-     * Keyword password field.
-     */
+
     @FXML
     private PasswordField keywordPF;
-    /**
-     * Labels for Username and Keyword fields.
-     */
+
     @FXML
     private Label usernameLab, keywordLab;
-    /**
-     * Ok and Cancel buttons.
-     */
+
     @FXML
     private Button okBtn, cancelBtn;
 
 
     /**
-     * Initialize the Delte scene. Set "default-theme.css" stylesheet
+     * Initialize the Delete scene. Set "default-theme.css" stylesheet
      * for root pane and set text for all elements of the scene from RES.
      */
     @FXML
@@ -91,7 +77,6 @@ public class DeleteController {
             Alerts.showError(msg);
             return;
         }
-
         try {
             DBWorker.deleteUser(PasswordProtector.currentUser);
         } catch (SQLException e) {
@@ -106,7 +91,7 @@ public class DeleteController {
 
     /**
      * The action event listener method for Cancel button.
-     * Asks the user whether it wants to cancel. Closes the window if true.
+     * Ask the user whether it wants to cancel. Close the window if true.
      */
     @FXML
     private void onCancelBtnAction() {

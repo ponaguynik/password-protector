@@ -9,7 +9,6 @@ import javafx.scene.layout.Region;
 /**
  * The Alerts class is used for showing
  * information, warning, error and confirmation pop up dialogs.
- * This class contains only static methods and fields.
  */
 public final class Alerts {
 
@@ -25,18 +24,10 @@ public final class Alerts {
         CONFIRM.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
     }
 
-    /**
-     * To make sure no one can create instance of this class.
-     */
     private Alerts() {
 
     }
 
-    /**
-     * Show Information pop up dialog.
-     *
-     * @param message displayed in header area of the dialog.
-     */
     public static void showInformation(String message) {
         INFO.setTitle("Information");
         INFO.setHeaderText(message);
@@ -44,12 +35,6 @@ public final class Alerts {
         INFO.showAndWait();
     }
 
-    /**
-     * Show Information pop up dialog.
-     *
-     * @param message displayed in the header area of the dialog.
-     * @param content displayed in the content area of the dialog.
-     */
     public static void showInformation(String message, String content) {
         INFO.setTitle("Information");
         INFO.setHeaderText(message);
@@ -57,11 +42,6 @@ public final class Alerts {
         INFO.showAndWait();
     }
 
-    /**
-     * Show Warning pop up dialog.
-     *
-     * @param message displayed in header area of the dialog.
-     */
     public static void showWarning(String message) {
         WARN.setTitle("Warning");
         WARN.setHeaderText(message);
@@ -69,12 +49,6 @@ public final class Alerts {
         WARN.showAndWait();
     }
 
-    /**
-     * Show Warning pop up dialog.
-     *
-     * @param message displayed in the header area of the dialog.
-     * @param content displayed in the content area of the dialog.
-     */
     public static void showWarning(String message, String content) {
         WARN.setTitle("Warning");
         WARN.setHeaderText(message);
@@ -82,11 +56,6 @@ public final class Alerts {
         WARN.showAndWait();
     }
 
-    /**
-     * Show Error pop up dialog.
-     *
-     * @param message displayed in header area of the dialog.
-     */
     public static void showError(String message) {
         ERROR.setTitle("Error");
         ERROR.setHeaderText(message);
@@ -94,12 +63,6 @@ public final class Alerts {
         ERROR.showAndWait();
     }
 
-    /**
-     * Show Error pop up dialog.
-     *
-     * @param message displayed in the header area of the dialog.
-     * @param content displayed in the content area of the dialog.
-     */
     public static void showError(String message, String content) {
         ERROR.setTitle("Error");
         ERROR.setHeaderText(message);
@@ -107,12 +70,6 @@ public final class Alerts {
         ERROR.showAndWait();
     }
 
-    /**
-     * Show Confirmation pop up dialog.
-     *
-     * @param message displayed in header area of the dialog.
-     * @return whether OK button has been pressed.
-     */
     public static boolean showConfirm(String message) {
         CONFIRM.setTitle("Confirmation");
         CONFIRM.setHeaderText(message);
@@ -120,13 +77,6 @@ public final class Alerts {
         return CONFIRM.showAndWait().get() == ButtonType.OK;
     }
 
-    /**
-     * Show Confirmation pop up dialog.
-     *
-     * @param message displayed in the header area of the dialog.
-     * @param content displayed in the content area of the dialog.
-     * @return whether OK button has been pressed.
-     */
     public static boolean showConfirm(String message, String content) {
         CONFIRM.setTitle("Confirmation");
         CONFIRM.setHeaderText(message);

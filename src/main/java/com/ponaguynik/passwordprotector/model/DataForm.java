@@ -8,10 +8,6 @@ public class DataForm {
     private String login;
     private String password;
 
-    public DataForm(int id) {
-        this.id = id;
-    }
-
     public DataForm(int id, String title, String login, String password) {
         this.id = id;
         this.title = title;

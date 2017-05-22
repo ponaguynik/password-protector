@@ -7,9 +7,17 @@ import java.util.ResourceBundle;
  */
 public class Validator {
 
-    private static ResourceBundle RES = ResourceBundle.getBundle("strings.register");
+    private static final ResourceBundle RES = ResourceBundle.getBundle("strings.register");
 
+    private Validator() {
 
+    }
+
+    /**
+     * @param target is a name of the field.
+     * @param value is a string that has to been validated.
+     * @return null if validated otherwise return error message.
+     */
     public static String[] validateAsUsername(String target, String value) {
         String[] msg = validateGeneral(target, value, 4, 16);
         if (msg != null)
