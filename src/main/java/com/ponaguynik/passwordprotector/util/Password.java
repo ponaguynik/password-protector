@@ -48,9 +48,9 @@ public final class Password {
     }
 
     /**
-     * Check whether salted hash of s1 match salted hash of s2.
+     * Check whether s1 matches salted hash of s2.
      *
-     * @param s1 is a string of salt$hash format.
+     * @param s1 is a regular string.
      * @param s2 is a string of salt$hash format.
      * @return return true if s1 matches s2.
      */

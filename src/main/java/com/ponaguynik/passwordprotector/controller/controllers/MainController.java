@@ -143,7 +143,7 @@ public class MainController {
      */
     private void onAddBtnAction() {
         try {
-            DBWorker.addDataForm(PasswordProtector.currentUser);
+            DBWorker.addEmptyDataForm(PasswordProtector.currentUser);
             update();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -38,7 +38,7 @@ public class DBWorker {
         execute(query);
     }
 
-    public static void addDataForm(User user) throws SQLException {
+    public static void addEmptyDataForm(User user) throws SQLException {
         String query = String.format("INSERT INTO users_data (username, title, login, password) " +
                 "VALUES('%s', '%s', '%s', '%s')", user.getUsername(), "", "", "");
         execute(query);
