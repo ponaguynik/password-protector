@@ -1,50 +1,25 @@
-# PasswordStorage
-## Synopsis
+# PasswordProtector
 
-PasswordStorage is a desktop application for storing your passwords. You need only check in in the application and remember a keyword that you specified during checking in.
-All data is storing in a SQLite database. GUI created with JavaFX and FXML.
+PasswordProtector is a desktop application for storing passwords. You have to only register in the application and remember the keyword that you specified during registration. Then you can store your logins and passwords in it. All your passwords are stored in encrypted form in the SQLite database.
 
-## Code Example
+## Getting Started
+### Requirements
+Java 8, Apache Maven
+### Build
+Clone the repository:
 
-public class PasswordProtector extends Application {
+`https://github.com/ponaguynik/password-protector.git`
 
-    public static String currentUser = null;
+Build with maven:
 
-    public static Stage primaryStage;
+`mvn clean package`
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        primaryStage.setTitle("PasswordProtector");
-        DBConnector.loadDatabase();
-        PasswordProtector.primaryStage = primaryStage;
-        SceneSwitcher.set(primaryStage, SceneSwitcher.Scenes.LOGIN);
-    }
+Copy *target/password-protector-1.0.jar* file wherever you want to use it.
+## Usage
+Run *password-protector-1.0.jar*. It will be created *database.db* file where will be stored all your data.
 
-    public static void main(String[] args) throws IOException {
-        launch(args);
-    }
-}
+Register a new user in the app so you can store your logins and passwords.
 
-## Motivation
+You can move the *database.db* file with your data wherever you want. All data in it are encrypted.
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
-
-## Installation
-
-Provide code examples and explanations of how to get the project.
-
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
-
-## Tests
-
-Describe and show how to run the tests with code examples.
-
-## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)
+Just run *password-protector-1.0.jar* in the same directory as *database.db* so you can sign in with your login and keyword, all your data will be there.
