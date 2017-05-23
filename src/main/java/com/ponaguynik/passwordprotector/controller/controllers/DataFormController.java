@@ -63,8 +63,8 @@ public class DataFormController extends GridPane {
 
     /**
      * Load dataform.fxml and set the DataFormController as a root and
-     * controller of it. Bind together text properties of Password text field
-     * and Password password field.
+     * controller of it. Bind together text properties of Encryptor text field
+     * and Encryptor password field.
      */
     DataFormController(DataForm dataForm) {
         this.dataForm = dataForm;

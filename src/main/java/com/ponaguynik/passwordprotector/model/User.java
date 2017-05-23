@@ -11,6 +11,11 @@ public class User {
         this.keyword = keyword;
     }
 
+    public User(User user) {
+        this.username = user.getUsername();
+        this.keyword = user.getKeyword();
+    }
+
     public String getUsername() {
         return username;
     }

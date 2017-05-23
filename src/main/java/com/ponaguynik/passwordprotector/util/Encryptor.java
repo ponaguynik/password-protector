@@ -1,5 +1,8 @@
 package com.ponaguynik.passwordprotector.util;
 
+import com.ponaguynik.passwordprotector.model.DataForm;
+import com.ponaguynik.passwordprotector.model.User;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -13,9 +16,9 @@ import java.util.Base64;
 
 
 /**
- * The Password class is used for encryption/decryption and hashing data.
+ * The Encryptor class is used for encryption/decryption and hashing data.
  */
-public final class Password {
+public final class Encryptor {
 
     private static final Base64.Encoder ENCODER = Base64.getEncoder();
     private static final Base64.Decoder DECODER = Base64.getDecoder();
@@ -26,8 +29,29 @@ public final class Password {
     private static final Key KEY = new SecretKeySpec(new byte[] {'H', 'e', '1', '/', 'I', '8', 'U',
             'M', '.', '4', '\\',';', 'o', 'J', 'S', 'y'} , "AES");
 
-    private Password() {
+    private Encryptor() {
 
+    }
+
+    public static void encryptUser(User user) {
+        user.setUsername(encrypt(user.getUsername()));
+        user.setKeyword(getSaltedHash(user.getKeyword()));
+    }
+
+    public static void encryptDataForm(DataForm dataForm) {
+        dataForm.setTitle(encrypt(dataForm.getTitle()));
+        dataForm.setLogin(encrypt(dataForm.getLogin()));
+        dataForm.setPassword(encrypt(dataForm.getPassword()));
+    }
+
+    public static void decryptUser(User user) {
+        user.setUsername(decrypt(user.getUsername()));
+    }
+
+    public static void decryptDataForm(DataForm dataForm) {
+        dataForm.setTitle(decrypt(dataForm.getTitle()));
+        dataForm.setLogin(decrypt(dataForm.getLogin()));
+        dataForm.setPassword(decrypt(dataForm.getPassword()));
     }
 
     /**
@@ -61,7 +85,6 @@ public final class Password {
                     "The stored data has the form 'salt$hash'");
         }
         String hashOfInput = hash(s1, DECODER.decode(saltAndHash[0]));
-
         return hashOfInput.equals(saltAndHash[1]);
     }
 

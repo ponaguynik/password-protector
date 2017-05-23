@@ -6,7 +6,7 @@ import com.ponaguynik.passwordprotector.controller.login.LoginVerifier;
 import com.ponaguynik.passwordprotector.database.DBWorker;
 import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
-import com.ponaguynik.passwordprotector.util.Password;
+import com.ponaguynik.passwordprotector.util.Encryptor;
 import com.ponaguynik.passwordprotector.util.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -77,7 +77,7 @@ public class ChangeKeyController {
 
         String[] msgs = validate(newKeyPF.getText(), confirmKeyPF.getText());
         if (msgs == null) {
-            user.setKeyword(Password.getSaltedHash(newKeyPF.getText()));
+            user.setKeyword(newKeyPF.getText());
             try {
                 DBWorker.updateKeyword(user);
             } catch (SQLException e) {

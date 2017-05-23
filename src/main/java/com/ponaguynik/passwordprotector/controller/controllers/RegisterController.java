@@ -7,7 +7,7 @@ import com.ponaguynik.passwordprotector.controller.register.Registrar;
 import com.ponaguynik.passwordprotector.exceptions.UserAlreadyExists;
 import com.ponaguynik.passwordprotector.model.User;
 import com.ponaguynik.passwordprotector.util.Alerts;
-import com.ponaguynik.passwordprotector.util.Password;
+import com.ponaguynik.passwordprotector.util.Encryptor;
 import com.ponaguynik.passwordprotector.util.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,7 +81,7 @@ public class RegisterController {
             return;
         }
         try {
-            Registrar.register(new User(username, Password.getSaltedHash(keyword)));
+            Registrar.register(new User(username,keyword));
             Alerts.showInformation(RES.getString("account.created"));
             SceneSwitcher.set(PasswordProtector.primaryStage, SceneSwitcher.Scenes.LOGIN);
         } catch (UserAlreadyExists e) {

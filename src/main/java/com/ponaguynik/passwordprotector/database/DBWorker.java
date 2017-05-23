@@ -3,7 +3,7 @@ package com.ponaguynik.passwordprotector.database;
 
 import com.ponaguynik.passwordprotector.model.DataForm;
 import com.ponaguynik.passwordprotector.model.User;
-import com.ponaguynik.passwordprotector.util.Password;
+import com.ponaguynik.passwordprotector.util.Encryptor;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,33 +14,41 @@ import java.util.Map;
 /**
  * The DBWorker class is used for working with the database.
  */
-public class DBWorker {
+public final class DBWorker {
     
     private DBWorker() {
 
     }
 
     public static void addUser(User user) throws SQLException {
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
         String query = String.format("INSERT INTO users (username, keyword) VALUES('%s', '%s')",
-                user.getUsername(), user.getKeyword());
+                user1.getUsername(), user1.getKeyword());
         execute(query);
     }
 
     public static void updateKeyword(User user) throws SQLException {
-        String query = String.format("UPDATE users SET keyword = '%s' WHERE username = '%s'", user.getKeyword(), user.getUsername());
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
+        String query = String.format("UPDATE users SET keyword = '%s' WHERE username = '%s'", user1.getKeyword(), user1.getUsername());
         execute(query);
     }
 
     public static void deleteUser(User user) throws SQLException {
-        String query = String.format("DELETE FROM users WHERE username = '%s'", user.getUsername());
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
+        String query = String.format("DELETE FROM users WHERE username = '%s'", user1.getUsername());
         execute(query);
-        query = String.format("DELETE FROM users_data WHERE username = '%s'", user.getUsername());
+        query = String.format("DELETE FROM users_data WHERE username = '%s'", user1.getUsername());
         execute(query);
     }
 
     public static void addEmptyDataForm(User user) throws SQLException {
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
         String query = String.format("INSERT INTO users_data (username, title, login, password) " +
-                "VALUES('%s', '%s', '%s', '%s')", user.getUsername(), "", "", "");
+                "VALUES('%s', '%s', '%s', '%s')", user1.getUsername(), "", "", "");
         execute(query);
     }
 
@@ -50,40 +58,48 @@ public class DBWorker {
     }
 
     public static boolean verifyKeyword(User user) throws SQLException {
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
         if (user.getKeyword() == null || user.getKeyword().isEmpty())
             return false;
-        String query = String.format("SELECT keyword FROM users WHERE username = '%s'", user.getUsername());
+        String query = String.format("SELECT keyword FROM users WHERE username = '%s'", user1.getUsername());
         ArrayList<Map<String, Object>> result = executeQuery(query);
-        return result != null && Password.check(user.getKeyword(), (String) result.get(0).get("keyword"));
+        return result != null && Encryptor.check(user.getKeyword(), (String) result.get(0).get("keyword"));
     }
 
     public static boolean userExists(User user) throws SQLException {
-        String query = String.format("SELECT keyword FROM users WHERE username = '%s'", user.getUsername());
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
+        String query = String.format("SELECT keyword FROM users WHERE username = '%s'", user1.getUsername());
         return executeQuery(query) != null;
     }
 
     public static void updateDataForm(DataForm dataForm) throws SQLException {
+        Encryptor.encryptDataForm(dataForm);
         String query = String.format("UPDATE users_data SET title = '%s', login = '%s', password = '%s' WHERE id = %d",
-                dataForm.getTitle(), dataForm.getLogin(), Password.encrypt(dataForm.getPassword()), dataForm.getId());
+                dataForm.getTitle(), dataForm.getLogin(), dataForm.getPassword(), dataForm.getId());
         execute(query);
+        Encryptor.decryptDataForm(dataForm);
     }
 
     /**
      * @return ArrayList of DataForm objects of the user.
      */
     public static ArrayList<DataForm> getAllDataForms(User user) throws SQLException {
+        User user1 = new User(user);
+        Encryptor.encryptUser(user1);
         ArrayList<DataForm> list = new ArrayList<>();
-        String query = String.format("SELECT * FROM users_data WHERE username = '%s'", user.getUsername());
+        String query = String.format("SELECT * FROM users_data WHERE username = '%s'", user1.getUsername());
         ArrayList<Map<String, Object>> result = executeQuery(query);
         if (result == null)
             return null;
         DataForm dataForm;
         for (Map<String, Object> map : result) {
             dataForm = new DataForm((Integer) map.get("id"), (String) map.get("title"), (String) map.get("login"),
-                    Password.decrypt((String) map.get("password")));
+                    (String) map.get("password"));
+            Encryptor.decryptDataForm(dataForm);
             list.add(dataForm);
         }
-
         return list;
     }
 
