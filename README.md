@@ -22,4 +22,4 @@ Register a new user in the app so you can store your logins and passwords.
 
 You can move the *database.db* file with your data wherever you want. All data in it are encrypted.
 
-Just run *password-protector-1.0.jar* in the same directory as *database.db* so you can sign in with your login and keyword, all your data will be there.
+Just run *password-protector-1.0.jar* in the same directory as *database.db* so you can sign in with your login and keyword, all of your data will be there.
