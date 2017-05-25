@@ -1,6 +1,6 @@
 # PasswordProtector
 
-PasswordProtector is a desktop application for storing passwords. You have to only register in the application and remember the keyword that you specified during registration. Then you can store your logins and passwords in it. All your passwords are stored in encrypted form in the SQLite database.
+PasswordProtector is a desktop application for storing passwords. You only have to register in the application and remember the keyword that you specified during the registration. Then you can store your logins and passwords in it. All your passwords are stored in encrypted form in the SQLite database.
 
 ## Getting Started
 ### Requirements
@@ -16,7 +16,7 @@ Build with maven:
 
 Copy *target/password-protector-1.0.jar* file wherever you want to use it.
 ## Usage
-Run *password-protector-1.0.jar*. It will be created *database.db* file where will be stored all your data.
+Run *password-protector-1.0.jar*. *database.db* file will be created where all your data will be stored.
 
 Register a new user in the app so you can store your logins and passwords.
 
